@@ -1,0 +1,65 @@
+/* 
+#72F2F2 light blue
+#84BFB9 light gray
+#25594B dark green
+#30BF8B smooth green
+#2B8C69 darkish green
+#1a1a1a dark gray
+#fffafafa almost White
+*/
+
+* {
+  margin: 0;
+  padding: 0;
+  ::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+body {
+  background-color: #25594b;
+}
+
+.default-colors {
+  background-color: lightcoral;
+  color: blueviolet;
+}
+
+.headerFix {
+  padding-top: 70px;
+}
+
+@mixin box-shadow {
+  box-shadow: 0px 20px 20px rgba(0, 0, 0, 0.3), 0px 0px 50px rgba(0, 0, 0, 0.5);
+}
+
+@mixin title-font {
+  font-weight: bold;
+}
+
+@mixin flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin link-style {
+  text-decoration: none;
+  color: white;
+  transition: all ease 1s;
+  &:hover {
+    color: #30bf8b;
+  }
+}
+
+@mixin styled-object {
+  @include box-shadow;
+  border-radius: 30px;
+}
+
+@mixin green-hover {
+  transition: 1s ease all;
+  &:hover {
+    color: #30bf8b;
+  }
+}

@@ -1,0 +1,26 @@
+.headerBanner {
+  @include flex-center;
+  @include box-shadow;
+  width: 100%;
+  height: 70px;
+  background-color: #1a1a1a;
+  position: fixed;
+  z-index: 10;
+}
+
+.headerInnerBanner {
+  @include flex-center;
+  justify-content: space-between;
+  height: 100%;
+  width: 1400px;
+}
+
+.headerInnerBanner a {
+  @include link-style;
+  margin-right: 40px;
+}
+
+.headerInnerBanner span {
+  @include title-font;
+  margin-left: 40px;
+}

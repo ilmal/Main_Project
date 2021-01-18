@@ -1,0 +1,44 @@
+.userHomeSideMenuLayout {
+  @include box-shadow;
+  height: 100%;
+  width: 100%;
+  background-color: #fffafafa;
+  display: grid;
+  grid-template-rows: 20% 10% 10% auto;
+}
+
+.userHomeSideMenuUName {
+  grid-row-start: 1;
+  grid-column-end: 2;
+  text-align: center;
+  align-self: center;
+}
+
+.userHomeSideMenuUNameLine {
+  width: 30%;
+  margin: auto;
+  margin-top: 18px;
+  border-bottom: rgba(0, 0, 0, 0.5) 1px solid;
+}
+
+@mixin userHomeSideMenuOptionsDefaultText {
+  justify-self: center;
+  span {
+    font-size: 24px;
+    transition: all ease 1s;
+    cursor: pointer;
+  }
+  span:hover {
+    color: #30bf8b;
+  }
+}
+
+.userHomeSideMenuOptionsServer {
+  grid-row: 2/3;
+  @include userHomeSideMenuOptionsDefaultText;
+}
+
+.userHomeSideMenuOptionsOptions {
+  grid-row: 3/4;
+  @include userHomeSideMenuOptionsDefaultText;
+}
