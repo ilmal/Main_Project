@@ -1,25 +1,19 @@
-const homeRouter = ()=> {
+import React from "react"
+import { useSelector, useDispatch } from "react-redux"
+import { getEmailAction } from "../../redux/actions"
 
-    const Gettingdata = ()=>{
-        fetch("http://192.168.1.247:3001/api/user/home")
-        .then((resp)=>{
-            return resp.json()
-        })
-        .then(data=>{
-            return(
-                <h2>{data.data}</h2>
-            )
-        })
-        .catch(err=>{
-            console.log("1: ", err)
-        })
-    }
+const HomeRouter = ()=> {
+
+    // const getEmails = useSelector(state => state.getEmailAction)
+    const dispatch = useDispatch()
 
     return (
         <>
             <h1>this is the home page from home file</h1>
+            <h2>ConnectionToDb: {}</h2>
+            <button onClick={()=> dispatch(getEmailAction())}>click me</button>
         </>
         );
 }
  
-export default homeRouter;
+export default HomeRouter;

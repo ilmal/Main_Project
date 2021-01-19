@@ -1,13 +1,5 @@
-const authCheck = ()=>{
-    
-}
-
-const changeMcServerConf = ()=>{
-
-}
-
-
-
-const changeUserSettings = ()=>{
-
+export const getEmailAction = ()=>{
+    return {
+        type:"EMAIL"
+    }
 }
