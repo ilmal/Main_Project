@@ -1,7 +1,10 @@
 const router = require("express").Router()
 
 router.get("/", (req, res)=>{
-    console.log("req accepted")
+    res.set({
+        "Access-Control-Allow-Origin": "*"
+    })
+    res.send({data:"hello"})
 })
 
 module.exports = router

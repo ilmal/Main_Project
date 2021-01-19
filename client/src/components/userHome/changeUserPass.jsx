@@ -1,5 +1,4 @@
 import React, {useState} from "react"
-import ChangeServerConfig from "./changeServerConfig"
 
 const ChangeUserPass = ()=>{
     const [change, setChange] = useState(false)
