@@ -1,27 +1,21 @@
-import FloatingAniamtion from "../../components/misc/floatingAnimation"
+import FloatingAniamtion from "../components/misc/floatingAnimation"
 
-const signupPage = ()=>{
+const LoginPage = ()=>{
 
     return ( 
         <div className="loginBody">
             <FloatingAniamtion>
                 <form action="login" method="POST" className="loginCenterInnerContainer">
-                    <div className="signUpContainerHeader">
-                        <span>Sign up</span>
+                    <div className="loginContainerHeader">
+                        <span>Login</span>
                     </div>
-                    <div className="loginForm">
+                    <div className="loginForm" id="fdsfsgsdg">
                         <input type="text" name="name" className="loginInput" autoComplete="off" required/>
                         <label className="loginLable">
                             <span className="loginLableValue">Name</span>
                         </label>
                     </div>
-                    <div className="loginForm">
-                        <input  type="email" name="email" className="loginInput" autoComplete="off" required/>
-                        <label className="loginLable">
-                            <span className="loginLableValue">Email</span>
-                        </label>
-                    </div>
-                    <div className="loginForm">
+                    <div className="loginForm" id="fasdfdsfd">
                         <input type="password" name="password" className="loginInput" autoComplete="off" required/>
                         <label className="loginLable">
                             <span className="loginLableValue">Password</span>
@@ -34,4 +28,4 @@ const signupPage = ()=>{
         );
 }
  
-export default signupPage;
+export default LoginPage;

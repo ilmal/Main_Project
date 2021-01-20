@@ -1,11 +1,11 @@
 import ChangeServerConfig from "./changeServerConfig"
 
 const Server = (props)=>{
-
+    
     return(
         <>
             <div className="userHomeServerName">
-                <h1>NilsServer</h1>
+                <h1>{props.userData.data}</h1>
             </div>
             <div className="userHomeSegment userHomeStatusOfServer">
                 <span>Running</span>

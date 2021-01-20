@@ -4,9 +4,9 @@ import {
     Route, 
 } from "react-router-dom"
 
-import loginPage from "./loginPage"
-import signupPage from "./signupPage"
-import homePage from "./homePage"
+import loginPage from "./loginRouter"
+import signupPage from "./signupRouter"
+import homePage from "./homeRouter"
 
 class userRouter extends Component {
     state = {  }
