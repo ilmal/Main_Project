@@ -30,7 +30,7 @@
 
 .userHomeSegment {
   @include styled-object;
-  background-color: #fffafafa;
+  background-color: #343a40;
   width: 100%;
   height: 100%;
 }
@@ -40,11 +40,24 @@
 .userHomeStatusOfServer {
   grid-column: 3/4;
   grid-row: 4/5;
-  font-weight: bold;
-  font-size: 200%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  display: grid;
+  grid-template-rows: 30% auto;
+  span {
+    font-weight: bold;
+    font-size: 200%;
+  }
+  p {
+    font-size: 150%;
+  }
+  div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+#0398457 {
+  background-color: #51cf66;
 }
 
 .suerhomeStartStopServer {
@@ -170,7 +183,7 @@
   background-color: #2b8c69;
   border: none;
   padding: 15px;
-  border-radius: 30px;
+  border-radius: 10px;
   color: white;
   transition: all ease 1s;
   outline: none;
@@ -202,7 +215,7 @@
     background-color: #2b8c69;
     border: none;
     padding: 15px 60px;
-    border-radius: 30px;
+    border-radius: 10px;
     color: white;
     transition: all ease 1s;
     outline: none;
@@ -232,7 +245,7 @@
     background-color: #2b8c69;
     border: none;
     padding: 15px 60px;
-    border-radius: 30px;
+    border-radius: 10px;
     color: white;
     transition: all ease 1s;
     outline: none;

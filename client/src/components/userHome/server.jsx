@@ -8,7 +8,12 @@ const Server = (props)=>{
                 <h1>{props.userData.data}</h1>
             </div>
             <div className="userHomeSegment userHomeStatusOfServer">
-                <span>Running</span>
+                <div>
+                    <span>Status Of Server</span>
+                </div>
+                <div id="0398457"> 
+                    <p>Running</p>
+                </div>
             </div>
             <div className="userHomeSegment suerhomeStartStopServer">
                 <span className="userHomestart">Start</span>

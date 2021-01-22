@@ -11,7 +11,6 @@ const app = express();
 const PORT = 3001;
 const bodyparser = require("body-parser")
 const cookieParser = require("cookie-parser")
-const loginName = require("./jwt/loginName");
 
 // cookies
 app.use(cookieParser());
@@ -22,14 +21,18 @@ app.use(bodyparser.urlencoded({
 }));
 app.use(bodyparser.json());
 
-app.use(loginName)
+app.use((req, res, next)=> {
+    res.header({
+        "Access-Control-Allow-Origin": "http://localhost:3000",
+        "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept",
+        "Access-Control-Allow-Credentials": "true"
+    });
+    next();
+  });
 
 // redirecting get req
 const controller_router = require("./routes/router.js")
 app.use("/api", controller_router)
-app.get("*", (res, req)=>{
-    res.status(404).end()
-})
 
 // setting up server:
 app.listen(PORT, ()=> console.log(`listening on port: ${PORT}`));

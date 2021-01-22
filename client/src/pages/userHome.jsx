@@ -14,7 +14,7 @@ class UserHomePage extends Component {
     componentDidMount(){
         axios.get("http://192.168.1.247:3001/api/user/home", {
             headers: {
-                "test-header": "test"
+                //"customHeader": "test"
             }
         })
             .then(res=>{

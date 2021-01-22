@@ -3,11 +3,11 @@ const router = require("express").Router()
 router.get("/", (req, res)=>{
     console.log(req.headers)
     res.set({
-        "Access-Control-Allow-Origin": "*"
+        "Access-Control-Allow-Origin": "http://localhost:3000"
     })
     res.send({
-        data:"hello",
-        message:"I'm really cool!"
+        data:"test",
+        message:"test2"
     })
 })
 

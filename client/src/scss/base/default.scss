@@ -17,7 +17,7 @@
 }
 
 body {
-  background-color: #25594b;
+  background-color: #212529;
 }
 
 .default-colors {
@@ -30,7 +30,7 @@ body {
 }
 
 @mixin box-shadow {
-  box-shadow: 0px 20px 20px rgba(0, 0, 0, 0.3), 0px 0px 50px rgba(0, 0, 0, 0.5);
+  box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.1), 0px 0px 20px rgba(0, 0, 0, 0.2);
 }
 
 @mixin title-font {
@@ -53,8 +53,7 @@ body {
 }
 
 @mixin styled-object {
-  @include box-shadow;
-  border-radius: 30px;
+  border-radius: 10px;
 }
 
 @mixin green-hover {
