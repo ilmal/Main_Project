@@ -15,7 +15,7 @@ const LoginPage = ()=>{
             if(response.data.data === "success"){
                 setCookie("AuthToken", "Nils", {
                     path: "/",
-                    maxAge: 3600, // Expires after 1hr
+                    maxAge: 3600,
                     sameSite: true,
                   })
             }
@@ -23,11 +23,12 @@ const LoginPage = ()=>{
     }
 
     return ( 
-        <div className="loginBody">
+        <div className="loginMainBody">
+            <div className="loginBody">
+                <div className="signUpContainerHeader">
+                    <span>LOGIN</span>
+                </div>
                 <form onSubmit={sendData} method="POST" className="loginCenterInnerContainer">
-                    <div className="loginContainerHeader">
-                        <span>Login</span>
-                    </div>
                     <div className="loginForm">
                         <input type="text" name="name" className="loginInput" autoComplete="off" required/>
                         <label className="loginLable">
@@ -42,6 +43,7 @@ const LoginPage = ()=>{
                     </div>    
                     <button type="submit" className="loginButton">submit</button>
                 </form>
+            </div>
         </div>
         );
 }

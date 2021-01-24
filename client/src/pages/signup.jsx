@@ -1,11 +1,13 @@
 const SignupPage = ()=>{
 
     return ( 
-        <div className="loginBody">
+        <div className="loginMainBody">
+            <div className="loginBody">
+                <div className="signUpContainerHeader">
+                    <span>SIGN UP</span>
+                </div>
                 <form action="login" method="POST" className="loginCenterInnerContainer">
-                    <div className="signUpContainerHeader">
-                        <span>Sign up</span>
-                    </div>
+
                     <div className="loginForm">
                         <input type="text" name="name" className="loginInput" autoComplete="off" required/>
                         <label className="loginLable">
@@ -13,7 +15,7 @@ const SignupPage = ()=>{
                         </label>
                     </div>
                     <div className="loginForm">
-                        <input  type="email" name="email" className="loginInput" autoComplete="off" required/>
+                        <input  type="text" name="email" className="loginInput" autoComplete="off" required/>
                         <label className="loginLable">
                             <span className="loginLableValue">Email</span>
                         </label>
@@ -26,6 +28,7 @@ const SignupPage = ()=>{
                     </div>    
                     <button type="submit" className="loginButton">submit</button>
                 </form>
+            </div>
         </div>
         );
 }
