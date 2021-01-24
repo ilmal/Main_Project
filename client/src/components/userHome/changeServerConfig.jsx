@@ -86,26 +86,28 @@ const ChangeServerConfig = ()=>{
         return(
             <div className="userHomeSegment userHomeChangeConfig">
                     <div className="userHomeChangeServerName userHomeChangeDefaults">
-                        <h2>Server Name: </h2>
+                        <p>Server Name: </p>
                         <span>NilsServer</span>
                     </div>
                     <div className="userHomeChangeVersion userHomeChangeDefaults">
-                        <h2>Version: </h2>
+                        <p>Version: </p>
                         <span>1.16.4</span>
                     </div>
                     <div className="userHomeChangeDifficulty userHomeChangeDefaults">
-                        <h2>Difficulty: </h2>
+                        <p>Difficulty: </p>
                         <span>Hard</span>
                     </div>
                     <div className="userHomeChangeWhitelist userHomeChangeDefaults">
-                        <h2>whitelist: </h2>
+                        <p>whitelist: </p>
                         <span><WhitelistList/></span>
                     </div>
                     <div className="userHomeChangeOps userHomeChangeDefaults">
-                        <h2>ops: </h2>
+                        <p>ops: </p>
                         <span><WhitelistList/></span>
                     </div>
-                    <button className="userHomeChangeBtn" onClick={ toggle }>change</button>
+                    <div className="userHomeChangeBtn userHomeChangeDefaults">
+                        <button onClick={ toggle }>change</button>
+                    </div>
             </div>
         );
 
@@ -115,32 +117,34 @@ const ChangeServerConfig = ()=>{
         return(
             <form className="userHomeSegment userHomeChangeConfig" onSubmit={e => { e.preventDefault(); }}>
                 <div className="userHomeChangeServerName userHomeChangeDefaults">
-                    <span>Server Name: </span>
+                    <p>Server Name: </p>
                     <input type="text" className="userHomeChangeServer"/>
                 </div>
                 <div className="userHomeChangeVersion userHomeChangeDefaults">
-                    <span>Server Version: </span>
+                    <p>Server Version: </p>
                     <select name="" id="">
                         {versionBoiler}
                     </select>
                 </div>
                 <div className="userHomeChangeDifficulty userHomeChangeDefaults">
-                    <span>Server Difficulty: </span>
+                    <p>Server Difficulty: </p>
                     <select name="" id="">
                         {difficultiesBoiler}
                     </select>
                 </div>
                 <div className="userHomeChangeWhitelist userHomeChangeDefaults">
-                    <h3>Whitelists:</h3>
+                    <p>Whitelists:</p>
                     <WhitelistList/>
                     <input type="text" onKeyPress={ changeWhite }/>
                 </div>
                 <div className="userHomeChangeOps userHomeChangeDefaults">
-                <h3>Ops:</h3>
+                    <p>Ops:</p>
                     <OpslistList/>
                     <input type="text" onKeyPress={ changeOps }/>
                 </div>
-                <button className="userHomeChangeBtn" onClick={ toggle }>save</button>
+                <div className="userHomeChangeBtn userHomeChangeDefaults">
+                        <button onClick={ toggle }>save</button>
+                    </div>
             </form>
         );
     }

@@ -20,45 +20,18 @@ body {
   background-color: #212529;
 }
 
-.default-colors {
-  background-color: lightcoral;
-  color: blueviolet;
-}
-
-.headerFix {
-  padding-top: 70px;
-}
-
-@mixin box-shadow {
-  box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.1), 0px 0px 20px rgba(0, 0, 0, 0.2);
-}
-
-@mixin title-font {
-  font-weight: bold;
-}
-
-@mixin flex-center {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
 @mixin link-style {
   text-decoration: none;
   color: white;
   transition: all ease 1s;
   &:hover {
-    color: #30bf8b;
+    color: rgba($color: #51cf66, $alpha: 0.8);
   }
-}
-
-@mixin styled-object {
-  border-radius: 10px;
 }
 
 @mixin green-hover {
   transition: 1s ease all;
   &:hover {
-    color: #30bf8b;
+    color: rgba($color: #51cf66, $alpha: 0.8);
   }
 }

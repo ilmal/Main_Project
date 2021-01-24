@@ -6,13 +6,13 @@ const ChangeUserOptinos = ()=>{
 
     const changeOptions = ()=>{
         return(
-            <form className="userHomeSegment changeNameEmail">
+            <form className="userHomeSegment changeNameEmail userHomeChangeDefaults">
                 <div>
-                    <h3>Username:</h3>
+                    <p>Username:</p>
                     <input type="text"/>
                 </div>
                 <div>
-                    <h3>Email:</h3>
+                    <p>Email:</p>
                     <input type="text"/>
                 </div>
                 <div>
@@ -29,12 +29,12 @@ const ChangeUserOptinos = ()=>{
 
     const defaulOptions = ()=>{
         return(
-            <div className="userHomeSegment changeNameEmail">
+            <div className="userHomeSegment changeNameEmail userHomeChangeDefaults">
                 <div>
-                    <span><h3>Username: </h3>Nils</span>
+                    <span><p>Username: </p>Nils</span>
                 </div>
                 <div>
-                    <span><h3>Email: </h3>Nils@u1.se</span>
+                    <span><p>Email: </p>Nils@u1.se</span>
                 </div>
                 <div>
                     <button onClick ={toggle}>Change</button>

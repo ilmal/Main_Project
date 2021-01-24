@@ -48,14 +48,8 @@ class UserHomePage extends Component {
 
     render() { 
         const { userData } = this.state
-        const StateList =()=>{
-            return(
-                <h1>data: { userData.data }</h1>
-            )
-        }
         return ( 
             <dir className="userHomeLayout">
-                {StateList()}
                 <dir className="userHomesideMenu">
                     <SideMenu setState={this.changeState}/>
                 </dir>

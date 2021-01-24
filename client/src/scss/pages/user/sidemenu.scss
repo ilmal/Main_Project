@@ -1,10 +1,9 @@
 .userHomeSideMenuLayout {
-  @include box-shadow;
   height: 100%;
   width: 100%;
-  background-color: #fffafafa;
   display: grid;
   grid-template-rows: 20% 10% 10% auto;
+  color: rgba($color: #fff, $alpha: 0.7);
 }
 
 .userHomeSideMenuUName {
@@ -18,7 +17,7 @@
   width: 30%;
   margin: auto;
   margin-top: 18px;
-  border-bottom: rgba(0, 0, 0, 0.5) 1px solid;
+  border-bottom: rgba($color: #fff, $alpha: 0.15) 1px solid;
 }
 
 @mixin userHomeSideMenuOptionsDefaultText {

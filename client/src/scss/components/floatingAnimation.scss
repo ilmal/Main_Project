@@ -11,7 +11,6 @@
 }
 
 .floatInnerContainer {
-  @include styled-object;
   background-color: #fffafafa;
   grid-column-start: 2;
   grid-column-end: 3;

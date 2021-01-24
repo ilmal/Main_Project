@@ -1,10 +1,7 @@
-import FloatingAniamtion from "../components/misc/floatingAnimation"
-
 const SignupPage = ()=>{
 
     return ( 
         <div className="loginBody">
-            <FloatingAniamtion>
                 <form action="login" method="POST" className="loginCenterInnerContainer">
                     <div className="signUpContainerHeader">
                         <span>Sign up</span>
@@ -29,7 +26,6 @@ const SignupPage = ()=>{
                     </div>    
                     <button type="submit" className="loginButton">submit</button>
                 </form>
-            </FloatingAniamtion>
         </div>
         );
 }

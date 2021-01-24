@@ -9,7 +9,7 @@ const ChangeUserPass = ()=>{
 
     const passChange = ()=>{
         return(
-            <div className="userHomeSegment changePassword">
+            <div className="userHomeSegment changePassword userHomeChangeDefaults">
                 <button onClick={ toggle }>save</button>
             </div>
         )
@@ -18,7 +18,7 @@ const ChangeUserPass = ()=>{
 
     const passDefault = ()=>{
         return(
-            <div className="userHomeSegment changePassword">
+            <div className="userHomeSegment changePassword userHomeChangeDefaults">
                 <button onClick={ toggle }>Change Password</button>
             </div>
         )

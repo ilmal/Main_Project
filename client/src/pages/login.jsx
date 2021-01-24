@@ -1,4 +1,3 @@
-import FloatingAniamtion from "../components/misc/floatingAnimation"
 import axios from "axios"
 import { useCookies } from "react-cookie"
 
@@ -25,7 +24,6 @@ const LoginPage = ()=>{
 
     return ( 
         <div className="loginBody">
-            <FloatingAniamtion>
                 <form onSubmit={sendData} method="POST" className="loginCenterInnerContainer">
                     <div className="loginContainerHeader">
                         <span>Login</span>
@@ -44,7 +42,6 @@ const LoginPage = ()=>{
                     </div>    
                     <button type="submit" className="loginButton">submit</button>
                 </form>
-            </FloatingAniamtion>
         </div>
         );
 }

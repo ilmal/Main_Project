@@ -3,13 +3,12 @@ const  Header = ()=> {
         <div className="headerBanner">
             <div className="headerInnerBanner">
                 <div >
-                    <span>This is a header</span>
+                    <span>U1Servers</span>
                 </div>
                 <div>
-                    <a href="/">HOME</a>
                     <a href="/user/login">LOGIN</a>
                     <a href="/user/signup">SIGN UP</a>
-                    <a href="/user/home">username</a>
+                    <a href="/user/home">USERNAME</a>
                 </div>
             </div>
         </div>            

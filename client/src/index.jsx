@@ -22,9 +22,7 @@ ReactDOM.render(
     <Provider store={store}>
         <Router>
             <Header/>
-            <div className="headerFix"> 
                 <Route path="/" component={HomeRouter} />
-            </div>
         </Router>
     </Provider>
     , document.querySelector("#root"))
