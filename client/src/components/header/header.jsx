@@ -3,7 +3,7 @@ const  Header = ()=> {
         <div className="headerBanner">
             <div className="headerInnerBanner">
                 <div >
-                    <span>U1Servers</span>
+                    <a href="/" className="homeLink">U1Servers</a>
                 </div>
                 <div>
                     <a href="/user/login">LOGIN</a>
@@ -16,3 +16,4 @@ const  Header = ()=> {
 }
  
 export default Header;
+

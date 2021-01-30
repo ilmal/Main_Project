@@ -2,7 +2,7 @@ const SignupPage = ()=>{
 
     return ( 
         <div className="loginMainBody">
-            <div className="loginBody">
+            <div className="SignupBody">
                 <div className="signUpContainerHeader">
                     <span>SIGN UP</span>
                 </div>

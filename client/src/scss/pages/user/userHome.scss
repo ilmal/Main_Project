@@ -29,7 +29,7 @@
 
 .userHomeSegment {
   border-radius: 10px;
-  background-color: #343a40;
+  background-color: #212529;
   width: 100%;
   height: 100%;
 }
@@ -157,7 +157,7 @@
 
 /* scss for the server config change menu */
 
-.userHomeChangeConfig {
+@mixin userHomeChangeConfig {
   grid-row: 6/11;
   grid-column: 5/8;
   display: grid;
@@ -166,6 +166,47 @@
   justify-content: center;
   align-items: center;
   color: rgba($color: #fff, $alpha: 0.7);
+}
+
+@mixin userHomeChangeConfigLayout {
+  grid-template-rows: 25% 25% 25% 25%;
+  .userHomeChangeBtn {
+    grid-column: 2/3;
+    grid-row: 4/5;
+    button {
+      width: 100%;
+    }
+  }
+  .userHomeChangeWhitelist {
+    grid-column: 4/5;
+    grid-row: 3/5;
+    span {
+      display: block;
+    }
+  }
+  .userHomeChangeOps {
+    grid-column: 4/6;
+    grid-row: 1/3;
+    span {
+      display: block;
+    }
+  }
+}
+
+.userHomeChangeConfig {
+  @include userHomeChangeConfig();
+}
+
+.userHomeChangeConfigExtendOne {
+  @include userHomeChangeConfig();
+  @include userHomeChangeConfigLayout();
+  grid-row: 6/13;
+}
+
+.userHomeChangeConfigExtendTwo {
+  @include userHomeChangeConfig();
+  @include userHomeChangeConfigLayout();
+  grid-row: 6/16;
 }
 
 .userHomeChangeDefaults {
@@ -227,16 +268,16 @@
 }
 
 .userHomeChangeWhitelist {
-  grid-column: 4/6;
-  grid-row: 1/2;
+  grid-column: 4/5;
+  grid-row: 2/3;
   span {
     display: block;
   }
 }
 
 .userHomeChangeOps {
-  grid-column: 4/5;
-  grid-row: 2/3;
+  grid-column: 4/6;
+  grid-row: 1/2;
   span {
     display: block;
   }

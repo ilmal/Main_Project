@@ -1,0 +1,145 @@
+@mixin backgroundImage {
+  width: 100%;
+  height: 100vh;
+  margin-top: -70px;
+  background-image: url("../../images/1550653.jpg");
+  background-repeat: no-repeat;
+  background-size: 100%;
+}
+
+// scss for page 1
+.homeMainContainer {
+  @include backgroundImage();
+  display: grid;
+  grid-template-columns: 15% auto 15%;
+  grid-template-rows: 20% auto 20%;
+}
+
+.innerContainer {
+  grid-column: 2/3;
+  grid-row: 2/3;
+  .homeMainSpanAway {
+    opacity: 0;
+    transition: 2s all ease;
+  }
+  .homeMainSpan {
+    opacity: 1;
+    transition: 2s all ease;
+  }
+  span {
+    color: white;
+    font-size: 90px;
+    line-height: 150%;
+  }
+  .homeChangeGameSpan {
+    color: #329af0;
+  }
+}
+
+@keyframes arrowGlow {
+  0% {
+    font-size: 30px;
+  }
+  50% {
+    font-size: 40px;
+  }
+  100% {
+    font-size: 30px;
+  }
+}
+
+.homePageArrow {
+  grid-column: 2/3;
+  grid-row: 3/4;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-size: 30px;
+  transition: 1s all ease;
+  animation-name: arrowGlow;
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
+  &:hover {
+    transition: 1s all ease;
+    animation: none;
+    font-size: 50px;
+  }
+}
+
+//scss for page 2
+
+@mixin homePage2CardFont {
+  color: white;
+  font-size: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.homePage2MainContaiener {
+  @include backgroundImage();
+  display: grid;
+  grid-template-columns: 10% 30% 50% 10%;
+  grid-template-rows: 20% auto 20%;
+  .homePage2Title {
+    grid-row: 2/3;
+    grid-column: 2/3;
+    span {
+      color: white;
+      font-size: 90px;
+      line-height: 150%;
+    }
+  }
+  .homePage2Card {
+    grid-row: 2/3;
+    grid-column: 3/4;
+    width: 100%;
+    height: 100%;
+    background-color: #212529;
+    border-radius: 10px;
+    display: grid;
+    grid-template-columns: 33% auto 33%;
+    grid-template-rows: 100%;
+    .homePage2Card1 {
+      grid-column: 1/2;
+      display: grid;
+      grid-template-columns: 10% auto 10%;
+      grid-template-rows: 20% auto;
+      span {
+        @include homePage2CardFont();
+        grid-row: 1/2;
+        grid-column: 2/3;
+      }
+    }
+    .homePage2Card2 {
+      grid-column: 2/3;
+      display: grid;
+      grid-template-columns: 10% auto 10%;
+      grid-template-rows: 20% auto;
+      span {
+        @include homePage2CardFont();
+        grid-row: 1/2;
+        grid-column: 2/3;
+      }
+    }
+    .homePage2Card3 {
+      grid-column: 3/4;
+      display: grid;
+      grid-template-columns: 10% auto 10%;
+      grid-template-rows: 20% auto;
+      span {
+        @include homePage2CardFont();
+        grid-row: 1/2;
+        grid-column: 2/3;
+      }
+    }
+  }
+}
+
+//scss for err event
+
+.homePageError {
+  display: flex;
+  justify-content: center;
+}
