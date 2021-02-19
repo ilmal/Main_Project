@@ -5,23 +5,18 @@ import SideMenu from "../components/userHome/sideMenu";
 import Server from "../components/userHome/server"
 import Options from "../components/userHome/options"
 
+import { store } from "../index"
+import { fetchUserData } from "../redux/reducers/user"
+
 class UserHomePage extends Component {
     state = { 
         page: ["server"],
-        userData: [{}]
+        userData: store.getState().fetchUserData
     }
 
-    componentDidMount(){
-        axios.get("http://192.168.1.247:3001/api/user/home", {
-            headers: {
-                //"customHeader": "test"
-            }
-        })
-            .then(res=>{
-                this.setState({
-                    userData: res.data
-                })
-            })
+    componentDidMount(){        
+        store.dispatch(fetchUserData)
+        console.log("1",store.getState().fetchUserData.user)
     }
 
     changeState = (data)=>{

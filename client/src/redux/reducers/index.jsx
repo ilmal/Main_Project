@@ -1,10 +1,10 @@
 import { combineReducers } from "redux"
 
-import getEmail from "./getEmail"
+import fetchUserData from "./user"
 import getUserName from "./getUserName"
 
 const rootReducer = combineReducers({
-    getEmail,
+    fetchUserData,
     getUserName
 })
 

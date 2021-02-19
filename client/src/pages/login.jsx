@@ -6,6 +6,7 @@ const LoginPage = ()=>{
     const [cookies, setCookie] = useCookies(["AuthToken"])
 
     const sendData = (data)=>{
+        console.log("name: ",data.target.name.value, "pass: ",data.target.password.value)
         data.preventDefault()
         axios.defaults.withCredentials = true
         axios.post("http://localhost:3001/api/user/login", {

@@ -12,6 +12,9 @@ router.post("/", async(req, res)=>{
         console.log("user does not exist")
         return res.status(400)
     } 
+
+    console.log(req.body.password, user.password)
+
     // if pass is correct
     const pass = await bcrypt.compare(req.body.password, user.password)
     if(!pass){

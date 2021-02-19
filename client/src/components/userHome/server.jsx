@@ -1,12 +1,23 @@
 import ChangeServerConfig from "./changeServerConfig"
 import { useState } from "react"
 
+import { store } from "../../index"
+
+
 const Server = (props)=>{
     
+    const [userData, updateUserData] = useState(store.getState())
+
+    store.subscribe(()=>{
+        updateUserData(store.getState())
+    })
+
+    console.log("2",userData.fetchUserData.user.data)
+
     return(
         <>
             <div className="userHomeServerName">
-                <span>NameOfServer</span>
+                <span>{userData.fetchUserData.user.data}</span>
             </div>
             <div className="userHomeSegment userHomeStatusOfServer">
                 <div id="random30489"> 

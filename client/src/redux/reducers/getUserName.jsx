@@ -1,6 +1,4 @@
-import getEmail from "./getEmail"
-
-const getUserName = (state = null, action)=>{
+const getUserName = (state = "null", action)=>{
 
 
     return state

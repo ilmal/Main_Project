@@ -1,4 +1,24 @@
-const SignupPage = ()=>{
+import React,{ Component } from "react"
+import axios from "axios"
+
+const SignupPage = ()=> {
+
+
+    const postReq = (e)=>{
+
+        console.log("Name: ", e.target.name.value)
+        console.log("Email: ", e.target.email.value)
+        console.log("Password: ", e.target.password.value)        
+        
+        axios.post("/user/insert",{
+            data:{
+                name: e.target.name.value,
+                email: e.target.email.value,
+                password: e.target.password.value
+            }
+        })
+        e.preventDefault()
+    }
 
     return ( 
         <div className="loginMainBody">
@@ -6,8 +26,7 @@ const SignupPage = ()=>{
                 <div className="signUpContainerHeader">
                     <span>SIGN UP</span>
                 </div>
-                <form action="login" method="POST" className="loginCenterInnerContainer">
-
+                <form onSubmit={postReq} className="loginCenterInnerContainer">
                     <div className="loginForm">
                         <input type="text" name="name" className="loginInput" autoComplete="off" required/>
                         <label className="loginLable">
@@ -31,6 +50,7 @@ const SignupPage = ()=>{
             </div>
         </div>
         );
+
 }
  
 export default SignupPage;

@@ -5,17 +5,19 @@ import {
     Route
 } from "react-router-dom"
 import "./scss/main.scss"
-import { createStore } from "redux"
+import { applyMiddleware, createStore } from "redux"
 import { Provider } from "react-redux"
+import { composeWithDevTools } from "redux-devtools-extension"
+import thunk from "redux-thunk"
 
 import Header from "./components/header/header"
 import HomeRouter from "./routing/router"
 
 import rootReducer from "./redux/reducers"
 
-const store = createStore(
+export const store = createStore(
     rootReducer,
-    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+    composeWithDevTools(applyMiddleware(thunk)) //window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
 )
 
 ReactDOM.render(
