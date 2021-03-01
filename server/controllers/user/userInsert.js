@@ -1,5 +1,6 @@
 const router = require("express").Router()
 const User = require("../../models/user/config.model")
+const bcrypt = require("bcrypt")
 
 router.post("/", async(req, res)=>{
     console.log(req.body.data)
@@ -12,13 +13,16 @@ router.post("/", async(req, res)=>{
     }else{
         return err.message
     }
-}
+    }
+
+    const salt = await bcrypt.genSalt(10)
+    const hashedPass = await bcrypt.hash(req.body.data.password, salt)
 
 
     const user = new User({
         name: req.body.data.name,
         email: req.body.data.email,
-        password: req.body.data.password
+        password: hashedPass
     })
     await user.save((err, doc) =>{
         if(!err){

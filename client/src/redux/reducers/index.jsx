@@ -1,11 +1,33 @@
 import { combineReducers } from "redux"
 
-import fetchUserData from "./user"
-import getUserName from "./getUserName"
+const initailState = {
+    user: "default",
+    auth: false
+}
 
-const rootReducer = combineReducers({
-    fetchUserData,
-    getUserName
-})
+const reducer = (state = initailState,action)=>{
+    
+    switch (action.type) {
+        case "FETCH_USER_SUCCESS":
+            return{
+                ...state,
+                user: action.payload
+            }
+        case "AUTH_SUCCESS":
+            return{
+                ...state,
+                auth: action.payload
+            }
+        default:
+            return{
+                ...state
+            }
+    }
+}
 
-export default rootReducer
+// const rootReducer = combineReducers({
+//     fetchUser,
+//     authSuccess
+// })
+
+export default reducer

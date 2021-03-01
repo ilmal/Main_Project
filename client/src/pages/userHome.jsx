@@ -1,57 +1,65 @@
-import React, { Component } from 'react';
-import axios from "axios"
+import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
 
 import SideMenu from "../components/userHome/sideMenu";
-import Server from "../components/userHome/server"
-import Options from "../components/userHome/options"
+import Server from "../components/userHome/server";
+import Options from "../components/userHome/options";
 
-import { store } from "../index"
-import { fetchUserData } from "../redux/reducers/user"
+import { store } from "../index";
+import { fetchUserData, checkUserAuth } from "../redux/actions/index";
 
-class UserHomePage extends Component {
-    state = { 
-        page: ["server"],
-        userData: store.getState().fetchUserData
+const UserHomePage = () => {
+  const history = useHistory();
+  const [page, setPage] = useState(["server"]);
+  const [userData, setUserData] = useState([store.getState()]);
+  const [hasAuthCheck, setHasAuthCheck] = useState(false);
+
+  const auth = async () => {
+    if (!hasAuthCheck) {
+      await store.dispatch(fetchUserData);
+      await store.dispatch(checkUserAuth);
+      setUserData(store.getState());
+      setHasAuthCheck(true);
+
+      console.log("5", userData);
+
+      if (userData.auth !== undefined && !userData.auth) {
+        console.log("Not logged in");
+        history.push("/");
+        window.location.reload();
+      }
     }
+  };
 
-    componentDidMount(){        
-        store.dispatch(fetchUserData)
-        console.log("1",store.getState().fetchUserData.user)
+  const changeState = (data) => {
+    setPage(data);
+  };
+
+  const getPage = () => {
+    let component;
+    switch (page) {
+      case "server":
+        component = <Server userData={userData} />;
+        break;
+      case "options":
+        component = <Options userData={userData} />;
+        break;
+      default:
+        component = <Server userData={userData} />;
+        break;
     }
+    return component;
+  };
 
-    changeState = (data)=>{
-        this.setState({
-            page:data
-        })
-     }
+  auth();
+  return (
+    <dir className="userHomeLayout">
+      <dir className="userHomesideMenu">
+        <SideMenu setState={changeState} />
+      </dir>
+      {getPage()}
+    </dir>
+  );
+};
 
-    getPage = ()=>{
-         let component
-                 switch (this.state.page){
-            case "server":
-                component = <Server userData={this.state.userData} />
-                break;
-            case "options":
-                component = <Options userData={this.state.userData} />
-                break;
-            default:
-                component = <Server userData={this.state.userData} />
-                break;
-            }
-            return component;
-     }
-
-    render() { 
-        const { userData } = this.state
-        return ( 
-            <dir className="userHomeLayout">
-                <dir className="userHomesideMenu">
-                    <SideMenu setState={this.changeState}/>
-                </dir>
-                {this.getPage()}
-            </dir>
-         );
-    }
-}
- 
 export default UserHomePage;

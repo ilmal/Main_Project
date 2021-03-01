@@ -1,13 +1,32 @@
 const router = require("express").Router()
+var ObjectId = require('mongodb').ObjectID;
 
-router.get("/", (req, res)=>{
-    console.log(req.headers)
+const User = require("../../models/user/config.model")
+
+router.post("/", async(req, res)=>{
     res.set({
         "Access-Control-Allow-Origin": "http://localhost:3000"
     })
+
+    console.log("userID: ", req.body.id)
+    
+    const oid = ObjectId(req.body.id)
+
+    console.log("1", oid)
+
+    // if email exists
+    const user = await User.findOne({_id: oid})
+    if(!user){
+        console.log("user does not exist")
+        return res.status(400)
+    }
+    
+    console.log("You are: ", user.name)
+
+
     res.send({
-        data:"test",
-        message:"test2"
+        name:user.name,
+        email:user.email
     })
 })
 

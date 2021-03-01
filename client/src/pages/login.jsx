@@ -1,29 +1,29 @@
 import axios from "axios"
-import { useCookies } from "react-cookie"
+import { authSucess, createMcConfig } from "../redux/actions/index"
+import { store } from "../index"
 
-const LoginPage = ()=>{
+const LoginPage = () => {
 
-    const [cookies, setCookie] = useCookies(["AuthToken"])
-
-    const sendData = (data)=>{
-        console.log("name: ",data.target.name.value, "pass: ",data.target.password.value)
+    const sendData = async (data) => {
+        console.log("name: ", data.target.name.value, "pass: ", data.target.password.value)
         data.preventDefault()
         axios.defaults.withCredentials = true
-        axios.post("http://localhost:3001/api/user/login", {
+        await axios.post("http://localhost:3001/api/user/login", {
             name: data.target.name.value,
             password: data.target.password.value
-        }).then(response=>{
-            if(response.data.data === "success"){
-                setCookie("AuthToken", "Nils", {
-                    path: "/",
-                    maxAge: 3600,
-                    sameSite: true,
-                  })
-            }
+        }).then(response => {
+            store.dispatch(authSucess)
+            console.log("1", store.getState().auth)
         })
+        create()
+        window.location.reload()
     }
 
-    return ( 
+    const create = () => {
+        store.dispatch(createMcConfig)
+    }
+
+    return (
         <div className="loginMainBody">
             <div className="loginBody">
                 <div className="signUpContainerHeader">
@@ -31,22 +31,22 @@ const LoginPage = ()=>{
                 </div>
                 <form onSubmit={sendData} method="POST" className="loginCenterInnerContainer">
                     <div className="loginForm">
-                        <input type="text" name="name" className="loginInput" autoComplete="off" required/>
+                        <input type="text" name="name" className="loginInput" autoComplete="off" required />
                         <label className="loginLable">
                             <span className="loginLableValue">Name</span>
                         </label>
                     </div>
                     <div className="loginForm">
-                        <input type="password" name="password" className="loginInput" autoComplete="off" required/>
+                        <input type="password" name="password" className="loginInput" autoComplete="off" required />
                         <label className="loginLable">
                             <span className="loginLableValue">Password</span>
                         </label>
-                    </div>    
+                    </div>
                     <button type="submit" className="loginButton">submit</button>
                 </form>
             </div>
         </div>
-        );
+    );
 }
- 
+
 export default LoginPage;
