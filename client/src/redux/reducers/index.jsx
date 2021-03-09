@@ -2,7 +2,8 @@ import { combineReducers } from "redux"
 
 const initailState = {
     user: "default",
-    auth: null
+    auth: null,
+    server: "default"
 }
 
 const reducer = (state = initailState, action) => {
@@ -17,6 +18,11 @@ const reducer = (state = initailState, action) => {
             return {
                 ...state,
                 auth: action.payload
+            }
+        case "SERVER_DATA":
+            return{
+                ...state,
+                server: action.payload
             }
         case "DUMP":
             return {

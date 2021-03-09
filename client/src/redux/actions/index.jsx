@@ -106,7 +106,8 @@ export const serverInfo = async (dispatch) => {
     })
         .then(res => {
             dispatch({
-                type: "DUMP"
+                type: "SERVER_DATA",
+                payload: res.data
             })
         })
 }

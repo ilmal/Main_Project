@@ -34,7 +34,9 @@
   height: 100%;
 }
 
-/* scss for the Server tab */
+/*---------------------
+scss for the Server tab 
+---------------------*/
 
 .userHomeStatusOfServer {
   grid-column: 3/4;
@@ -46,19 +48,35 @@
     color: rgba($color: #fff, $alpha: 0.8);
     pointer-events: none;
   }
-  p {
-    font-size: 150%;
-    color: rgba($color: #51cf66, $alpha: 0.9);
-  }
   div {
     display: flex;
     justify-content: center;
     align-items: center;
   }
-  #random30489 {
-    background-color: rgba($color: #51cf66, $alpha: 0.15);
+  .defaultDiv{
     border-radius: 10px 10px 0px 0px;
     pointer-events: none;
+  }
+  .runningDiv {
+    background-color: rgba($color: #51cf66, $alpha: 0.15);
+    p {
+      font-size: 150%;
+      color: rgba($color: #51cf66, $alpha: 0.9);
+    }
+  }
+  .closingDiv{
+    background-color: rgba($color: #eed202, $alpha: 0.15);
+    p {
+      font-size: 150%;
+      color: rgba($color: #eed202, $alpha: 0.9);
+    }
+  }
+  .closedDiv{
+    background-color: rgba($color: #ff6b6b, $alpha: 0.15);
+    p {
+      font-size: 150%;
+      color: rgba($color: #ff6b6b, $alpha: 0.9);
+    }
   }
 }
 
@@ -155,7 +173,9 @@
   }
 }
 
-/* scss for the server config change menu */
+/*-------------------------------------- 
+scss for the server config change menu 
+--------------------------------------*/
 
 @mixin userHomeChangeConfig {
   grid-row: 6/11;
@@ -291,7 +311,9 @@
   }
 }
 
-/* scss for options tab */
+/*--------------------
+scss for options tab 
+--------------------*/
 
 .changeNameEmail {
   grid-row: 2/7;

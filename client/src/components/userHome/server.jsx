@@ -21,15 +21,25 @@ const Server = () => {
     }
   }
 
+  const serverStatus = (e)=>{
+
+    switch (userData.server.status) {
+      case "True":
+        return <div className="runningDiv defaultDiv"><p className="running">Running</p></div>  
+      case "False": 
+        return <div className="closingDiv defaultDiv"><p className="closing">Shutting Down</p></div>
+      default:
+        return <div className="closedDiv defaultDiv"><p className="closed">Closed</p></div> 
+    }
+  }
+
   return (
     <>
       <div className="userHomeServerName">
         <span>{userData.user.name}</span>
       </div>
       <div className="userHomeSegment userHomeStatusOfServer">
-        <div id="random30489">
-          <p>Running</p>
-        </div>
+        {serverStatus()}
         <div>
           <span>1h 55min</span>
         </div>
