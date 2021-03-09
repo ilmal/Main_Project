@@ -23,15 +23,6 @@ body {
   background-color: #141618;
 }
 
-@mixin link-style {
-  text-decoration: none;
-  color: white;
-  transition: all ease 1s;
-  &:hover {
-    color: rgba($color: #51cf66, $alpha: 0.8);
-  }
-}
-
 @mixin green-hover {
   transition: 1s ease all;
   &:hover {

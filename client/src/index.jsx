@@ -1,6 +1,6 @@
 import React from "react"
 import ReactDOM from "react-dom"
-import { 
+import {
     BrowserRouter as Router,
     Route
 } from "react-router-dom"
@@ -15,18 +15,35 @@ import HomeRouter from "./routing/router"
 
 import rootReducer from "./redux/reducers/index"
 
+import { fetchUserData, checkUserAuth, createMcConfig, serverInfo } from "./redux/actions/index"
+
 export const store = createStore(
     rootReducer,
     composeWithDevTools(applyMiddleware(thunk)) //window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
 )
 
+const MainComponent = () => {
+
+    (async function () {
+        await store.dispatch(fetchUserData)
+        await store.dispatch(checkUserAuth)
+        await store.dispatch(createMcConfig)
+        await store.dispatch(serverInfo)
+        console.log("data after fetch func: ", store.getState())
+    })();
+
+    return (
+        <Provider store={store}>
+            <Router>
+                <Header />
+                <Route path="/" component={HomeRouter} />
+            </Router>
+        </Provider>
+    )
+}
+
 ReactDOM.render(
-    <Provider store={store}>
-        <Router>
-            <Header/>
-                <Route path="/" component={HomeRouter}/>
-        </Router>
-    </Provider>
+    <MainComponent />
     , document.querySelector("#root"))
 
 /*

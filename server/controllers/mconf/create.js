@@ -1,105 +1,95 @@
-const minecraftPVC = `
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: custom_pvc_name
-spec:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 7Gi
-  storageClassName: rook-minecraft
-
-`
-
-const minecraftDeployment = `
-
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: custom_deployment_name
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: custom_deployment_name
-  template:
-    metadata:
-      labels:
-        app: custom_deployment_name
-    spec:
-      volumes:
-        - name: minecraft-pv-storage
-          persistentVolumeClaim:
-             claimName: custom_claim_name
-      containers:
-      - image: itzg/minecraft-server
-        name: minecraft-server
-        env:
-        - name: TYPE
-          value: "VANILLA"
-
-        - name: EULA
-          value: "TRUE"
-
-        - name: MAX_PLAYERS
-          value: "5"
-
-        - name: VERSION
-          value: "custom_version"
-
-        - name: SERVER_NAME
-          value: "custom_serverName"
-
-        - name: DIFFICULTY 
-          value: "custom_difficulty"
-
-        - name:  WHITELIST
-          value: "custom_whitelist"
-
-        - name: OPS
-          value: "custom_ops"
-
-        ports:
-        - containerPort: 25565
-          name: minecraft
-          protocol: TCP
-        volumeMounts:
-          - mountPath: "/data"
-            name: minecraft-pv-storage
-
-`
-
-const minecraftService = `
-
-apiVersion: v1
-kind: Service
-metadata:
-  name: custom_service_name
-  labels:
-    app: custom_deployment_name
-spec:
-  selector:
-    app: custom_deployment_name
-  type: NodePort
-  ports:
-  - nodePort: 
-    port: 25565
-    targetPort: 25565
-    protocol: TCP
-    
-`
-
 const express = require("express");
 const router = express.Router();
-const mongoose = require("mongoose");
+const Config = require("../../models/minecraftConfig/config.model")
+const User = require("../../models/user/config.model")
 const bodyParser = require("body-parser");
 
 const YAML = require('js-yaml');
+const fs = require("fs")
 
-router.post("/", (req, res) => {
-  console.log("mcCreate")
+router.post("/", async (req, res) => {
+
+  try {
+    // Checking if config is duplicate
+    const duplicateConf = await Config.findOne({ id: req.body.id })
+    if (duplicateConf) {
+      throw "config is duplicate"
+    }
+    //getting yaml files
+    const deploymentRaw = fs.readFileSync(__dirname + "/minecraftDeployment.yaml");
+    const pvcRaw = fs.readFileSync(__dirname + "/minecraftPVC.yaml");
+    const serviceRaw = fs.readFileSync(__dirname + "/minecraftService.yaml");
+
+    //loading yaml
+    const deployment = YAML.load(deploymentRaw);
+    const pvc = YAML.load(pvcRaw);
+    const service = YAML.load(serviceRaw);
+
+    /*------------------
+    changing yaml values
+    ------------------*/
+
+    //--- creating pvc yaml ---
+
+    //inserting values
+    pvc.metadata.name = req.body.id
+
+    //--- creating deployment yaml ---
+
+    // getting user name
+    const user = await User.findOne({ _id: req.body.id })
+    if (!user) {
+      throw "no user found"
+    }
+    const userName = user.name
+
+    //inserting values
+
+    deployment.metadata.name = req.body.id
+    deployment.spec.selector.matchLabels.app = req.body.id
+    deployment.spec.template.metadata.labels.app = req.body.id
+    deployment.spec.template.spec.volumes[0].persistentVolumeClaim.claimName = req.body.id
+
+    deployment.spec.template.spec.containers[0].env[4].value = `${userName}Server`
+
+
+    //--- creating service yaml ---
+    //creating a acceptable service name
+    const serviceName = req.body.id.replace(/[0-9]/g, 'a')
+
+    //inserting values
+    service.metadata.name = serviceName
+    service.metadata.labels.app = req.body.id
+    service.spec.selector.app = req.body.id
+
+    //dumping yaml
+    const deploymentStr = YAML.dump(deployment);
+    const pvcStr = YAML.dump(pvc);
+    const serviceStr = YAML.dump(service);
+
+    const mcConf = new Config({
+      id: req.body.id,
+      pvc: pvcStr,
+      deployment: deploymentStr,
+      service: serviceStr
+    })
+
+    await mcConf.save((err, doc) => {
+      if (!err) {
+        console.log("saving...")
+        console.log("saved!")
+      } else {
+        console.log("Error occured during record insertion: ", err);
+      }
+    });
+
+    console.log(deployment.spec.template.spec.containers[0].env[3]);
+
+  } catch (err) {
+    console.log(err);
+  }
+
+  res.send("success")
 })
 
 

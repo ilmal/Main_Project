@@ -25,11 +25,9 @@ router.post("/", async (req, res) => {
     const token = jtw.sign({ _id: user._id }, process.env.TOKEN_SECRET, {
         expiresIn: 1200
     })
-    console.log("token: ", token)
     res.cookie("loginAuth", token, {
         httpOnly: false
     })
-    console.log(console.log("ID: ", user.id))
     res.cookie("userID", user.id, {
         httpOnly: false
     })

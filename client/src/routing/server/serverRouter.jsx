@@ -9,6 +9,7 @@ const userRouter = () => {
     return (
         <Router>
             <Route exact path="*/minecraft" component={MinecraftRouter} />
+            <Route exact path="*/minecraft/*" component={MinecraftRouter} />
         </Router>
     );
 }

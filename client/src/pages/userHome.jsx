@@ -6,30 +6,20 @@ import Server from "../components/userHome/server";
 import Options from "../components/userHome/options";
 
 import { store } from "../index";
-import { fetchUserData, checkUserAuth } from "../redux/actions/index";
 
 const UserHomePage = () => {
   const history = useHistory();
   const [page, setPage] = useState(["server"]);
   const [userData, setUserData] = useState([store.getState()]);
-  const [hasAuthCheck, setHasAuthCheck] = useState(false);
 
-  const auth = async () => {
-    if (!hasAuthCheck) {
-      await store.dispatch(fetchUserData);
-      await store.dispatch(checkUserAuth);
-      setUserData(store.getState());
-      setHasAuthCheck(true);
-
-      console.log("5", userData);
-
-      if (userData.auth !== undefined && !userData.auth) {
-        console.log("Not logged in");
-        history.push("/");
-        window.location.reload();
-      }
+  store.subscribe(() => {
+    setUserData(store.getState());
+    if (store.getState().auth !== null && !store.getState().auth) {
+      console.log("Not logged in");
+      history.push("/");
+      window.location.reload();
     }
-  };
+  });
 
   const changeState = (data) => {
     setPage(data);
@@ -51,7 +41,7 @@ const UserHomePage = () => {
     return component;
   };
 
-  auth();
+  //auth();
   return (
     <dir className="userHomeLayout">
       <dir className="userHomesideMenu">

@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: null
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: null
+  template:
+    metadata:
+      labels:
+        app: null
+    spec:
+      volumes:
+        - name: minecraft-pv-storage
+          persistentVolumeClaim:
+             claimName: custom_claim_name
+      containers:
+      - image: itzg/minecraft-server
+        name: minecraft-server
+        env:
+        - name: TYPE
+          value: "VANILLA"
+
+        - name: EULA
+          value: "TRUE"
+
+        - name: MAX_PLAYERS
+          value: "5"
+
+        - name: VERSION
+          value: latest
+
+        - name: SERVER_NAME
+          value: null
+
+        - name: DIFFICULTY 
+          value: normal
+
+        - name:  WHITELIST
+          value: null
+
+        - name: OPS
+          value: null
+
+        ports:
+        - containerPort: 25565
+          name: minecraft
+          protocol: TCP
+        volumeMounts:
+          - mountPath: "/data"
+            name: minecraft-pv-storage

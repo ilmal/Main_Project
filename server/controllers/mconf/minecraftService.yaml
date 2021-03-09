@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: custom_service_name
+  labels:
+    app: custom_deployment_name
+spec:
+  selector:
+    app: custom_deployment_name
+  type: NodePort
+  ports:
+  - nodePort: 
+    port: 25565
+    targetPort: 25565
+    protocol: TCP

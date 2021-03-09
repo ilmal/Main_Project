@@ -2,6 +2,7 @@ import ChangeServerConfig from "./changeServerConfig";
 import { useState } from "react";
 
 import { store } from "../../index";
+import { startServer, stopServer } from "../../redux/actions/index"
 
 const Server = () => {
   const [userData, updateUserData] = useState(store.getState());
@@ -9,6 +10,16 @@ const Server = () => {
   store.subscribe(() => {
     updateUserData(store.getState());
   });
+
+  const startStop = (e) => {
+    if (e.target.className === "innerDivStart") {
+      console.log("u said start?")
+      store.dispatch(startServer)
+    } else if (e.target.className === "innerDivStop") {
+      console.log("u said stop?")
+      store.dispatch(stopServer)
+    }
+  }
 
   return (
     <>
@@ -24,10 +35,10 @@ const Server = () => {
         </div>
       </div>
       <div className="userHomeSegment suerhomeStartStopServer">
-        <div className="innerDivStart">
+        <div className="innerDivStart" onClick={startStop}>
           <span className="userHomestart">Start</span>
         </div>
-        <div className="innerDivStop">
+        <div className="innerDivStop" onClick={startStop}>
           <span className="userHomestop">Stop</span>
         </div>
         <div id="random23894723">

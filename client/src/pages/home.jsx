@@ -54,6 +54,8 @@ class HomePage extends React.Component {
     changeGame();
   }
 
+
+  
   page1 = () => {
     return (
       <div
@@ -70,9 +72,9 @@ class HomePage extends React.Component {
               this.state.loadAnimation ? "homeMainSpan" : "homeMainSpanAway"
             }
           >
-            Get your{" "}
+            Host your own{" "}
             <span className="homeChangeGameSpan">{this.state.games}</span>{" "}
-            server from U1Servers
+            server with U1servers
           </span>
         </div>
         <div

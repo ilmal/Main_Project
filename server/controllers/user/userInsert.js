@@ -2,17 +2,16 @@ const router = require("express").Router()
 const User = require("../../models/user/config.model")
 const bcrypt = require("bcrypt")
 
-router.post("/", async(req, res)=>{
-    console.log(req.body.data)
+router.post("/", async (req, res) => {
     res.send("data recived")
 
     // errHandler
-    const errHandler = (err)=>{
-    if (err.code === 11000){
-        return "This name is already taken"
-    }else{
-        return err.message
-    }
+    const errHandler = (err) => {
+        if (err.code === 11000) {
+            return "This name is already taken"
+        } else {
+            return err.message
+        }
     }
 
     const salt = await bcrypt.genSalt(10)
@@ -24,11 +23,11 @@ router.post("/", async(req, res)=>{
         email: req.body.data.email,
         password: hashedPass
     })
-    await user.save((err, doc) =>{
-        if(!err){
+    await user.save((err, doc) => {
+        if (!err) {
             console.log("saving...")
             console.log("saved!")
-        }else{
+        } else {
             console.log("Error occured during record insertion: ", errHandler(err));
         }
     });

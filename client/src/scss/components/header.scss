@@ -17,12 +17,30 @@
 }
 
 .headerInnerBanner a {
-  @include link-style;
   margin-right: 40px;
+  text-decoration: none;
+  transition: 1s all ease;
+  color:white;
+  span{
+    transition: 1s all ease;
+  }
+  &:hover{
+    color:rgba($color: #51cf66, $alpha: 0.8);
+    span{
+      color:rgba($color: #51cf66, $alpha: 0.8);
+    }
+  }
 }
 
 .homeLink {
   margin-left: 40px;
   font-size: 30px;
   color: rgba($color: #fff, $alpha: 1);
+  font-weight:normal;
+  span{
+    font-size: 25px;
+    margin-left: 2px;
+    color: #329af0;
+    font-weight: lighter;
+  }
 }

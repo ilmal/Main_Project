@@ -1,8 +1,7 @@
 const router = require("express").Router()
 
-router.post("/", (req, res)=>{
-    
-    console.log(req.body)
+router.post("/", (req, res) => {
+
 })
 
 module.exports = router
