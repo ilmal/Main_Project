@@ -2,6 +2,7 @@ import ChangeServerConfig from "./changeServerConfig";
 import { useState } from "react";
 
 import { store } from "../../index";
+import { fetchUserData, serverPodsInfo, serverSVCInfo, mcConfGetData } from "../../redux/actions"
 import { startServer, stopServer } from "../../redux/actions/index"
 
 const Server = () => {
@@ -21,16 +22,35 @@ const Server = () => {
     }
   }
 
-  const serverStatus = (e)=>{
+  const serverStatus = (e) => {
 
-    switch (userData.server.status) {
+    switch (userData.serverPods.status) {
       case "True":
-        return <div className="runningDiv defaultDiv"><p className="running">Running</p></div>  
-      case "False": 
+        return <div className="runningDiv defaultDiv"><p className="running">Running</p></div>
+      case "False":
         return <div className="closingDiv defaultDiv"><p className="closing">Shutting Down</p></div>
+      case "Pending":
+        return <div className="closingDiv defaultDiv"><p className="closing">Starting up</p></div>
+      case "server not running":
+        return <div className="closedDiv defaultDiv"><p className="closed">Not Running</p></div>
       default:
-        return <div className="closedDiv defaultDiv"><p className="closed">Closed</p></div> 
+        return <div className="closedDiv defaultDiv"><p className="closed">ERROR OCCURED</p></div>
     }
+  }
+  const serverIP = () => {
+    if (userData.serverPods.status !== "server not running") {
+      return <span>nils.u1.se:{userData.serverSVC.port}</span>
+    } else {
+      return <span>----</span>
+    }
+  }
+  const refreshData = () => {
+    console.log("hello")
+
+    store.dispatch(fetchUserData)
+    store.dispatch(serverPodsInfo)
+    store.dispatch(serverSVCInfo)
+    store.dispatch(mcConfGetData)
   }
 
   return (
@@ -40,8 +60,8 @@ const Server = () => {
       </div>
       <div className="userHomeSegment userHomeStatusOfServer">
         {serverStatus()}
-        <div>
-          <span>1h 55min</span>
+        <div className="checkStatus fas fa-sync" onClick={refreshData}>
+          <span>Check Status</span>
         </div>
       </div>
       <div className="userHomeSegment suerhomeStartStopServer">
@@ -57,7 +77,7 @@ const Server = () => {
       </div>
       <div className="userHomeSegment userHomeIpAdress">
         <p>Server Adress:</p>
-        <span>192.168.1.247</span>
+        {serverIP()}
       </div>
       <ChangeServerConfig />
     </>

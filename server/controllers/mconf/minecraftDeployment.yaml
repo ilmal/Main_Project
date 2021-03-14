@@ -39,10 +39,10 @@ spec:
           value: normal
 
         - name:  WHITELIST
-          value: null
+          value: Test1, test2, test3, test4
 
         - name: OPS
-          value: null
+          value: Test1, test2, test3, test4
 
         ports:
         - containerPort: 25565

@@ -23,7 +23,7 @@ router.post("/", async (req, res) => {
 
     // assign jwt token & cookies
     const token = jtw.sign({ _id: user._id }, process.env.TOKEN_SECRET, {
-        expiresIn: 1200
+        expiresIn: 3600
     })
     res.cookie("loginAuth", token, {
         httpOnly: false

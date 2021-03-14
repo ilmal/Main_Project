@@ -15,7 +15,7 @@ import HomeRouter from "./routing/router"
 
 import rootReducer from "./redux/reducers/index"
 
-import { fetchUserData, checkUserAuth, createMcConfig, serverInfo } from "./redux/actions/index"
+import { fetchUserData, checkUserAuth, createMcConfig, serverPodsInfo, serverSVCInfo, mcConfGetData } from "./redux/actions/index"
 
 export const store = createStore(
     rootReducer,
@@ -28,7 +28,9 @@ const MainComponent = () => {
         await store.dispatch(fetchUserData)
         await store.dispatch(checkUserAuth)
         await store.dispatch(createMcConfig)
-        await store.dispatch(serverInfo)
+        await store.dispatch(serverPodsInfo)
+        await store.dispatch(serverSVCInfo)
+        await store.dispatch(mcConfGetData)
         console.log("data after fetch func: ", store.getState())
     })();
 

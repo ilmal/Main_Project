@@ -43,15 +43,28 @@ scss for the Server tab
   grid-row: 4/5;
   display: grid;
   grid-template-rows: 65% auto;
-  span {
-    font-size: 150%;
-    color: rgba($color: #fff, $alpha: 0.8);
-    pointer-events: none;
+  .checkStatus{
+    color: rgba($color: #fff, $alpha: 0.6);
+    transition: all 1s ease;
+    span {
+      margin-left: 10px;
+      font-size: 100%;
+      color: rgba($color: #fff, $alpha: 0.6);
+      transition: all 1s ease;
+      pointer-events: none;
+    }
+    &:hover{
+      color: rgba(#51cf66, $alpha: 0.5);
+      span{
+        color: rgba(#51cf66, $alpha: 0.5);
+      }
+    }
   }
   div {
     display: flex;
     justify-content: center;
     align-items: center;
+
   }
   .defaultDiv{
     border-radius: 10px 10px 0px 0px;
@@ -280,18 +293,47 @@ scss for the server config change menu
 .userHomeChangeVersion {
   grid-column: 2/3;
   grid-row: 2/3;
+  select{
+    font-size: 120%;
+    &:focus{
+      font-size: 100%;
+    }
+    option{
+      background-color: rgba(#212529, $alpha: 0.9);
+      color: rgba(#fff, $alpha: 0.8);
+      outline: none;
+    }
+  }
 }
 
 .userHomeChangeDifficulty {
   grid-column: 2/3;
   grid-row: 3/4;
+  select{
+    font-size: 120%;
+    &:focus{
+      font-size: 100%;
+    }
+    option{
+      background-color: rgba(#212529, $alpha: 0.9);
+      color: rgba(#fff, $alpha: 0.8);
+      outline: none;
+    }
+  }
 }
 
 .userHomeChangeWhitelist {
   grid-column: 4/5;
   grid-row: 2/3;
-  span {
+  span{
     display: block;
+  }
+  .whiteArray{
+    display: block;
+    cursor: default;
+    &:hover{
+      color:#fa5252;
+    }
   }
 }
 
@@ -300,6 +342,13 @@ scss for the server config change menu
   grid-row: 1/2;
   span {
     display: block;
+  }
+  .opsArray{
+    display: block;
+    cursor: default;
+    &:hover{
+      color:#fa5252;
+    }
   }
 }
 

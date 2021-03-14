@@ -3,7 +3,20 @@ import { combineReducers } from "redux"
 const initailState = {
     user: "default",
     auth: null,
-    server: "default"
+    serverPods: "default",
+    serverSVC: "default",
+    env: {
+        env: [
+            { name: "", value: "" },
+            { name: "", value: "" },
+            { name: "", value: "" },
+            { name: "", value: "" },
+            { name: "", value: "" },
+            { name: "", value: "" },
+            { name: "", value: "" },
+            { name: "", value: "" }
+        ]
+    }
 }
 
 const reducer = (state = initailState, action) => {
@@ -19,10 +32,20 @@ const reducer = (state = initailState, action) => {
                 ...state,
                 auth: action.payload
             }
-        case "SERVER_DATA":
-            return{
+        case "SERVER_PODS_DATA":
+            return {
                 ...state,
-                server: action.payload
+                serverPods: action.payload
+            }
+        case "SERVER_SVC_DATA":
+            return {
+                ...state,
+                serverSVC: action.payload
+            }
+        case "MC_CONF_GET_DATA":
+            return {
+                ...state,
+                env: action.payload
             }
         case "DUMP":
             return {
