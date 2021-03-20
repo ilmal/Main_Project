@@ -1,8 +1,11 @@
 import axios from "axios"
 import { authSucess, createMcConfig } from "../redux/actions/index"
 import { store } from "../index"
+import ReactTooltip from 'react-tooltip';
 
 const LoginPage = () => {
+
+    ReactTooltip.rebuild()
 
     const sendData = async (data) => {
         console.log("name: ", data.target.name.value, "pass: ", data.target.password.value)
@@ -12,11 +15,20 @@ const LoginPage = () => {
             name: data.target.name.value,
             password: data.target.password.value
         }).then(response => {
-            store.dispatch(authSucess)
-            console.log("1", store.getState().auth)
+            if (response.data === "success") {
+                store.dispatch(authSucess)
+                console.log("1", store.getState().auth)
+                create()
+                window.location.reload()
+            } else {
+                console.log(response.data)
+                ReactTooltip.show("test")
+                store.dispatch({
+                    type: "ERR_MESSAGE",
+                    payload: response.data
+                })
+            }
         })
-        create()
-        window.location.reload()
     }
 
     const create = () => {
@@ -33,7 +45,7 @@ const LoginPage = () => {
                     <div className="loginForm">
                         <input type="text" name="name" className="loginInput" autoComplete="off" required />
                         <label className="loginLable">
-                            <span className="loginLableValue">Name</span>
+                            <span className="loginLableValue" data-tip='test'>Name</span>
                         </label>
                     </div>
                     <div className="loginForm">

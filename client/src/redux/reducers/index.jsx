@@ -5,18 +5,18 @@ const initailState = {
     auth: null,
     serverPods: "default",
     serverSVC: "default",
-    env: {
-        env: [
-            { name: "", value: "" },
-            { name: "", value: "" },
-            { name: "", value: "" },
-            { name: "", value: "" },
-            { name: "", value: "" },
-            { name: "", value: "" },
-            { name: "", value: "" },
-            { name: "", value: "" }
-        ]
-    }
+    env: [
+        { name: "", value: "" },
+        { name: "", value: "" },
+        { name: "", value: "" },
+        { name: "", value: "" },
+        { name: "", value: "" },
+        { name: "", value: "" },
+        { name: "", value: "" },
+        { name: "", value: "" }
+    ],
+    errMessage: false,
+    message: false
 }
 
 const reducer = (state = initailState, action) => {
@@ -45,7 +45,27 @@ const reducer = (state = initailState, action) => {
         case "MC_CONF_GET_DATA":
             return {
                 ...state,
-                env: action.payload
+                env: action.payload.env
+            }
+        case "ERR_MESSAGE":
+            return {
+                ...state,
+                errMessage: action.payload
+            }
+        case "CLEAR_ERR_MESSAGES":
+            return {
+                ...state,
+                errMessage: false
+            }
+        case "MESSAGE":
+            return {
+                ...state,
+                message: action.payload
+            }
+        case "CLEAR_MESSAGES":
+            return {
+                ...state,
+                message: false
             }
         case "DUMP":
             return {

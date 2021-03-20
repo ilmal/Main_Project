@@ -145,4 +145,3 @@ export const mcConfGetData = async (dispatch) => {
             })
         })
 }
-

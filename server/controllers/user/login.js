@@ -10,15 +10,15 @@ router.post("/", async (req, res) => {
     // if email exists
     const user = await User.findOne({ name: req.body.name })
     if (!user) {
-        console.log("user does not exist")
-        return res.status(400)
+        console.log("User does not exist")
+        return res.send("User doesn't exist").status(400)
     }
 
     // if pass is correct
     const pass = await bcrypt.compare(req.body.password, user.password)
     if (!pass) {
-        console.log("pass not valid")
-        return res.status(400)
+        console.log("Pass not valid")
+        return res.send("Pass not valid").status(400)
     }
 
     // assign jwt token & cookies
@@ -32,9 +32,7 @@ router.post("/", async (req, res) => {
         httpOnly: false
     })
 
-    res.send({
-        data: "success"
-    })
+    res.send("success")
 
     console.log("login success")
 })

@@ -1,4 +1,5 @@
-import React, { Component } from "react";
+import React from "react";
+import ReactTooltip from 'react-tooltip';
 
 class HomePage extends React.Component {
   constructor(props) {
@@ -55,7 +56,7 @@ class HomePage extends React.Component {
   }
 
 
-  
+
   page1 = () => {
     return (
       <div
@@ -86,6 +87,7 @@ class HomePage extends React.Component {
   };
 
   page2 = () => {
+    ReactTooltip.rebuild()
     return (
       <div className="homePage2MainContaiener" onWheel={this.scrollHandler}>
         <div className="homePage2Title">
@@ -96,7 +98,7 @@ class HomePage extends React.Component {
             <span>Ark</span>
           </div>
           <div className="homePage2Card2">
-            <span>Minecraft</span>
+            <span data-tip data-for="test">Minecraft</span>
           </div>
           <div className="homePage2Card3">
             <span>Terraria</span>

@@ -16,9 +16,17 @@ const Server = () => {
     if (e.target.className === "innerDivStart") {
       console.log("u said start?")
       store.dispatch(startServer)
+      store.dispatch({
+        type: "MESSAGE",
+        payload: "Server starting up!"
+      })
     } else if (e.target.className === "innerDivStop") {
       console.log("u said stop?")
       store.dispatch(stopServer)
+      store.dispatch({
+        type: "MESSAGE",
+        payload: "Server shutting down!"
+      })
     }
   }
 
@@ -45,8 +53,6 @@ const Server = () => {
     }
   }
   const refreshData = () => {
-    console.log("hello")
-
     store.dispatch(fetchUserData)
     store.dispatch(serverPodsInfo)
     store.dispatch(serverSVCInfo)

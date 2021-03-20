@@ -1,9 +1,9 @@
 .userHomeLayout {
-  height: 100vh;
+  height: 90vh;
   width: 100%;
   display: grid;
   grid-template-columns: 20% 5% repeat(3, 20% 5%);
-  grid-template-rows: 5% repeat(6, 13% 5%);
+  grid-template-rows: auto repeat(5, 13% 5%);
   align-items: center;
 }
 
@@ -13,6 +13,9 @@
   height: 100%;
   grid-column: 1 /2;
   grid-row: 2 / 14;
+  .active{
+    color: rgba(#51cf66, $alpha: 0.7)
+  }
 }
 
 .userHomeServerName {
@@ -268,6 +271,10 @@ scss for the server config change menu
     font-size: 20px;
     width: 50%;
     outline: none;
+    text-indent: 3px;
+    &::placeholder{
+      text-indent: 3px;
+    }
   }
   button {
     border: none;
@@ -381,10 +388,30 @@ scss for options tab
   }
 }
 
-.changePassword {
+.changePasswordDefault {
   grid-row: 2/4;
   grid-column: 5/6;
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.changePasswordChange{
+  grid-row: 2/7;
+  grid-column: 5/6;
+  display: grid;
+  grid-template-rows: 10% 80% 10%;
+  .inner{
+    grid-row: 2/3;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    div{
+      margin-left: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
 }

@@ -12,8 +12,10 @@ import thunk from "redux-thunk"
 
 import Header from "./components/header/header"
 import HomeRouter from "./routing/router"
+import { Tooltips } from "./components/tooltips"
+import { TopMessage } from "./components/topMessages/index"
 
-import rootReducer from "./redux/reducers/index"
+import rootReducer from "./redux/reducers"
 
 import { fetchUserData, checkUserAuth, createMcConfig, serverPodsInfo, serverSVCInfo, mcConfGetData } from "./redux/actions/index"
 
@@ -37,8 +39,10 @@ const MainComponent = () => {
     return (
         <Provider store={store}>
             <Router>
+                <TopMessage />
                 <Header />
                 <Route path="/" component={HomeRouter} />
+                <Tooltips />
             </Router>
         </Provider>
     )

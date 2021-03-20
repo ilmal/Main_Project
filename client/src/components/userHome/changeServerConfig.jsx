@@ -1,21 +1,30 @@
-import React, { useState } from "react"
-import { store } from "../../index";
+import React, { useEffect, useState } from "react"
+import { useSelector } from "react-redux"
+import axios from "axios"
 
 const ChangeServerConfig = () => {
     // stateful settings
-    const [userData, updateUserData] = useState(store.getState());
+    const state = useSelector(state => state)
     const [change, setChange] = useState(false)
-    const [whitelist, setWhitelist] = useState(userData.env.env[6].value.split(","))
-    const [opslist, setOpslist] = useState(userData.env.env[7].value.split(","))
+    const [whitelist, setWhitelist] = useState([])
+    const [opslist, setOpslist] = useState([])
     let i = 0;
-
 
     const toggle = () => {
         setChange((prev) => !prev)
     }
 
+    useEffect(() => {
+        if (state.env[6].value != null) {
+            setWhitelist(state.env[6].value.split(","))
+        }
+        if (state.env[7].value != null) {
+            setOpslist(state.env[7].value.split(","))
+        }
+    }, [state])
+
     //data for Difficulty and Versions
-    const versions = [userData.env.env[3].value, "latest", "1.16.4", "1.16.3", "1.16.2", "1.16", "1.15.2", "1.15.1",
+    const versions = [state.env[3].value, "latest", "1.16.4", "1.16.3", "1.16.2", "1.16", "1.15.2", "1.15.1",
         "1.15", "1.14.4", "1.14.3", "1.14.2", "1.14.1", "1.14", "1.13.2", "1.13.1", "1.13",
         "1.12.2", "1.12.1", "1.12"]
 
@@ -24,7 +33,7 @@ const ChangeServerConfig = () => {
         return <option value={d} key={i}>{d}</option>
     })
 
-    const difficulties = [userData.env.env[5].value, "hard", "normal", "easy", "peaceful"]
+    const difficulties = [state.env[5].value, "hard", "normal", "easy", "peaceful"]
 
     const difficultiesBoiler = difficulties.map((d) => {
         i++
@@ -32,7 +41,7 @@ const ChangeServerConfig = () => {
     })
 
     //data for Whitelist
-    const changeWhite = data => {
+    const changeWhite = async (data) => {
         if (data.key === "Enter") {
             data.preventDefault()
             try {
@@ -42,10 +51,8 @@ const ChangeServerConfig = () => {
                 if (whitelist.includes(data.target.value)) {
                     throw "name already given"
                 }
-                setWhitelist(userData.env.env[6].value.split(","))
                 setWhitelist(whitelist.concat(data.target.value))
                 data.target.value = ""
-                console.log("whitelistTest: ", whitelist)
             } catch (result) {
                 console.log(result)
             }
@@ -54,12 +61,11 @@ const ChangeServerConfig = () => {
     }
 
     const WhitelistList = () => {
-        if (userData.env.env[6].value === null) {
+        if (state.env[6].value === null) {
             return null
         } else {
-            let whiteArray = whitelist
             let i = 0;
-            return whiteArray.map((e) => {
+            return whitelist.map((e) => {
                 i += 1
                 return <span key={i}>{e}</span>
             })
@@ -67,14 +73,13 @@ const ChangeServerConfig = () => {
     }
 
     const WhitelistListChange = () => {
-        if (userData.env.env[6].value === null) {
+        if (state.env[6].value === null) {
             return null
         } else {
-            let whiteArray = userData.env.env[6].value.split(",")
             let i = 0;
-            return whiteArray.map((e) => {
+            return whitelist.map((e) => {
                 i += 1
-                return <span className="whiteArray" key={i}>{e}</span>
+                return <span className="whiteArray" onClick={removeFromWhiteList} key={i}>{e}</span>
             })
         }
     }
@@ -92,8 +97,6 @@ const ChangeServerConfig = () => {
                 }
                 setOpslist(opslist.concat(data.target.value))
                 data.target.value = ""
-                console.log(opslist)
-                console.log(opslist.length)
             } catch (result) {
                 console.log(result)
             }
@@ -102,45 +105,92 @@ const ChangeServerConfig = () => {
     }
 
     const OpslistList = () => {
-        if (userData.env.env[7].value === null) {
+        if (opslist === null) {
             return null
         } else {
-            let whiteArray = userData.env.env[6].value.split(",")
             let i = 0;
-            return whiteArray.map((e) => {
+            return opslist.map((e) => {
                 i += 1
-                return <span className="whiteArray" key={i}>{e}</span>
+                return <span key={i}>{e}</span>
             })
         }
     }
 
     const OpslistListChange = () => {
-        if (userData.env.env[7].value === null) {
+        if (opslist === null) {
             return null
         } else {
-            let whiteArray = userData.env.env[6].value.split(",")
             let i = 0;
-            return whiteArray.map((e) => {
+            return opslist.map((e) => {
                 i += 1
-                return <span className="opsArray" key={i}>{e}</span>
+                return <span className="opsArray" onClick={removeFromOpsList} key={i}>{e}</span>
             })
         }
     }
 
+    const removeFromOpsList = (e) => {
+        let newOpsList = opslist.filter(item => item !== e.target.innerText)
+        setOpslist(newOpsList)
+    }
+
+    const removeFromWhiteList = (e) => {
+        let newwhitelist = whitelist.filter(item => item !== e.target.innerText)
+        setWhitelist(newwhitelist)
+    }
+
+    const saveData = async (e) => {
+        e.preventDefault()
+        console.log("saving data")
+
+        console.log("serverName: ", e.target.serverName.value)
+        console.log("serverVersion: ", e.target.serverVersion.value)
+        console.log("serverDifficulty: ", e.target.serverDifficulty.value)
+        console.log("serverWhitelist: ", whitelist)
+        console.log("serverOpsList: ", opslist)
+
+        // reformatting whitelist and op-list
+        const whitelistString = whitelist.join(",")
+        const opslistString = opslist.join(",")
+
+        // sending data to backend
+        const cookieValue = document.cookie
+            .split('; ')
+            .find(row => row.startsWith('userID='))
+            .split('=')[1];
+
+        await axios.post("http://localhost:3001/api/mcConf/updateData", {
+            id: cookieValue,
+            serverName: e.target.serverName.value,
+            serverVersion: e.target.serverVersion.value,
+            serverDifficulty: e.target.serverDifficulty.value,
+            serverWhitelist: whitelistString,
+            serverOpsList: opslistString
+        }).then(response => {
+            console.log("response from updateData: ", response.data.data)
+        })
+        window.location.reload()
+    }
+
     const defaultFunc = () => {
+
+        let configSize = "userHomeChangeConfig userHomeSegment"
+        if (opslist.length > 4 || whitelist.length > 4) {
+            configSize = "userHomeChangeConfigExtendOne userHomeSegment"
+        }
+
         return (
-            <div className="userHomeSegment userHomeChangeConfig">
+            <div className={configSize}>
                 <div className="userHomeChangeServerName userHomeChangeDefaults">
                     <p>Server Name: </p>
-                    <span>{userData.env.env[4].value}</span>
+                    <span>{state.env[4].value}</span>
                 </div>
                 <div className="userHomeChangeVersion userHomeChangeDefaults">
                     <p>Version: </p>
-                    <span>{userData.env.env[3].value}</span>
+                    <span>{state.env[3].value}</span>
                 </div>
                 <div className="userHomeChangeDifficulty userHomeChangeDefaults">
                     <p>Difficulty: </p>
-                    <span>{userData.env.env[5].value}</span>
+                    <span>{state.env[5].value}</span>
                 </div>
                 <div className="userHomeChangeWhitelist userHomeChangeDefaults">
                     <p>whitelist: </p>
@@ -161,40 +211,40 @@ const ChangeServerConfig = () => {
     const changeFunc = () => {
 
         let configSize = "userHomeChangeConfig userHomeSegment"
-        if (opslist.length > 4) {
+        if (opslist.length > 4 || whitelist.length > 4) {
             configSize = "userHomeChangeConfigExtendOne userHomeSegment"
         }
 
         return (
-            <form className={configSize} onSubmit={e => { e.preventDefault(); }}>
+            <form className={configSize} onSubmit={saveData}>
                 <div className="userHomeChangeServerName userHomeChangeDefaults">
                     <p>Server Name: </p>
-                    <input type="text" className="userHomeChangeServer" />
+                    <input type="text" name="serverName" className="userHomeChangeServer" />
                 </div>
                 <div className="userHomeChangeVersion userHomeChangeDefaults">
                     <p>Server Version: </p>
-                    <select name="" id="">
+                    <select name="serverVersion" id="">
                         {versionBoiler}
                     </select>
                 </div>
                 <div className="userHomeChangeDifficulty userHomeChangeDefaults">
                     <p>Server Difficulty: </p>
-                    <select name="" id="">
+                    <select name="serverDifficulty" id="">
                         {difficultiesBoiler}
                     </select>
                 </div>
                 <div className="userHomeChangeWhitelist userHomeChangeDefaults">
                     <p>Whitelists:</p>
                     <WhitelistListChange />
-                    <input type="text" onKeyPress={changeWhite} />
+                    <input type="text" name="serverWhitelist" onKeyPress={changeWhite} />
                 </div>
                 <div className="userHomeChangeOps userHomeChangeDefaults">
                     <p>Ops:</p>
                     <OpslistListChange />
-                    <input type="text" onKeyPress={changeOps} />
+                    <input type="text" name="serverOps" onKeyPress={changeOps} />
                 </div>
                 <div className="userHomeChangeBtn userHomeChangeDefaults">
-                    <button onClick={toggle}>save</button>
+                    <button type="submit">save</button>
                 </div>
             </form>
         );

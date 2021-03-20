@@ -39,10 +39,19 @@ spec:
           value: normal
 
         - name:  WHITELIST
-          value: Test1, test2, test3, test4
+          value: null
 
         - name: OPS
-          value: Test1, test2, test3, test4
+          value: null
+
+        - name: OVERRIDE_SERVER_PROPERTIES
+          value: "true"
+
+        - name: OVERRIDE_WHITELIST
+          value: "true"
+
+        - name: OVERRIDE_OPS
+          value: "true"
 
         ports:
         - containerPort: 25565
