@@ -1,10 +1,13 @@
 @import "base/default.scss";
+@import "base/loading.scss";
 
 @import "components/header.scss";
 @import "components/floatingAnimation.scss";
 @import "components/topMessages.scss";
+@import "components/bubbles.scss";
 
-@import "pages/user/loginSignup.scss";
+@import "pages/user/signup.scss";
+@import "pages/user/login.scss";
 @import "pages/user/sidemenu.scss";
 @import "pages/user/userHome.scss";
 @import "pages/server/minecraft.scss";

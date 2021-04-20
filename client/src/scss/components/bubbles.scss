@@ -1,0 +1,45 @@
+.bubbleContainer{
+    z-index: 100;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 15%;
+    height: 20%;
+    display: grid;
+    grid-template-rows: 10% 40% 40% 10%;
+    grid-template-columns: 10% 26% 28% 26% 10%;
+    .defaultBubble{
+        width: 2em;
+        height: 2em;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 1.5em;
+        transition: all .7s ease;
+        &:hover{
+            filter: contrast(1.75);
+            width: 2.25em;
+            height: 2.25em;
+            transform: translateX(-.125em) translateY(-.125em);
+        }
+    }
+    .helpBubble{
+        grid-column: 2/3;
+        grid-row: 3/4;
+        background-color: rgba($yellowColor, $alpha: 1);
+        color: black;
+    }
+    .twitterBubble{
+        grid-column: 3/4;
+        grid-row: 2/3;
+        background-color: rgb(29, 161, 242);
+        color: white;
+    }
+    .instagramBubble{
+        grid-column: 2/3;
+        grid-row: 2/3;
+        background-color: rgb(193, 53, 132);
+        color: white;
+    }
+}

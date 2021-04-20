@@ -7,10 +7,12 @@ const jtw = require("jsonwebtoken")
 
 router.post("/", async (req, res) => {
 
+    console.log("reqName: ", req.body.name)
+
     // if email exists
     const user = await User.findOne({ name: req.body.name })
     if (!user) {
-        console.log("User does not exist")
+        console.log("User does not exist1")
         return res.send("User doesn't exist").status(400)
     }
 

@@ -2,8 +2,11 @@ import axios from "axios"
 import { authSucess, createMcConfig } from "../redux/actions/index"
 import { store } from "../index"
 import ReactTooltip from 'react-tooltip';
+import { useHistory } from "react-router-dom";
 
 const LoginPage = () => {
+
+    const history = useHistory();
 
     ReactTooltip.rebuild()
 
@@ -35,6 +38,11 @@ const LoginPage = () => {
         store.dispatch(createMcConfig)
     }
 
+    const toSignup = () => {
+        history.push("/user/signup");
+        window.location.reload();
+    }
+
     return (
         <div className="loginMainBody">
             <div className="loginBody">
@@ -56,8 +64,9 @@ const LoginPage = () => {
                     </div>
                     <button type="submit" className="loginButton">submit</button>
                 </form>
+                <span className="loginSignUp" onClick={toSignup}>First time? Sign up!</span>
             </div>
-        </div>
+        </div >
     );
 }
 

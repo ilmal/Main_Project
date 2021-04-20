@@ -25,6 +25,25 @@ router.post("/", async (req, res) => {
     const pvc = YAML.load(pvcRaw);
     const service = YAML.load(serviceRaw);
 
+    /*-------------------
+    Getting a port number
+    -------------------*/
+
+    const findPortNumber = async () => {
+      for (let i = 30001; i < 31000; i++) {
+        const findUser = await Config.findOne({ portNumber: i }).catch(err => {
+          console.log("ERROR1234: ", err)
+        })
+        if (!findUser) {
+          return i
+        }
+      }
+    }
+
+    const realPortNumber = await Promise.resolve(findPortNumber())
+
+    console.log("this is the real port: ", realPortNumber)
+
     /*------------------
     changing yaml values
     ------------------*/
@@ -52,7 +71,6 @@ router.post("/", async (req, res) => {
 
     deployment.spec.template.spec.containers[0].env[4].value = `${userName}Server`
 
-
     //--- creating service yaml ---
     //creating a acceptable service name
     const serviceName = req.body.id.replace(/[0-9]/g, 'a')
@@ -61,6 +79,7 @@ router.post("/", async (req, res) => {
     service.metadata.name = serviceName
     service.metadata.labels.app = req.body.id
     service.spec.selector.app = req.body.id
+    service.spec.ports[0].nodePort = realPortNumber
 
     //dumping yaml
     const deploymentStr = YAML.dump(deployment);
@@ -69,6 +88,7 @@ router.post("/", async (req, res) => {
 
     const mcConf = new Config({
       id: req.body.id,
+      portNumber: realPortNumber,
       pvc: pvcStr,
       deployment: deploymentStr,
       service: serviceStr

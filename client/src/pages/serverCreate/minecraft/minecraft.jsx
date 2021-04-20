@@ -30,22 +30,40 @@ const MinecraftCreate = () => {
 
     }
 
+    const testServerBtn = () => {
+        history.push("/server/minecraft/test");
+        window.location.reload();
+    }
+
     return (
         <div className="minecraftBody">
             <span>Choose your Minecraft Server!</span>
+            <div className="testServerCard">
+                <div>
+                    <div className="testHeader">
+                        <span>Test server</span>
+                    </div>
+                    <div className="container">
+                        <div>
+                            <span>Early access!</span>
+                            <button onClick={testServerBtn}>Get the server</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div className="container">
                 <div className="minecraftCards basic" onClick={handleClick}>
                     <div className="titleContainer basicTitleContainer">
                         <span>BASIC</span>
                     </div>
                     <div className="priceContainer">
-                        <span>$10 <span className="priceMonth">/ month</span></span>
+                        <span>$?? <span className="priceMonth">/ month</span></span>
                     </div>
                     <div className="specsContainer">
                         <span className="cpuSpec">CPU</span>
                         <span className="memSpec">MEMORY</span>
-                        <span className="cpuSpecValue">1 cores</span>
-                        <span className="memSpecValue">2gb</span>
+                        <span className="cpuSpecValue">? cores</span>
+                        <span className="memSpecValue">?gb</span>
                     </div>
                     <div className="seperationline" />
                     <div className="description">
@@ -57,13 +75,13 @@ const MinecraftCreate = () => {
                         <span>NORMAL</span>
                     </div>
                     <div className="priceContainer">
-                        <span>$15 <span className="priceMonth">/ month</span></span>
+                        <span>$?? <span className="priceMonth">/ month</span></span>
                     </div>
                     <div className="specsContainer">
                         <span className="cpuSpec">CPU</span>
                         <span className="memSpec">MEMORY</span>
-                        <span className="cpuSpecValue">2 cores</span>
-                        <span className="memSpecValue">4gb</span>
+                        <span className="cpuSpecValue">? cores</span>
+                        <span className="memSpecValue">?gb</span>
                     </div>
                     <div className="seperationline" />
                     <div className="description">
@@ -75,13 +93,13 @@ const MinecraftCreate = () => {
                         <span>PREMIUM</span>
                     </div>
                     <div className="priceContainer">
-                        <span>$20 <span className="priceMonth">/ month</span></span>
+                        <span>$?? <span className="priceMonth">/ month</span></span>
                     </div>
                     <div className="specsContainer">
                         <span className="cpuSpec">CPU</span>
                         <span className="memSpec">MEMORY</span>
-                        <span className="cpuSpecValue">4 cores</span>
-                        <span className="memSpecValue">8gb</span>
+                        <span className="cpuSpecValue">? cores</span>
+                        <span className="memSpecValue">?gb</span>
                     </div>
                     <div className="seperationline" />
                     <div className="description">

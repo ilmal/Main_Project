@@ -1,114 +1,158 @@
-import React from "react";
-import ReactTooltip from 'react-tooltip';
+import React, { useState, useEffect } from "react";
+import { useHistory } from "react-router-dom";
 
-class HomePage extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      page: 1,
-      loadAnimation: false,
-      transformUpp: false,
-      transformDown: false,
-      games: "Minecraft",
-      i: 0,
-    };
-  }
+const HomePage = () => {
+  const list = ["Minecraft", "ARK", "Terraria", "Unturned", "Rust"];
 
-  pageUpp = () => {
-    console.log(this.state.page);
-    this.state.page === 1
-      ? this.setState({ page: this.state.page })
-      : this.setState({ page: this.state.page - 1 });
+  const [page, changepage] = useState(1)
+  const [loadAnimation, changeloadAnimation] = useState(false)
+  const [transformUpp, changetransformUpp] = useState(false)
+  const [transformDown, changetransformDown] = useState(false)
+  const [i, changei] = useState(-1)
+  const [gamesAnimation, changeGamesAnimation] = useState(true)
+
+  const history = useHistory();
+
+  const pageUpp = () => {
+    page === 1
+      ? changepage(page)
+      : changepage(page - 1);
   };
 
-  pageDown = () => {
-    console.log(this.state.page);
-    this.state.page === 2
-      ? this.setState({ page: this.state.page })
-      : this.setState({ page: this.state.page + 1 });
+  const pageDown = () => {
+    page === 2
+      ? changepage(page)
+      : changepage(page + 1);
   };
 
-  scrollHandler = (e) => {
-    console.log("userScrolled", e.deltaY);
+  const scrollHandler = (e) => {
     if (e.deltaY > 0) {
-      this.pageDown();
+      pageDown();
     } else {
-      this.pageUpp();
+      pageUpp();
     }
   };
 
-  componentDidMount() {
+  const changeGame = () => {
+    console.log(i)
+    if (i >= list.length - 1) {
+      changei(0)
+    } else {
+      changei(i + 1)
+    }
+  };
+
+
+  useEffect(() => {
     setTimeout(() => {
-      this.setState({ loadAnimation: true });
+      changeloadAnimation(true)
     }, 50);
-
-    const changeGame = () => {
-      const list = ["Minecraft", "ARK", "Terraria", "Unturned", "Rust"];
-      this.setState({ games: list[this.state.i] });
-      this.setState({ i: this.state.i + 1 });
-      console.log(list[this.state.i]);
-      if (this.state.i === list.length) {
-        this.setState({ i: 0 });
-      }
-      setTimeout(changeGame, 3000);
-    };
-    changeGame();
-  }
+    if (gamesAnimation) {
+      changeGame()
+      changeGamesAnimation(false)
+    }
+    setTimeout(changeGame, 3000);
+  })
 
 
 
-  page1 = () => {
+  const page1 = () => {
     return (
       <div
         className={
-          this.state.transformUpp
+          transformUpp
             ? "homeMainContainerTransform"
             : "homeMainContainer"
         }
-        onWheel={this.scrollHandler}
+        onWheel={scrollHandler}
       >
         <div className="innerContainer">
           <span
             className={
-              this.state.loadAnimation ? "homeMainSpan" : "homeMainSpanAway"
+              loadAnimation ? "homeMainSpan" : "homeMainSpanAway"
             }
           >
             Host your own{" "}
-            <span className="homeChangeGameSpan">{this.state.games}</span>{" "}
-            server with U1servers
+            <span className="homeChangeGameSpan">{list[i]}</span>{" "}
+            server with <span>U1</span>servers
           </span>
         </div>
         <div
           className="homePageArrow fas fa-angle-double-down"
-          onClick={this.pageDown}
+          onClick={pageDown}
         />
       </div>
     );
   };
 
-  page2 = () => {
-    ReactTooltip.rebuild()
+  const gameSelect = e => {
+    switch (e.target.id) {
+      case "minecraftSelector":
+        console.log("Woooooo, let's play some minectaft")
+        history.push("/server/minecraft/home");
+        window.location.reload();
+        break;
+      default:
+        console.log("error with game selection, see homePage.gameSelect")
+        break;
+    }
+  }
+
+
+  const page2 = () => {
     return (
-      <div className="homePage2MainContaiener" onWheel={this.scrollHandler}>
+      <div className="homePage2MainContaiener" onWheel={scrollHandler}>
         <div className="homePage2Title">
           <span>Choose your game</span>
         </div>
-        <div className="homePage2Card">
+        <div id="homePage2Card" className="homePage2Cards">
           <div className="homePage2Card1">
-            <span>Ark</span>
+            <div className="whiteBack" id="minecraftSelector" onClick={gameSelect}>
+              <div className="textBottom">
+                <span>Minecraft</span>
+              </div>
+            </div>
           </div>
           <div className="homePage2Card2">
-            <span data-tip data-for="test">Minecraft</span>
+            <div className="whiteBack" id="arkSelector">
+              <div className="blurPartTop" />
+              <div className="comingSoon">
+                <span>COMING SOON</span>
+              </div>
+              <div className="blurPartBottom" />
+              <div className="textBottom">
+                <span>ARK<p>Survival Evolved</p></span>
+              </div>
+            </div>
           </div>
           <div className="homePage2Card3">
-            <span>Terraria</span>
+            <div className="whiteBack" id="rustSelector">
+              <div className="blurPartTop" />
+              <div className="comingSoon">
+                <span>COMING</span>
+                <span>SOON</span>
+              </div>
+              <div className="blurPartBottom" />
+              <div className="textBottom">
+                <span>RUST</span>
+              </div>
+            </div>
           </div>
+          {/* <div className="homePage2Card4">
+            <span>SOON</span>
+          </div>
+          <div className="homePage2Card5">
+            <span>SOON</span>
+          </div>
+          <div className="homePage2Card6">
+            <span>SOON</span>
+          </div> */}
         </div>
       </div>
     );
   };
 
-  errFunc = () => {
+  const errFunc = () => {
     return (
       <div className="homeMainContainer">
         <div className="innerContainer">
@@ -118,15 +162,13 @@ class HomePage extends React.Component {
     );
   };
 
-  render() {
-    switch (this.state.page) {
-      case 1:
-        return this.page1();
-      case 2:
-        return this.page2();
-      default:
-        return this.errFunc();
-    }
+  switch (page) {
+    case 1:
+      return page1();
+    case 2:
+      return page2();
+    default:
+      return errFunc();
   }
 }
 

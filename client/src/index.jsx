@@ -11,6 +11,7 @@ import { composeWithDevTools } from "redux-devtools-extension"
 import thunk from "redux-thunk"
 
 import Header from "./components/header/header"
+import Boubbles from "./components/bubbleLinks"
 import HomeRouter from "./routing/router"
 import { Tooltips } from "./components/tooltips"
 import { TopMessage } from "./components/topMessages/index"
@@ -28,13 +29,20 @@ const MainComponent = () => {
 
     (async function () {
         await store.dispatch(fetchUserData)
+        //console.log("1")
         await store.dispatch(checkUserAuth)
+        //console.log("2")
         await store.dispatch(createMcConfig)
+        //console.log("3")
         await store.dispatch(serverPodsInfo)
+        //console.log("4")
         await store.dispatch(serverSVCInfo)
+        //console.log("5")
         await store.dispatch(mcConfGetData)
         console.log("data after fetch func: ", store.getState())
     })();
+
+
 
     return (
         <Provider store={store}>
@@ -42,6 +50,7 @@ const MainComponent = () => {
                 <TopMessage />
                 <Header />
                 <Route path="/" component={HomeRouter} />
+                <Boubbles />
                 <Tooltips />
             </Router>
         </Provider>

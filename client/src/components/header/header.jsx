@@ -13,7 +13,7 @@ const Header = () => {
         <div className="headerBanner">
             <div className="headerInnerBanner">
                 <div >
-                    <a href="/" className="homeLink"><span>servers</span></a>
+                    <a href="/" className="homeLink"><span>U1</span>servers</a>
                 </div>
                 <div>
                     <a href="/user/login">LOGIN</a>

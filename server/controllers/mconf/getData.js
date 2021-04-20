@@ -7,7 +7,7 @@ router.post("/", getData = async (req, res) => {
     // if email exists
     const conf = await mcConf.findOne({ id: req.body.id })
     if (!conf) {
-        console.log("user does not exist")
+        console.log("user does not exist3")
         return res.status(400)
     }
 

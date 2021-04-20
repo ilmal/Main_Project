@@ -14,7 +14,7 @@ router.post("/", async (req, res) => {
     // if user exists
     const user = await User.findOne({ _id: oid })
     if (!user) {
-        console.log("user does not exist")
+        console.log("user does not exist5")
         return res.status(400)
     }
 

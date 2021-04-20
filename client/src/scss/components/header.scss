@@ -26,22 +26,22 @@
     transition: 1s all ease;
   }
   &:hover{
-    color:rgba($color: #51cf66, $alpha: 0.8);
+    color:rgba($color: $greenColor, $alpha: 0.8);
     span{
-      color:rgba($color: #51cf66, $alpha: 0.8);
+      color:rgba($color: $greenColor, $alpha: 0.8);
     }
   }
 }
 
 .homeLink {
   margin-left: 40px;
-  font-size: 30px;
+  font-size: 24px;
   color: rgba($color: #fff, $alpha: 1);
   font-weight:normal;
   span{
     font-size: 25px;
     margin-left: 2px;
-    color: #329af0;
+    color: $blueColor;
     font-weight: lighter;
   }
 }

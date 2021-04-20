@@ -17,10 +17,19 @@
   }
 }
 
+$backgroundColorBack: #141618;
+$backgroundColor: #212529;
+$blueColor: #329af0;
+$greenColor: #51cf66;
+$orangeColor: #ff8100;
+$pinkColor: rgba(204,93,232, 0.9);
+$redColor: #fa5252;
+$yellowColor: #eed202;
+
 body {
   // background-color: #212529;
   // background-image: url("../../images/2773233.jpg");
-  background-color: #141618;
+  background-color: $backgroundColorBack;
 }
 
 span, p, a, h1, h2, h3, button, input, label{
@@ -35,6 +44,11 @@ span, p, a, h1, h2, h3, button, input, label{
 @mixin green-hover {
   transition: 1s ease all;
   &:hover {
-    color: rgba($color: #51cf66, $alpha: 0.8);
+    color: rgba($greenColor, $alpha: 0.8);
   }
+}
+
+@keyframes animateInAnimation{
+  0%{opacity: 0}
+  100%{opacity: 1}
 }

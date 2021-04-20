@@ -11,6 +11,82 @@
         text-align: center;
         color: white;
         font-size: 50px;
+        animation-name: animateInAnimation;
+        animation-duration: 1s;
+    }
+
+    .testServerCard{
+        z-index: 5;
+        grid-column: 1/4;
+        grid-row: 3/4;
+        width: 100%;
+        height: 100%;
+        background-image: linear-gradient(to bottom, $backgroundColorBack, rgba(#fff, $alpha: .25), $backgroundColorBack);
+        opacity: 1;
+        display: grid;
+        grid-template-columns: 25% 50% 25%;
+        grid-template-rows: 15% 60% 25%;
+        div{
+            grid-column: 2/3;
+            grid-row: 2/3;
+            width: 100%;
+            height: 100%;
+            background-color: $backgroundColor;
+            border-radius: 10px;
+            display: grid;
+            grid-template-columns: 100%;
+            grid-template-rows: 25% 75%;
+            .testHeader{
+                grid-column: 1/2;
+                grid-row: 1/2;
+                background-color: rgba($color: $yellowColor, $alpha: .15);
+                border-radius: 10px 10px 0px 0px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                span{
+                    color: rgba($color: $yellowColor, $alpha: .9);
+                }
+            }
+            .container{
+                grid-column: 1/2;
+                grid-row: 2/3;
+                border-radius: 0px 0px 10px 10px;
+                display: grid;
+                grid-template-columns: 20% 60% 20%;
+                grid-template-rows: 10% 55% 35%;
+                div{
+                    grid-column: 2/3;
+                    grid-row: 2/3;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content:space-between;
+                    span{
+                        font-size: 2.3em;
+                        color: rgba($color: #fff, $alpha: .9)
+                    }
+                    button{
+                        grid-column: 2/3;
+                        grid-row: 2/3;
+                        outline: none;
+                        border:none;
+                        background-color: rgba($greenColor, $alpha: .15);
+                        padding: 5% 25% 5% 25%;
+                        color: $greenColor;
+                        border-radius: 10px;
+                        font-size: 1em;
+                        transition: all 1s ease;
+                        &:hover{
+                            background-color: rgba($greenColor, $alpha: .25);
+                        }
+                    }
+                }
+            }
+            span{
+                color: white;
+            }
+        }
     }
 
     .container{
@@ -22,12 +98,15 @@
         grid-template-columns: 33% auto 33%;
         grid-template-rows: 10% 69% auto;
         justify-items: center;
-        
+
         .minecraftCards{
+
+            filter: blur(3px); /*------------- THIS IS TEMP CODE -----------------*/
+
             grid-row: 2/3;
             width: 80%;
             height: 100%;
-            background-color: #212529;
+            background-color: $backgroundColor;
             border-radius: 10px;
             transition: all 1s ease;
             display: grid;
@@ -35,6 +114,8 @@
             grid-template-rows: 30% 20% 20% 0% 30%;
             align-items: center;
             justify-items: center;
+            animation-name: animateInAnimation;
+            animation-duration: 2s;
 
             div{
                 pointer-events: none;
@@ -147,7 +228,7 @@
                 background-color: rgba(204,93,232,0.15);
             }
             span{
-                color: rgba(204,93,232, 0.9);
+                color: $pinkColor;
             }
         }
     }
@@ -183,9 +264,13 @@
         }
         .specHeader{
             grid-column: 2/3;
+            animation-name: animateInAnimation;
+            animation-duration: .5s;
         }
         .gameHeader{
             grid-column: 3/4;
+            animation-name: animateInAnimation;
+            animation-duration: .5s;
         }
         .specsKeyValue{
             grid-column: 2/3;
@@ -197,27 +282,35 @@
                 align-self: center;
                 grid-row: 1/2;
                 width: 50%;
-                border-bottom: 1px #ff8100 solid;
+                border-bottom: 1px $orangeColor solid;
+                animation-name: animateInAnimation;
+                animation-duration: 1s;
             }
             .specValue{
                 grid-row: 2/3;
                 align-self: center;
                 display: flex;
                 justify-content: flex-start;
+                animation-name: animateInAnimation;
+                animation-duration: 1s;
                 span{
                     font-size: 20px;
                     color:white;
                 }
                 .value{
                     margin-left: 20px;
-                    color: #ff8100;
+                    color: $orangeColor;
                 }
             }
             .mem{
                 grid-row: 3/4;
+                animation-name: animateInAnimation;
+                animation-duration: 1.5s;
             }
             .storage{
                 grid-row: 4/5;
+                animation-name: animateInAnimation;
+                animation-duration: 2s;
             }
         }
         .gameKeyValue{
@@ -230,27 +323,35 @@
                 align-self: center;
                 grid-row: 1/2;
                 width: 50%;
-                border-bottom: 1px #329af0 solid;
+                border-bottom: 1px $blueColor solid;
+                animation-name: animateInAnimation;
+                animation-duration: 1s;
             }
             .gameValue{
                 grid-row: 2/3;
                 align-self: center;
                 display: flex;
                 justify-content: flex-start;
+                animation-name: animateInAnimation;
+                animation-duration: 1s;
                 span{
                     font-size: 20px;
                     color:white;
                 }
                 .value{
                     margin-left: 20px;
-                    color: #329af0;
+                    color: $blueColor;
                 }
             }
             .plugins{
                 grid-row:3/4;
+                animation-name: animateInAnimation;
+                animation-duration: 1.5s;
             }
             .mods{
                 grid-row: 4/5;
+                animation-name: animateInAnimation;
+                animation-duration: 2s;
             }
         }
     }
@@ -258,13 +359,36 @@
         grid-column: 2/3;
         display: grid;
         grid-template-columns: 25% 30% 30% 15%;
-        grid-template-rows: 10% 90%;
+        grid-template-rows: 10% 50% 40%;
         .header{
             align-self: end;
+            grid-column: 1/2;
+            grid-row: 1/2;
             span{
                 align-self: end;
                 color: white;
                 font-size: 40px;
+            }
+        }
+        .freeBody{
+            grid-column: 2/4;
+            grid-row: 2/3;
+            display: flex;
+            justify-content: flex-start;
+            align-items: flex-start;
+            margin-top: 40px;
+            button{
+                outline: none;
+                border: none;
+                background-color: rgba($greenColor, $alpha: .15);
+                color: rgba($greenColor, $alpha: .9);
+                font-size: 1em;
+                padding: 3% 15% 3% 15%;
+                border-radius: 10px;
+                transition: all 1s ease;
+                &:hover{
+                    background-color: rgba($greenColor, $alpha: .25);
+                }
             }
         }
     }

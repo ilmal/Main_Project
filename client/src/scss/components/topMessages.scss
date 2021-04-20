@@ -42,5 +42,5 @@
 
 .topMessageTest{
     @include messagedefaults();
-    background-color: rgba(#51cf66, $alpha: .7);
+    background-color: rgba($greenColor, $alpha: .7);
 }

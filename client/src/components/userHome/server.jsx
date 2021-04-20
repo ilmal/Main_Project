@@ -1,5 +1,5 @@
 import ChangeServerConfig from "./changeServerConfig";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 
 import { store } from "../../index";
 import { fetchUserData, serverPodsInfo, serverSVCInfo, mcConfGetData } from "../../redux/actions"
@@ -7,10 +7,60 @@ import { startServer, stopServer } from "../../redux/actions/index"
 
 const Server = () => {
   const [userData, updateUserData] = useState(store.getState());
+  const [logsExpand, setLogsExpand] = useState(false)
 
   store.subscribe(() => {
     updateUserData(store.getState());
   });
+
+  useEffect(() => {
+    const ele = document.getElementById('logsText');
+    ele.scrollTop = ele.scrollHeight;
+  }, [userData])
+
+  useEffect(() => {
+    const ele = document.getElementById('logsText');
+    ele.style.cursor = 'grab';
+
+    let pos = { top: 0, left: 0, x: 0, y: 0 };
+
+    const mouseDownHandler = function (e) {
+      ele.style.cursor = 'grabbing';
+      ele.style.userSelect = 'none';
+
+      pos = {
+        left: ele.scrollLeft,
+        top: ele.scrollTop,
+        // Get the current mouse position
+        x: e.clientX,
+        y: e.clientY,
+      };
+
+      document.addEventListener('mousemove', mouseMoveHandler);
+      document.addEventListener('mouseup', mouseUpHandler);
+    };
+
+    const mouseMoveHandler = function (e) {
+      // How far the mouse has been moved
+      const dx = e.clientX - pos.x;
+      const dy = e.clientY - pos.y;
+
+      // Scroll the element
+      ele.scrollTop = pos.top - dy;
+      ele.scrollLeft = pos.left - dx;
+    };
+
+    const mouseUpHandler = function () {
+      ele.style.cursor = 'grab';
+      ele.style.removeProperty('user-select');
+
+      document.removeEventListener('mousemove', mouseMoveHandler);
+      document.removeEventListener('mouseup', mouseUpHandler);
+    };
+
+    // Attach the handler
+    ele.addEventListener('mousedown', mouseDownHandler);
+  }, []);
 
   const startStop = (e) => {
     if (e.target.className === "innerDivStart") {
@@ -31,7 +81,6 @@ const Server = () => {
   }
 
   const serverStatus = (e) => {
-
     switch (userData.serverPods.status) {
       case "True":
         return <div className="runningDiv defaultDiv"><p className="running">Running</p></div>
@@ -52,21 +101,32 @@ const Server = () => {
       return <span>----</span>
     }
   }
-  const refreshData = () => {
+  const refreshData = (e) => {
     store.dispatch(fetchUserData)
     store.dispatch(serverPodsInfo)
     store.dispatch(serverSVCInfo)
     store.dispatch(mcConfGetData)
+    console.log(e.target.className)
+    document.getElementById(e.target.id).classList.add("spinAnimation")
+    setTimeout(() => {
+      document.getElementById(e.target.id).classList.remove("spinAnimation")
+    }, 1000)
+    console.log(userData.serverPods.logs)
+  }
+
+  const expandLogs = () => {
+    setLogsExpand(!logsExpand)
+    console.log("This is the logsExpand function; ", logsExpand)
   }
 
   return (
     <>
       <div className="userHomeServerName">
-        <span>{userData.user.name}</span>
+        <span>{userData.env[4].value}</span>
       </div>
       <div className="userHomeSegment userHomeStatusOfServer">
         {serverStatus()}
-        <div className="checkStatus fas fa-sync" onClick={refreshData}>
+        <div className="checkStatus fas fa-sync" id="checkStatus" onClick={refreshData}>
           <span>Check Status</span>
         </div>
       </div>
@@ -86,6 +146,21 @@ const Server = () => {
         {serverIP()}
       </div>
       <ChangeServerConfig />
+      <div className={logsExpand ? "logsMainContainer logsMainContainerExpanded userHomeSegment" : "logsMainContainer userHomeSegment"}>
+        <div className="logsExpandArrow fas fa-expand-arrows-alt" onClick={expandLogs} />
+        <div className="logsText" id="logsText">
+          <span>
+            {userData.serverPods.logs}
+            <p></p>
+          </span>
+        </div>
+        <div className="logsTextContainer">
+          <span>Logs</span>
+          <div onClick={refreshData}>
+            <div className="checkStatus fas fa-sync" id="checkStatus" />
+          </div>
+        </div>
+      </div>
     </>
   );
 };

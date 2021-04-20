@@ -1,11 +1,14 @@
 import axios from "axios"
 
 export const fetchUserData = async (dispatch, getState) => {
-    const cookieValue = document.cookie
-        .split('; ')
-        .find(row => row.startsWith('userID='))
-        .split('=')[1];
 
+    let cookieValue = null
+    if (document.cookie) {
+        cookieValue = document.cookie
+            .split('; ')
+            .find(row => row.startsWith('userID='))
+            .split('=')[1];
+    }
     await axios.post("http://192.168.1.247:3001/api/user", {
         id: cookieValue,
     })
@@ -18,10 +21,13 @@ export const fetchUserData = async (dispatch, getState) => {
 }
 
 export const checkUserAuth = async (dispatch) => {
-    const cookieValue = document.cookie
-        .split('; ')
-        .find(row => row.startsWith('loginAuth='))
-        .split('=')[1];
+    let cookieValue = null
+    if (document.cookie) {
+        cookieValue = document.cookie
+            .split('; ')
+            .find(row => row.startsWith('loginAuth='))
+            .split('=')[1];
+    }
 
     await axios.get("http://192.168.1.247:3001/api/user/auth", {
         withCredentials: true,
@@ -46,10 +52,13 @@ export const authSucess = (dispatch) => {
 }
 
 export const createMcConfig = async (dispatch) => {
-    const cookieValue = document.cookie
-        .split('; ')
-        .find(row => row.startsWith('userID='))
-        .split('=')[1];
+    let cookieValue = null
+    if (document.cookie) {
+        cookieValue = document.cookie
+            .split('; ')
+            .find(row => row.startsWith('userID='))
+            .split('=')[1];
+    }
 
     await axios.post("http://192.168.1.247:3001/api/mcConf/create", {
         id: cookieValue
@@ -62,10 +71,13 @@ export const createMcConfig = async (dispatch) => {
 }
 
 export const startServer = async (dispatch) => {
-    const cookieValue = document.cookie
-        .split('; ')
-        .find(row => row.startsWith('userID='))
-        .split('=')[1];
+    let cookieValue = null
+    if (document.cookie) {
+        cookieValue = document.cookie
+            .split('; ')
+            .find(row => row.startsWith('userID='))
+            .split('=')[1];
+    }
 
     await axios.post("http://192.168.1.247:3001/api/server", {
         id: cookieValue,
@@ -79,10 +91,13 @@ export const startServer = async (dispatch) => {
 }
 
 export const stopServer = async (dispatch) => {
-    const cookieValue = document.cookie
-        .split('; ')
-        .find(row => row.startsWith('userID='))
-        .split('=')[1];
+    let cookieValue = null
+    if (document.cookie) {
+        cookieValue = document.cookie
+            .split('; ')
+            .find(row => row.startsWith('userID='))
+            .split('=')[1];
+    }
 
     await axios.post("http://192.168.1.247:3001/api/server", {
         id: cookieValue,
@@ -96,15 +111,19 @@ export const stopServer = async (dispatch) => {
 }
 
 export const serverPodsInfo = async (dispatch) => {
-    const cookieValue = document.cookie
-        .split('; ')
-        .find(row => row.startsWith('userID='))
-        .split('=')[1];
+    let cookieValue = null
+    if (document.cookie) {
+        cookieValue = document.cookie
+            .split('; ')
+            .find(row => row.startsWith('userID='))
+            .split('=')[1];
+    }
 
     await axios.post("http://192.168.1.247:3001/api/k8s/pods", {
         id: cookieValue
     })
         .then(res => {
+            console.log(res)
             dispatch({
                 type: "SERVER_PODS_DATA",
                 payload: res.data
@@ -113,10 +132,13 @@ export const serverPodsInfo = async (dispatch) => {
 }
 
 export const serverSVCInfo = async (dispatch) => {
-    const cookieValue = document.cookie
-        .split('; ')
-        .find(row => row.startsWith('userID='))
-        .split('=')[1];
+    let cookieValue = null
+    if (document.cookie) {
+        cookieValue = document.cookie
+            .split('; ')
+            .find(row => row.startsWith('userID='))
+            .split('=')[1];
+    }
 
     await axios.post("http://192.168.1.247:3001/api/k8s/svc", {
         id: cookieValue
@@ -130,10 +152,13 @@ export const serverSVCInfo = async (dispatch) => {
 }
 
 export const mcConfGetData = async (dispatch) => {
-    const cookieValue = document.cookie
-        .split('; ')
-        .find(row => row.startsWith('userID='))
-        .split('=')[1];
+    let cookieValue = null
+    if (document.cookie) {
+        cookieValue = document.cookie
+            .split('; ')
+            .find(row => row.startsWith('userID='))
+            .split('=')[1];
+    }
 
     await axios.post("http://192.168.1.247:3001/api/mcConf/getData", {
         id: cookieValue

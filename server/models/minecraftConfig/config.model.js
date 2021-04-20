@@ -6,6 +6,9 @@ const configSchema = new mongoose.Schema({
     id: {
         type: String
     },
+    portNumber: {
+        type: Number
+    },
     pvc: {
         type: String
     },
@@ -15,8 +18,8 @@ const configSchema = new mongoose.Schema({
     service: {
         type: String
     }
-    
-},);
+
+});
 
 const model = connection.model("configSchema", configSchema)
 

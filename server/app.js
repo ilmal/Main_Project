@@ -21,18 +21,32 @@ app.use(bodyparser.urlencoded({
 }));
 app.use(bodyparser.json());
 
-app.use((req, res, next)=> {
-    res.header({
-        "Access-Control-Allow-Origin": "http://localhost:3000",
-        "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept, Authorization",
-        "Access-Control-Allow-Credentials": "true"
-    });
+app.use((req, res, next) => {
+    const corsWhitelist = [
+        'http://192.168.1.247:3000',
+        'http://localhost:3000',
+        'http://192.168.1.247:5000',
+        'http://localhost:5000'
+    ];
+    if (corsWhitelist.indexOf(req.headers.origin) !== -1) {
+        res.header({
+            "Access-Control-Allow-Origin": req.headers.origin,
+            // "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept, Authorization",
+            "Access-Control-Allow-Credentials": "true"
+        });
+        res.set({
+            "Access-Control-Allow-Origin": req.headers.origin,
+            "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept, Authorization",
+            "Access-Control-Allow-Credentials": "true"
+        })
+    }
     next();
-  });
+});
 
 // redirecting get req
 const controller_router = require("./routes/router.js")
 app.use("/api", controller_router)
 
 // setting up server:
-app.listen(PORT, ()=> console.log(`listening on port: ${PORT}`));
+app.listen(PORT, () => console.log(`listening on port: ${PORT}`));

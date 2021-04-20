@@ -35,6 +35,7 @@ router.post("/", async (req, res) => {
       //console.log(response)
     }
   })
+  res.send("OK")
 })
 
 module.exports = router;

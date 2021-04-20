@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
+import { authSucess, createMcConfig } from "../redux/actions/index"
 
 import SideMenu from "../components/userHome/sideMenu";
 import Server from "../components/userHome/server";
