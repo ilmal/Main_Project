@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 import ReactDOM from "react-dom"
 import {
     BrowserRouter as Router,
@@ -26,35 +26,43 @@ export const store = createStore(
 )
 
 const MainComponent = () => {
+    const [loading, setLoading] = useState(true)
 
-    (async function () {
-        await store.dispatch(fetchUserData)
-        //console.log("1")
-        await store.dispatch(checkUserAuth)
-        //console.log("2")
-        await store.dispatch(createMcConfig)
-        //console.log("3")
-        await store.dispatch(serverPodsInfo)
-        //console.log("4")
-        await store.dispatch(serverSVCInfo)
-        //console.log("5")
-        await store.dispatch(mcConfGetData)
-        console.log("data after fetch func: ", store.getState())
-    })();
+    React.useEffect(() => {
+        (async function () {
+            await store.dispatch(fetchUserData)
+            //console.log("1")
+            await store.dispatch(checkUserAuth)
+            //console.log("2")
+            await store.dispatch(createMcConfig)
+            //console.log("3")
+            await store.dispatch(serverPodsInfo)
+            //console.log("4")
+            await store.dispatch(serverSVCInfo)
+            //console.log("5")
+            await store.dispatch(mcConfGetData)
+            console.log("data after fetch func: ", store.getState())
+            setLoading(false)
+        })();
+    })
 
-
-
-    return (
-        <Provider store={store}>
-            <Router>
-                <TopMessage />
-                <Header />
-                <Route path="/" component={HomeRouter} />
-                <Boubbles />
-                <Tooltips />
-            </Router>
-        </Provider>
-    )
+    if (loading) {
+        return (
+            <h1 className="loadingText">Loading...</h1>
+        )
+    } else {
+        return (
+            <Provider store={store}>
+                <Router>
+                    <TopMessage />
+                    <Header />
+                    <Route path="/" component={HomeRouter} />
+                    <Boubbles />
+                    <Tooltips />
+                </Router>
+            </Provider>
+        )
+    }
 }
 
 ReactDOM.render(

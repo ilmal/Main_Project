@@ -23,10 +23,12 @@ app.use(bodyparser.json());
 
 app.use((req, res, next) => {
     const corsWhitelist = [
+        "http://nils.u1.se:8005",
+        "http://nils.u1.se:3000",
+        "http://servers.u1.se",
         'http://192.168.1.247:3000',
         'http://localhost:3000',
-        'http://192.168.1.247:5000',
-        'http://localhost:5000'
+        'http://127.0.0.1:3000',
     ];
     if (corsWhitelist.indexOf(req.headers.origin) !== -1) {
         res.header({

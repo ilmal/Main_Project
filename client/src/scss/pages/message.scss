@@ -1,0 +1,79 @@
+.messageHomeMainContainer{
+    width: 100%;
+    height: 80vh;
+    display: grid;
+    grid-template-columns: 20% 25% 10% 25% 20%;
+    grid-template-rows: 15% 79% 1%;
+    .defaultContainer{
+        border-radius: 10px;
+        display: grid;
+        grid-template-columns: 100%;
+        grid-template-rows: 27% 73%;
+        .innerTopContainer{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            grid-column: 1/2;
+            grid-row: 1/2;
+            border-radius: 10px 10px 0px 0px;
+        }
+        .innerBottomContainer{
+            display: grid;
+            grid-template-columns: 10% 80% 10%;
+            grid-template-rows: 10% 50% 10% 20% 10%;
+            align-items: center;
+            justify-items: center;
+            textarea{
+                grid-column: 2/3;
+                grid-row: 2/3;
+                align-self: start;
+                justify-self: start;
+                width: 100%;
+                height: 100%;
+                background-color: #1d2024;
+                border: 10px solid #1d2024;
+                transform: translateX(-5px) translateY(-5px);
+                color: rgba(#fff, $alpha: .7);
+                outline: none;
+                font-size: 1.3em;
+                border-radius: 6px;
+                resize: none;
+            }
+            button{
+                grid-column: 2/3;
+                grid-row: 4/5;
+                width: 70%;
+                height: 80%;
+                border-radius: 10px;
+                border:none;
+                outline: none;
+                background-color: rgba($greenColor, $alpha: .15);
+                color: rgba($greenColor, $alpha: .9);
+            }
+        }
+    }
+
+    .errorContainer{
+        grid-column: 2/3;
+        grid-row: 2/3;
+        background-color: $backgroundColor;
+        .innerTopContainer{
+            background-color: rgba($yellowColor, $alpha: .15);
+            color: rgba($yellowColor, $alpha: .9);
+            font-size: 1.7em;
+        }
+    }
+    
+    .todoContainer{
+        grid-column: 4/5;
+        grid-row: 2/3;
+        background-color: $backgroundColor;
+        border-radius: 10px;
+        .innerTopContainer{
+            background-color: rgba($greenColor, $alpha: .15);
+            color:rgba($greenColor, $alpha: .9);
+            font-size: 1.7em;
+        }
+    }
+
+}

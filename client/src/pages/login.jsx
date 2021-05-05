@@ -14,7 +14,8 @@ const LoginPage = () => {
         console.log("name: ", data.target.name.value, "pass: ", data.target.password.value)
         data.preventDefault()
         axios.defaults.withCredentials = true
-        await axios.post("http://localhost:3001/api/user/login", {
+        await axios.post("http://192.168.1.247:3001/api/user/login", {
+            withCredentials: true,
             name: data.target.name.value,
             password: data.target.password.value
         }).then(response => {
@@ -22,7 +23,7 @@ const LoginPage = () => {
                 store.dispatch(authSucess)
                 console.log("1", store.getState().auth)
                 create()
-                window.location.reload()
+                //window.location.reload()
             } else {
                 console.log(response.data)
                 ReactTooltip.show("test")

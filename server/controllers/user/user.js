@@ -8,20 +8,16 @@ router.post("/", async (req, res) => {
 
     // if email exists
     const user = await User.findOne({ _id: oid })
-    if (!user) {
+    if (!user || user === "null") {
         console.log("user does not exist2")
         res.send("This user doesn't exist")
-    }
-
-    if (user != null) {
+    } else {
         console.log("You are: ", user.name)
+        res.send({
+            name: user.name,
+            email: user.email
+        })
     }
-
-
-    res.send({
-        name: user.name,
-        email: user.email
-    })
 })
 
 module.exports = router

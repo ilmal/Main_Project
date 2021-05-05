@@ -3,7 +3,10 @@ const jwt = require("jsonwebtoken")
 const loginAuth = (req, res, next) => {
     const token = req.headers.authorization
     console.log("token: ", token)
-    if (token != null) {
+    if (token === "null") {
+        console.log("no token")
+        res.send("no token")
+    } else {
         if (!token) {
             console.log("access denied")
             return res.status(401)
