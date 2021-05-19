@@ -9,10 +9,10 @@ let request = require('request');
 // }
 
 //connection to the mongo db
-const connection = mongoose.createConnection(process.env.DB_minecraftConfig_Connect, { useNewUrlParser: true, useFindAndModify: false }, (err)=>{
-    if(!err){
+const connection = mongoose.createConnection(process.env.DB_minecraftConfig_Connect, { useNewUrlParser: true, useFindAndModify: false, useUnifiedTopology: true }, (err) => {
+    if (!err) {
         console.log("connection to db: minecraftConfig was a success");
-    }else{
+    } else {
         console.log("error with connection to db: ", err);
 
         const ipReq = {

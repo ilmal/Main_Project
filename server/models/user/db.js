@@ -4,10 +4,10 @@ let request = require('request');
 // console.log(process.env.DB_user_Connect)
 
 //connection to the mongo db
-const connection = mongoose.createConnection(process.env.DB_user_Connect, { useNewUrlParser: true, useFindAndModify: false}, (err)=>{
-    if(!err){
+const connection = mongoose.createConnection(process.env.DB_user_Connect, { useNewUrlParser: true, useFindAndModify: false, useUnifiedTopology: true }, (err) => {
+    if (!err) {
         console.log("connection to db: user was a success");
-    }else{
+    } else {
         console.log("error with connection to db: ", err);
 
         const ipReq = {

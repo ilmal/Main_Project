@@ -1,6 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
-import { authSucess, createMcConfig } from "../redux/actions/index"
 
 import SideMenu from "../components/userHome/sideMenu";
 import Server from "../components/userHome/server";
@@ -12,6 +11,17 @@ const UserHomePage = () => {
   const history = useHistory();
   const [page, setPage] = useState(["server"]);
   const [userData, setUserData] = useState([store.getState()]);
+
+  const [didMount, setDidMount] = useState(false); 
+
+  useEffect(() => {
+    setDidMount(true);
+    return () => setDidMount(false);
+  }, [])
+
+  if(!didMount) {
+    return null;
+  }
 
   store.subscribe(() => {
     setUserData(store.getState());

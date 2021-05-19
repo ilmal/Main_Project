@@ -1,42 +1,25 @@
-import axios from "axios"
-import { authSucess, createMcConfig } from "../redux/actions/index"
-import { store } from "../index"
+import { login } from "../redux/actions/index";
+import React, { useEffect } from "react";
 import ReactTooltip from 'react-tooltip';
 import { useHistory } from "react-router-dom";
+import { store } from "..";
 
 const LoginPage = () => {
-
     const history = useHistory();
 
     ReactTooltip.rebuild()
 
+    useEffect(() => {
+        if (store.getState().auth) {
+            history.push("/user/home");
+            window.location.reload();
+        }
+    }, [])
+
     const sendData = async (data) => {
         console.log("name: ", data.target.name.value, "pass: ", data.target.password.value)
         data.preventDefault()
-        axios.defaults.withCredentials = true
-        await axios.post("http://192.168.1.247:3001/api/user/login", {
-            withCredentials: true,
-            name: data.target.name.value,
-            password: data.target.password.value
-        }).then(response => {
-            if (response.data === "success") {
-                store.dispatch(authSucess)
-                console.log("1", store.getState().auth)
-                create()
-                //window.location.reload()
-            } else {
-                console.log(response.data)
-                ReactTooltip.show("test")
-                store.dispatch({
-                    type: "ERR_MESSAGE",
-                    payload: response.data
-                })
-            }
-        })
-    }
-
-    const create = () => {
-        store.dispatch(createMcConfig)
+        login(data.target.name.value, data.target.password.value, store.dispatch)
     }
 
     const toSignup = () => {

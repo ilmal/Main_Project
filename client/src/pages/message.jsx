@@ -1,5 +1,6 @@
 import react, { useState } from "react"
 import axios from "axios"
+import { store } from "../index"
 
 export const MessagePage = () => {
     const [feedBack, setFeedBack] = useState("")
@@ -8,20 +9,65 @@ export const MessagePage = () => {
     const sendFeed = async (e) => {
         e.preventDefault()
         console.log(feedBack)
-        axios.defaults.withCredentials = true
-        await axios.post("http://192.168.1.247:3001/api/nodemailer/messages", {
-            withCredentials: true,
-            type: "feedback",
-            content: feedBack
-        }).then(response => {
-            console.log(response)
-            document.getElementById("04835lsdfkj43").value = ""
-        })
+
+        let cookieValue = null
+        if (document.cookie) {
+            cookieValue = document.cookie
+                .split('; ')
+                .find(row => row.startsWith('userID='))
+                .split('=')[1];
+
+            await axios.post("/nodemailer/messages", {
+                withCredentials: true,
+                type: "feedback",
+                content: feedBack,
+                userID: cookieValue
+            }).then(response => {
+                console.log(response)
+                document.getElementById("04835lsdfkj43").value = ""
+                store.dispatch({
+                    type: "MESSAGE",
+                    payload: response.data
+                })
+            })
+        } else {
+            store.dispatch({
+                type: "ERR_MESSAGE",
+                payload: "Login before you can send feedback!"
+            })
+        }
     }
 
-    const sendErr = (e) => {
+    const sendErr = async (e) => {
         e.preventDefault()
-        console.log(errMessage)
+        console.log(feedBack)
+
+        let cookieValue = null
+        if (document.cookie) {
+            cookieValue = document.cookie
+                .split('; ')
+                .find(row => row.startsWith('userID='))
+                .split('=')[1];
+
+            await axios.post("/nodemailer/messages", {
+                withCredentials: true,
+                type: "problem",
+                content: feedBack,
+                userID: cookieValue
+            }).then(response => {
+                console.log(response)
+                document.getElementById("934765yiusdf").value = ""
+                store.dispatch({
+                    type: "MESSAGE",
+                    payload: response.data
+                })
+            })
+        } else {
+            store.dispatch({
+                type: "ERR_MESSAGE",
+                payload: "Login before you can send feedback!"
+            })
+        }
     }
 
     return (
@@ -40,7 +86,7 @@ export const MessagePage = () => {
                     <span>Report any problems here</span>
                 </div>
                 <form className="innerBottomContainer">
-                    <textarea placeholder="Share your problems here!" onChange={(e) => seterrMessage(e.target.value)} />
+                    <textarea id="934765yiusdf" placeholder="Share your problems here!" onChange={(e) => seterrMessage(e.target.value)} />
                     <button type="submit" onClick={sendErr}>Send</button>
                 </form>
             </div>

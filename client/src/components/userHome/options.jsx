@@ -1,14 +1,16 @@
-import ChangeUserOptinos from "../../components/userHome/changeUserOptinos"
-import ChangeUserPass from "../../components/userHome/changeUserPass"
+import ChangeUserOptinos from "./options/changeUserOptinos"
+import ChangeUserPass from "./options/changeUserPass"
+import Logout from "./options/logout"
 
-const Options = ()=>{
+const Options = () => {
 
     return (
-        <>  
-            <ChangeUserOptinos/>
-            <ChangeUserPass/>
+        <>
+            <ChangeUserOptinos />
+            <ChangeUserPass />
+            <Logout />
         </>
     )
 }
 
-export default Options 
+export default Options

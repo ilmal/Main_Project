@@ -1,40 +1,24 @@
-import React, { Component } from "react";
 import axios from "axios";
+import React, { useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { store } from "../index"
+import { signup } from "../redux/actions/index"
+import ReactTooltip from 'react-tooltip';
 
 const SignupPage = () => {
 
   const history = useHistory();
 
-  const postReq = (e) => {
-    console.log("Name: ", e.target.name.value);
-    console.log("Email: ", e.target.email.value);
-    console.log("Password: ", e.target.password.value);
+  useEffect(() => {
+    if (store.getState().auth) {
+      history.push("/user/home");
+      window.location.reload();
+    }
+  }, [])
 
-    axios.post("/user/insert", {
-      data: {
-        name: e.target.name.value,
-        email: e.target.email.value,
-        password: e.target.password.value,
-      },
-    })
-      .then(response => {
-        console.log(response.data)
-        if (response.data === "User created") {
-          store.dispatch({
-            type: "MESSAGE",
-            payload: response.data
-          })
-        }
-        store.dispatch({
-          type: "ERR_MESSAGE",
-          payload: response.data
-        })
-      })
+  const postReq = (e) => {
     e.preventDefault();
-    history.push("/user/login");
-    window.location.reload();
+    signup(e.target.name.value, e.target.email.value, e.target.password.value, store.dispatch)
   };
 
   const toLogin = () => {

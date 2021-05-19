@@ -1,5 +1,6 @@
 import ChangeServerConfig from "./changeServerConfig";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
+import { useHistory } from "react-router-dom";
 
 import { store } from "../../index";
 import { fetchUserData, serverPodsInfo, serverSVCInfo, mcConfGetData } from "../../redux/actions"
@@ -8,6 +9,8 @@ import { startServer, stopServer } from "../../redux/actions/index"
 const Server = () => {
   const [userData, updateUserData] = useState(store.getState());
   const [logsExpand, setLogsExpand] = useState(false)
+
+  const history = useHistory();
 
   store.subscribe(() => {
     updateUserData(store.getState());
@@ -118,51 +121,56 @@ const Server = () => {
     setLogsExpand(!logsExpand)
     console.log("This is the logsExpand function; ", logsExpand)
   }
-
-  return (
-    <>
-      <div className="userHomeServerName">
-        <span>{userData.env[4].value}</span>
-      </div>
-      <div className="userHomeSegment userHomeStatusOfServer">
-        {serverStatus()}
-        <div className="checkStatus fas fa-sync" id="checkStatus" onClick={refreshData}>
-          <span>Check Status</span>
+  if (document.cookie.search("loginAuth") > -1) {
+    return (
+      <>
+        <div className="userHomeServerName">
+          <span>{userData.env[4].value}</span>
         </div>
-      </div>
-      <div className="userHomeSegment suerhomeStartStopServer">
-        <div className="innerDivStart" onClick={startStop}>
-          <span className="userHomestart">Start</span>
-        </div>
-        <div className="innerDivStop" onClick={startStop}>
-          <span className="userHomestop">Stop</span>
-        </div>
-        <div id="random23894723">
-          <div className="userHomeLineBetweenStartStop" />
-        </div>
-      </div>
-      <div className="userHomeSegment userHomeIpAdress">
-        <p>Server Adress:</p>
-        {serverIP()}
-      </div>
-      <ChangeServerConfig />
-      <div className={logsExpand ? "logsMainContainer logsMainContainerExpanded userHomeSegment" : "logsMainContainer userHomeSegment"}>
-        <div className="logsExpandArrow fas fa-expand-arrows-alt" onClick={expandLogs} />
-        <div className="logsText" id="logsText">
-          <span>
-            {userData.serverPods.logs}
-            <p></p>
-          </span>
-        </div>
-        <div className="logsTextContainer">
-          <span>Logs</span>
-          <div onClick={refreshData}>
-            <div className="checkStatus fas fa-sync" id="checkStatus" />
+        <div className="userHomeSegment userHomeStatusOfServer">
+          {serverStatus()}
+          <div className="checkStatus fas fa-sync" id="checkStatus" onClick={refreshData}>
+            <span>Check Status</span>
           </div>
         </div>
-      </div>
-    </>
-  );
+        <div className="userHomeSegment suerhomeStartStopServer">
+          <div className="innerDivStart" onClick={startStop}>
+            <span className="userHomestart">Start</span>
+          </div>
+          <div className="innerDivStop" onClick={startStop}>
+            <span className="userHomestop">Stop</span>
+          </div>
+          <div id="random23894723">
+            <div className="userHomeLineBetweenStartStop" />
+          </div>
+        </div>
+        <div className="userHomeSegment userHomeIpAdress">
+          <p>Server Adress:</p>
+          {serverIP()}
+        </div>
+        <ChangeServerConfig />
+        <div className={logsExpand ? "logsMainContainer logsMainContainerExpanded userHomeSegment" : "logsMainContainer userHomeSegment"}>
+          <div className="logsExpandArrow fas fa-expand-arrows-alt" onClick={expandLogs} />
+          <div className="logsText" id="logsText">
+            <span>
+              {userData.serverPods.logs}
+              <p></p>
+            </span>
+          </div>
+          <div className="logsTextContainer">
+            <span>Logs</span>
+            <div onClick={refreshData}>
+              <div className="checkStatus fas fa-sync" id="checkStatus" />
+            </div>
+          </div>
+        </div>
+      </>
+    );
+  } else {
+    console.log("User no auth")
+    history.push("/");
+    return null;
+  }
 };
 
 export default Server;

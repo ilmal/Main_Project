@@ -2,35 +2,32 @@ const router = require("express").Router()
 const nodemailer = require("nodemailer")
 
 router.post("/", async (req, res) => {
-    console.log("!!!THIS IS A WORKING MESSAGE!!!")
-    const testAccount = await nodemailer.createTestAccount()
-
-    console.log("testAccount uName:", testAccount.user)
-    console.log("testAccount Pass:", testAccount.pass)
-
-    console.log("content: ", req.body.content)
-
-    res.send("request to <message> is taken care of")
 
     const transporter = nodemailer.createTransport({
         service: "gmail",
         auth: {
-            user: "nils@u1.se", // generated ethereal user
-            pass: "Charlotta1.1", // generated ethereal password
+            user: process.env.EMAILADDRESS,
+            pass: process.env.EMAILPASS
         },
     });
 
+    const responseMessage = "Message sent!"
 
     const info = await transporter.sendMail({
-        from: "nils@u1.se", // sender address
+        from: "servers.u1.se@gamil.com", // sender address
         to: "mini@u1.se", // list of receivers
-        subject: req.body.type, // Subject line
+        subject: `${req.body.type}, from user: ${req.body.userID}`, // Subject line
         html: `<p>${req.body.content}</p>`, // html body
-    });
+    }).catch(err => {
+        console.log(err)
+        responseMessage = "something went wrong!"
+    })
 
     console.log("Message sent: %s", info.messageId);
 
     console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
+
+    res.send(responseMessage)
 })
 
 

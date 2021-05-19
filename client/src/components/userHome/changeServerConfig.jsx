@@ -158,7 +158,7 @@ const ChangeServerConfig = () => {
             .find(row => row.startsWith('userID='))
             .split('=')[1];
 
-        await axios.post("http://localhost:3001/api/mcConf/updateData", {
+        await axios.post("/mcConf/updateData", {
             id: cookieValue,
             serverName: e.target.serverName.value,
             serverVersion: e.target.serverVersion.value,

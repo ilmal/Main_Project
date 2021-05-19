@@ -14,14 +14,14 @@ router.post("/", async (req, res) => {
     const user = await User.findOne({ name: req.body.name })
     if (!user) {
         console.log("User does not exist1")
-        return res.send("User doesn't exist").status(400)
+        return res.send("User doesn't exist")
     }
 
     // if pass is correct
     const pass = await bcrypt.compare(req.body.password, user.password)
     if (!pass) {
         console.log("Pass not valid")
-        return res.send("Pass not valid").status(400)
+        return res.send("Pass not valid")
     }
 
     // assign jwt token & cookies
@@ -44,14 +44,23 @@ router.post("/", async (req, res) => {
     if (domainWhitelist.indexOf(req.headers.origin) !== -1) {
         cookieDomain = req.headers.origin
     }
-    res.cookie("loginAuth", token, {
-        domain: '.servers.u1.se', path: '/administrator', secure: true
-    })
-    res.cookie("userID", user.id, {
-        domain: '.servers.u1.se', path: '/administrator', secure: true
+    // res.cookie("loginAuth", token, {
+    //     sameSite: 'none', secure: true
+    // })
+    // res.cookie("userID", user.id, {
+    //     sameSite: 'none', secure: true 
+    // })
+    res.send({
+        "loginAuth": token,
+        "userID": user.id,
+        "message": "Success!"
     })
 
-    res.send("success")
+    // res
+    //     .writeHead(200, {
+    //         "Set-Cookie": [`loginAuth=${token}; Secure;SameSite=None;Path=/`, `userID=${user.id}; Secure;SameSite=None;Path=/`]
+    //     })
+    //     .send()
 
     console.log("login success")
 })

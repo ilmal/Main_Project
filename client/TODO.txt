@@ -1,0 +1,18 @@
+
+
+Matte, kulstötare, minst ett fullt nationellt
+
+ADD SVENSKA SPRÅK ALTERNATIV
+
+FIXA PASS CHANGE AND USER CHANGE (WORKING ON THAT NOW!)
+
+EMAIL VERIFICATION
+
+// ENDAST TILLÅTA INLOGGADE SKICKA FEEDBACK SAMT ERR, SKICKA MED ID MED ALLA MEDELANDEN
+
+// MOVE THE SET COOKIE TO THE CLIENT SIDE SO THAT CROSS ORIGIN ISN'T A PROBLEM
+
+// Det bör gå att endast andvända HTTPS proxy => frontend; HTTP frontend => backend. Annart commit no life rope.
+
+
+komma tillbaka = 13:35

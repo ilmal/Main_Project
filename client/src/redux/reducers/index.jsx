@@ -19,8 +19,7 @@ const initailState = {
     message: false
 }
 
-const reducer = (state = initailState, action) => {
-
+const Reducer = (state = initailState, action) => {
     switch (action.type) {
         case "FETCH_USER_SUCCESS":
             return {
@@ -32,6 +31,9 @@ const reducer = (state = initailState, action) => {
                 ...state,
                 auth: action.payload
             }
+        case "LOGIN":
+            document.cookie = `loginAuth=${action.payload.loginAuth};path=/`
+            document.cookie = `userID=${action.payload.userID};path=/`
         case "SERVER_PODS_DATA":
             return {
                 ...state,
@@ -78,4 +80,4 @@ const reducer = (state = initailState, action) => {
     }
 }
 
-export default reducer
+export default Reducer

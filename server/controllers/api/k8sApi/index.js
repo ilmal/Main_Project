@@ -10,7 +10,23 @@ const logs = name => {
     console.log("name of server: ", name)
 
     return request(config).then(response => {
-        return response
+        // break the textblock into an array of lines
+        var lines = response.split('\n');
+        // remove one line, starting at the first position
+        console.log(lines)
+
+        lines.forEach(element => {
+            if (element.indexOf("RCON") > -1) {
+
+            }
+        });
+
+        console.log(lines)
+
+        // join the array back into a single string
+        var newtext = lines.join('\n');
+
+        return newtext
     })
 }
 
@@ -42,12 +58,13 @@ router.post("/pods", async (req, res) => {
         }
         console.log("server not found, sending closed status!")
         res.send({
-            status: "server not running"
+            status: "server not running",
+            logs: "server not running"
         }).end()
     })
 
     if (podStatus) {
-        let logsData = "server's not running at the moment"
+        let logsData = "server's not running at the moment (starting up)"
         if (podStatus.podName !== null) {
             logsData = await logs(podStatus.podName)
         }

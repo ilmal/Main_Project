@@ -1,16 +1,24 @@
 import axios from "axios"
 
-export const fetchUserData = async (dispatch, getState) => {
+let cookieValueUserID = null
+if (document.cookie && document.cookie.search("userID") > -1) {
+    cookieValueUserID = document.cookie
+        .split('; ')
+        .find(row => row.startsWith('userID='))
+        .split('=')[1];
+}
 
-    let cookieValue = null
-    if (document.cookie) {
-        cookieValue = document.cookie
-            .split('; ')
-            .find(row => row.startsWith('userID='))
-            .split('=')[1];
-    }
-    await axios.post("http://192.168.1.247:3001/api/user", {
-        id: cookieValue,
+let cookieValueAuth = null
+if (document.cookie && document.cookie.search("loginAuth") > -1) {
+    cookieValueAuth = document.cookie
+        .split('; ')
+        .find(row => row.startsWith('loginAuth='))
+        .split('=')[1];
+}
+
+export const fetchUserData = async (dispatch) => {
+    await axios.post(`/user`, {
+        id: cookieValueUserID,
     })
         .then(res => {
             dispatch({
@@ -20,21 +28,64 @@ export const fetchUserData = async (dispatch, getState) => {
         })
 }
 
-export const checkUserAuth = async (dispatch) => {
-    let cookieValue = null
-    if (document.cookie) {
-        cookieValue = document.cookie
-            .split('; ')
-            .find(row => row.startsWith('loginAuth='))
-            .split('=')[1];
-    }
+export const login = async (name, pass, dispatch) => {
+    await axios.post("/user/login", {
+        withCredentials: true,
+        name: name,
+        password: pass
+    }).then(async (response) => {
+        if (response.data.message === "Success!") {
+            await checkUserAuth(dispatch)
+            createMcConfig(dispatch)
+            dispatch({
+                type: "LOGIN",
+                payload: {
+                    loginAuth: response.data.loginAuth,
+                    userID: response.data.userID
+                }
+            })
+            window.location.reload();
+        } else {
+            console.log("response.data: ", response.data)
+            dispatch({
+                type: "ERR_MESSAGE",
+                payload: response.data
+            })
+        }
+    })
+}
 
-    await axios.get("http://192.168.1.247:3001/api/user/auth", {
+export const signup = async (name, email, password, dispatch) => {
+    axios.post("/user/insert", {
+        data: {
+            name,
+            email,
+            password
+        }
+    })
+        .then(async (response) => {
+            if (response.data === "User created") {
+                login(name, password, dispatch)
+                dispatch({
+                    type: "MESSAGE",
+                    payload: response.data
+                })
+            } else {
+                dispatch({
+                    type: "ERR_MESSAGE",
+                    payload: response.data
+                })
+            }
+        })
+}
+
+export const checkUserAuth = async (dispatch) => {
+    await axios.get(`/user/auth`, {
         withCredentials: true,
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
-            "Authorization": cookieValue
+            "Authorization": cookieValueAuth
         }
     })
         .then(response => {
@@ -52,16 +103,8 @@ export const authSucess = (dispatch) => {
 }
 
 export const createMcConfig = async (dispatch) => {
-    let cookieValue = null
-    if (document.cookie) {
-        cookieValue = document.cookie
-            .split('; ')
-            .find(row => row.startsWith('userID='))
-            .split('=')[1];
-    }
-
-    await axios.post("http://192.168.1.247:3001/api/mcConf/create", {
-        id: cookieValue
+    await axios.post(`/mcConf/create`, {
+        id: cookieValueUserID
     })
         .then(res => {
             dispatch({
@@ -71,16 +114,8 @@ export const createMcConfig = async (dispatch) => {
 }
 
 export const startServer = async (dispatch) => {
-    let cookieValue = null
-    if (document.cookie) {
-        cookieValue = document.cookie
-            .split('; ')
-            .find(row => row.startsWith('userID='))
-            .split('=')[1];
-    }
-
-    await axios.post("http://192.168.1.247:3001/api/server", {
-        id: cookieValue,
+    await axios.post(`/server`, {
+        id: cookieValueUserID,
         action: "start"
     })
         .then(res => {
@@ -91,16 +126,8 @@ export const startServer = async (dispatch) => {
 }
 
 export const stopServer = async (dispatch) => {
-    let cookieValue = null
-    if (document.cookie) {
-        cookieValue = document.cookie
-            .split('; ')
-            .find(row => row.startsWith('userID='))
-            .split('=')[1];
-    }
-
-    await axios.post("http://192.168.1.247:3001/api/server", {
-        id: cookieValue,
+    await axios.post(`/server`, {
+        id: cookieValueUserID,
         action: "stop"
     })
         .then(res => {
@@ -111,16 +138,8 @@ export const stopServer = async (dispatch) => {
 }
 
 export const serverPodsInfo = async (dispatch) => {
-    let cookieValue = null
-    if (document.cookie) {
-        cookieValue = document.cookie
-            .split('; ')
-            .find(row => row.startsWith('userID='))
-            .split('=')[1];
-    }
-
-    await axios.post("http://192.168.1.247:3001/api/k8s/pods", {
-        id: cookieValue
+    await axios.post(`/k8s/pods`, {
+        id: cookieValueUserID
     })
         .then(res => {
             console.log(res)
@@ -132,16 +151,8 @@ export const serverPodsInfo = async (dispatch) => {
 }
 
 export const serverSVCInfo = async (dispatch) => {
-    let cookieValue = null
-    if (document.cookie) {
-        cookieValue = document.cookie
-            .split('; ')
-            .find(row => row.startsWith('userID='))
-            .split('=')[1];
-    }
-
-    await axios.post("http://192.168.1.247:3001/api/k8s/svc", {
-        id: cookieValue
+    await axios.post(`/k8s/svc`, {
+        id: cookieValueUserID
     })
         .then(res => {
             dispatch({
@@ -152,16 +163,8 @@ export const serverSVCInfo = async (dispatch) => {
 }
 
 export const mcConfGetData = async (dispatch) => {
-    let cookieValue = null
-    if (document.cookie) {
-        cookieValue = document.cookie
-            .split('; ')
-            .find(row => row.startsWith('userID='))
-            .split('=')[1];
-    }
-
-    await axios.post("http://192.168.1.247:3001/api/mcConf/getData", {
-        id: cookieValue
+    await axios.post(`/mcConf/getData`, {
+        id: cookieValueUserID
     })
         .then(res => {
             dispatch({
@@ -170,3 +173,4 @@ export const mcConfGetData = async (dispatch) => {
             })
         })
 }
+

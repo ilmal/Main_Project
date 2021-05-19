@@ -1,6 +1,6 @@
 const router = require("express").Router()
 
-const userRouter = require("./userRoutes/home")
+const userRouter = require("./userRoutes")
 const mcConfRouter = require("./mcConfRoutes")
 const k8sRouter = require("./k8sApiRoutes")
 const serverRouter = require("./serverRouter")
