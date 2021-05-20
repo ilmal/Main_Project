@@ -1,7 +1,7 @@
 const router = require("express").Router();
 const request = require('request-promise');
 
-const logs = name => {
+const logs = async (name) => {
     const config = {
         'method': 'GET',
         'url': `http://192.168.1.2:8081/api/v1/namespaces/mc-servers/pods/${name}/log`,
@@ -13,15 +13,23 @@ const logs = name => {
         // break the textblock into an array of lines
         var lines = response.split('\n');
         // remove one line, starting at the first position
-        console.log(lines)
+        console.log("LINES 1", lines)
 
-        lines.forEach(element => {
-            if (element.indexOf("RCON") > -1) {
+        // lines.forEach(element => {
+        //     if (element.indexOf("WARN") > -1) {
+        //         lines.
+        //     }
+        // });
 
+        for (let i = 0; i < lines.length; i++) {
+            if (lines[i].indexOf("Can't keep up! Is the server overloaded?") > -1 || lines[i].indexOf(" Mismatch in destroy block pos:") > -1) {
+                console.log(lines[i])
+                lines.splice(i)
             }
-        });
 
-        console.log(lines)
+        }
+
+        console.log("LINES 2", lines)
 
         // join the array back into a single string
         var newtext = lines.join('\n');

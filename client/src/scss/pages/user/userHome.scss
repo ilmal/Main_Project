@@ -191,6 +191,7 @@ scss for the Server tab
     @include green-hover;
     font-size: 20px;
     color: rgba($blueColor, $alpha: 0.7);
+    cursor: copy;
   }
   p {
     font-size: 20px;

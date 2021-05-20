@@ -121,6 +121,11 @@ const Server = () => {
     setLogsExpand(!logsExpand)
     console.log("This is the logsExpand function; ", logsExpand)
   }
+
+  const copyText = (e) => {
+    navigator.clipboard.writeText(e.target.innerText)
+  }
+
   if (document.cookie.search("loginAuth") > -1) {
     return (
       <>
@@ -146,7 +151,7 @@ const Server = () => {
         </div>
         <div className="userHomeSegment userHomeIpAdress">
           <p>Server Adress:</p>
-          {serverIP()}
+          <span onClick={copyText}>{serverIP()}</span>
         </div>
         <ChangeServerConfig />
         <div className={logsExpand ? "logsMainContainer logsMainContainerExpanded userHomeSegment" : "logsMainContainer userHomeSegment"}>
