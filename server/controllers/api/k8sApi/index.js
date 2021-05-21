@@ -12,15 +12,8 @@ const logs = async (name) => {
     return request(config).then(response => {
         // break the textblock into an array of lines
         var lines = response.split('\n');
-        // remove one line, starting at the first position
-        console.log("LINES 1", lines)
 
-        // lines.forEach(element => {
-        //     if (element.indexOf("WARN") > -1) {
-        //         lines.
-        //     }
-        // });
-
+        //removing the messages that should get removed
         for (let i = 0; i < lines.length; i++) {
             if (lines[i].indexOf("Can't keep up! Is the server overloaded?") > -1 || lines[i].indexOf(" Mismatch in destroy block pos:") > -1) {
                 console.log(lines[i])
@@ -28,8 +21,6 @@ const logs = async (name) => {
             }
 
         }
-
-        console.log("LINES 2", lines)
 
         // join the array back into a single string
         var newtext = lines.join('\n');
