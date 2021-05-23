@@ -1,6 +1,7 @@
 const router = require("express").Router()
 const User = require("../../models/user/config.model")
 const bcrypt = require("bcrypt")
+const Confirm = require("./confirmation")
 
 router.post("/", async (req, res) => {
     // errHandler
@@ -26,12 +27,14 @@ router.post("/", async (req, res) => {
     const user = new User({
         name: req.body.data.name,
         email: req.body.data.email,
-        password: hashedPass
+        password: hashedPass,
+        verified: false
     })
     await user.save((err) => {
         if (!err) {
             console.log("saving...")
             console.log("saved!")
+            Confirm(req.body.data.email)
             res.send("User created")
         } else {
             Promise.resolve(errHandler(err)).then(data => {

@@ -14,7 +14,7 @@ router.post("/", async (req, res) => {
     const responseMessage = "Message sent!"
 
     const info = await transporter.sendMail({
-        from: "servers.u1.se@gamil.com", // sender address
+        from: "servers.u1.se@gmail.com", // sender address
         to: "mini@u1.se", // list of receivers
         subject: `${req.body.type}, from user: ${req.body.userID}`, // Subject line
         html: `<p>${req.body.content}</p>`, // html body

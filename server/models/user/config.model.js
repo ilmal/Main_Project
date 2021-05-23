@@ -26,6 +26,9 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: [true, "please insert password"]
     },
+    verified: {
+        type: Boolean
+    }
 
 
 });

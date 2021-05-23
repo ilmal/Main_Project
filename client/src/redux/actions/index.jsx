@@ -28,8 +28,8 @@ export const fetchUserData = async (dispatch) => {
         })
 }
 
-export const login = async (name, pass, dispatch) => {
-    await axios.post("/user/login", {
+export const login = (name, pass, dispatch) => {
+    axios.post("/user/login", {
         withCredentials: true,
         name: name,
         password: pass
@@ -85,7 +85,8 @@ export const checkUserAuth = async (dispatch) => {
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
-            "Authorization": cookieValueAuth
+            "Authorization": cookieValueAuth,
+            "Id": cookieValueUserID
         }
     })
         .then(response => {
@@ -174,3 +175,14 @@ export const mcConfGetData = async (dispatch) => {
         })
 }
 
+export const confirmation = async (dispatch) => {
+    await axios.post(`/confirmation`, {
+        id: cookieValueUserID
+    })
+        .then(res => {
+            dispatch({
+                type: "MC_CONF_GET_DATA",
+                payload: res.data
+            })
+        })
+}
