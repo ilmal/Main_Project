@@ -23,9 +23,7 @@ router.post("/", async (req, res) => {
         responseMessage = "something went wrong!"
     })
 
-    console.log("Message sent: %s", info.messageId);
-
-    console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
+    console.log("Message sent!")
 
     res.send(responseMessage)
 })

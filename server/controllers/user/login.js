@@ -8,8 +8,6 @@ const { cookie } = require("request-promise")
 
 router.post("/", async (req, res) => {
 
-    console.log("reqName: ", req.body.name)
-
     // if name exists
     const user = await User.findOne({ name: req.body.name })
     if (!user) {
@@ -28,8 +26,6 @@ router.post("/", async (req, res) => {
     const token = jtw.sign({ _id: user._id }, process.env.TOKEN_SECRET, {
         expiresIn: 3600
     })
-    console.log("cookieTOKEN: ", token)
-
     const domainWhitelist = [
         'http://192.168.1.247:3000',
         'http://localhost:3000',

@@ -1,4 +1,5 @@
 import axios from "axios"
+import { store } from "../../"
 
 let cookieValueUserID = null
 if (document.cookie && document.cookie.search("userID") > -1) {
@@ -138,13 +139,13 @@ export const stopServer = async (dispatch) => {
         })
 }
 
-export const serverPodsInfo = async (dispatch) => {
+export const serverPodsInfo = async () => {
     await axios.post(`/k8s/pods`, {
         id: cookieValueUserID
     })
         .then(res => {
             console.log(res)
-            dispatch({
+            store.dispatch({
                 type: "SERVER_PODS_DATA",
                 payload: res.data
             })
@@ -175,14 +176,28 @@ export const mcConfGetData = async (dispatch) => {
         })
 }
 
-export const confirmation = async (dispatch) => {
+export const confirmation = async () => {
     await axios.post(`/confirmation`, {
         id: cookieValueUserID
     })
-        .then(res => {
-            dispatch({
-                type: "MC_CONF_GET_DATA",
-                payload: res.data
-            })
+}
+
+export const resendConfirmationMail = async () => {
+    await axios.post(`/user/resendconfirmationmail`, {
+        id: cookieValueUserID
+    })
+        .then(response => {
+            if (response.type === "err") {
+                store.dispatch({
+                    type: "ERR_MESSAGE",
+                    payload: response.payload
+                })
+            } else {
+                store.dispatch({
+                    type: "MESSAGE",
+                    payload: response.payload
+                })
+            }
         })
 }
+

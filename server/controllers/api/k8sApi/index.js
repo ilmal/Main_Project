@@ -7,8 +7,6 @@ const logs = async (name) => {
         'url': `http://192.168.1.2:8081/api/v1/namespaces/mc-servers/pods/${name}/log`,
     }
 
-    console.log("name of server: ", name)
-
     return request(config).then(response => {
         // break the textblock into an array of lines
         var lines = response.split('\n');
@@ -48,7 +46,6 @@ router.post("/pods", async (req, res) => {
                         podName: null
                     }
                 }
-                console.log("NAME!!!:", element.metadata.name)
                 return {
                     status: element.status.conditions[1].status,
                     podName: element.metadata.name
@@ -67,9 +64,6 @@ router.post("/pods", async (req, res) => {
         if (podStatus.podName !== null) {
             logsData = await logs(podStatus.podName)
         }
-
-        console.log("THIS IS THE REQ: ", podStatus.status)
-
         res.send({
             status: podStatus.status,
             logs: logsData

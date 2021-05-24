@@ -9,6 +9,7 @@ const loginPage = require("../../controllers/user/login")
 const auth = require("../../controllers/user/authCheck")
 const changePass = require("../../controllers/user/changePass")
 const changeUserValues = require("../../controllers/user/changeUserValues")
+const resendconfirmationMail = require("../../controllers/user/resendConfirmationMail")
 
 
 router.use("/", user)
@@ -18,6 +19,7 @@ router.use("/login", loginPage)
 router.use("/auth", auth)
 router.use("/changepass", changePass)
 router.use("/changeuser", changeUserValues)
+router.use("/resendconfirmationmail", resendconfirmationMail)
 
 
 

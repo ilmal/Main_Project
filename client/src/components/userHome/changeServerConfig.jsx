@@ -61,27 +61,20 @@ const ChangeServerConfig = () => {
     }
 
     const WhitelistList = () => {
-        if (state.env[6].value === null) {
-            return null
-        } else {
-            let i = 0;
-            return whitelist.map((e) => {
-                i += 1
-                return <span key={i}>{e}</span>
-            })
-        }
+
+        let i = 0;
+        return whitelist.map((e) => {
+            i += 1
+            return <span key={i}>{e}</span>
+        })
     }
 
     const WhitelistListChange = () => {
-        if (state.env[6].value === null) {
-            return null
-        } else {
-            let i = 0;
-            return whitelist.map((e) => {
-                i += 1
-                return <span className="whiteArray" onClick={removeFromWhiteList} key={i}>{e}</span>
-            })
-        }
+        let i = 0;
+        return whitelist.map((e) => {
+            i += 1
+            return <span className="whiteArray" onClick={removeFromWhiteList} key={i}>{e}</span>
+        })
     }
 
     //data for Ops
@@ -105,27 +98,19 @@ const ChangeServerConfig = () => {
     }
 
     const OpslistList = () => {
-        if (opslist === null) {
-            return null
-        } else {
-            let i = 0;
-            return opslist.map((e) => {
-                i += 1
-                return <span key={i}>{e}</span>
-            })
-        }
+        let i = 0;
+        return opslist.map((e) => {
+            i += 1
+            return <span key={i}>{e}</span>
+        })
     }
 
     const OpslistListChange = () => {
-        if (opslist === null) {
-            return null
-        } else {
-            let i = 0;
-            return opslist.map((e) => {
-                i += 1
-                return <span className="opsArray" onClick={removeFromOpsList} key={i}>{e}</span>
-            })
-        }
+        let i = 0;
+        return opslist.map((e) => {
+            i += 1
+            return <span className="opsArray" onClick={removeFromOpsList} key={i}>{e}</span>
+        })
     }
 
     const removeFromOpsList = (e) => {

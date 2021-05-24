@@ -39,10 +39,10 @@ spec:
           value: normal
 
         - name:  WHITELIST
-          value: null
+          value: ""
 
         - name: OPS
-          value: null
+          value: ""
 
         - name: OVERRIDE_SERVER_PROPERTIES
           value: "true"

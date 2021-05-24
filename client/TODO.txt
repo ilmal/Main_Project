@@ -5,21 +5,27 @@ berätta om sig själv, förbered att skriva och berätta om dig själv
 
 ADD SVENSKA SPRÅK ALTERNATIV
 
-EMAIL VERIFICATION
-
 SIGNUP LOGIN REMOVAL ON ALREADY LOGGED IN PEOPLE
 
-Auto refresh logs
+MESSAGES (
+
+    Err messages invalid email
+    sent verification message
+
+)
 
 POPUP ( 
     
     ServerAdress copy
     Message bubble
 
-
 )
 
-SOMETHING WEIRD WITH ADDING OPS THEN ADDING WHITE, PERHAPS COMPLETLY CHANGE THE OPS AND WHITELIST CHANGE LIST
+// Auto refresh logs
+
+// SOMETHING WEIRD WITH ADDING OPS THEN ADDING WHITE, PERHAPS COMPLETLY CHANGE THE OPS AND WHITELIST CHANGE LIST
+
+// EMAIL VERIFICATION
 
 // dölj server preformance
 

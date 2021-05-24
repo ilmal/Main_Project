@@ -2,7 +2,6 @@ const jwt = require("jsonwebtoken")
 
 const loginAuth = (req, res, next) => {
     const token = req.headers.authorization
-    console.log("token: ", token)
     if (token === "null") {
         console.log("no token")
         res.send("no token")
@@ -11,7 +10,6 @@ const loginAuth = (req, res, next) => {
             console.log("access denied")
             return res.status(401)
         }
-        console.log("token: ", token)
         try {
             const verified = jwt.verify(token, process.env.TOKEN_SECRET, (err) => {
                 if (err) {

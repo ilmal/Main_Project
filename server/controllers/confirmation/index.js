@@ -6,9 +6,6 @@ var ObjectId = require('mongodb').ObjectID;
 
 router.post("/", async (req, res) => {
 
-    console.log(req.body.token)
-
-
     const verified = jwt.verify(req.body.token, process.env.TOKEN_SECRET, async (err) => {
         if (err) {
             if (err.name === "TokenExpiredError") {
@@ -31,8 +28,6 @@ router.post("/", async (req, res) => {
                 payload: err.name
             })
         } else {
-            console.log("THIS IS PASSING!")
-
             const oid = ObjectId(req.body.id)
 
             // getting user

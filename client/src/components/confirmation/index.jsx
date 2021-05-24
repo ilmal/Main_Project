@@ -22,8 +22,8 @@ const Confirmation = () => {
         token,
         id
     }).then(res => {
-        // history.push("/user/home");
-        // window.location.reload()
+        history.push("/user/home");
+        window.location.reload()
     })
 
 }

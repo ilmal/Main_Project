@@ -12,6 +12,7 @@ router.post("/", async (req, res) => {
   try {
     // Checking if config is duplicate
     const duplicateConf = await Config.findOne({ id: req.body.id })
+    console.log("sentID: ", req.body.id)
     if (duplicateConf) {
       throw "config is duplicate"
     }
@@ -41,8 +42,6 @@ router.post("/", async (req, res) => {
     }
 
     const realPortNumber = await Promise.resolve(findPortNumber())
-
-    console.log("this is the real port: ", realPortNumber)
 
     /*------------------
     changing yaml values
@@ -102,8 +101,6 @@ router.post("/", async (req, res) => {
         console.log("Error occured during record insertion: ", err);
       }
     });
-
-    console.log(deployment.spec.template.spec.containers[0].env[3]);
 
   } catch (err) {
     console.log(err);

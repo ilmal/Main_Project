@@ -6,13 +6,13 @@ var ObjectId = require('mongodb').ObjectID;
 
 router.get("/", verifyToken, async (req, res) => {
 
-    const oid = ObjectId(req.headers.Id)
-    console.log("oid", oid)
+    const oid = ObjectId(req.headers.id)
+    console.log("oid1", req.headers.id)
 
     // getting user
     const user = await User.findOne({ _id: oid })
     if (!user) {
-        console.log("cannot find user")
+        console.log("cannot find user (authCheck)")
         return res.send({
             type: "err",
             payload: "cannot find user"

@@ -6,20 +6,32 @@ import Server from "../components/userHome/server";
 import Options from "../components/userHome/options";
 
 import { store } from "../index";
+import { serverPodsInfo } from "../redux/actions/"
 
 const UserHomePage = () => {
   const history = useHistory();
   const [page, setPage] = useState(["server"]);
   const [userData, setUserData] = useState([store.getState()]);
 
-  const [didMount, setDidMount] = useState(false); 
+  const [didMount, setDidMount] = useState(false);
+  const [remount, setRemount] = useState(false)
 
   useEffect(() => {
+
+    //autorefresh logs
+    if (store.getState().serverPods.status != "server not running") {
+      setTimeout(() => {
+        store.dispatch(serverPodsInfo)
+        console.log("hello!")
+        setRemount(!remount)
+      }, 5000);
+    }
+
     setDidMount(true);
     return () => setDidMount(false);
-  }, [])
+  }, [remount])
 
-  if(!didMount) {
+  if (!didMount) {
     return null;
   }
 
