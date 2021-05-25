@@ -23,8 +23,20 @@ const SignupPage = () => {
     }
   }, [])
 
+  const verifyEmail = (email) => {
+    const re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(email);
+  }
+
   const postReq = (e) => {
     e.preventDefault();
+    if (!verifyEmail(e.target.email.value)) {
+      store.dispatch({
+        type: "ERR_MESSAGE",
+        payload: "Please insert a valid email"
+      })
+      return
+    }
     setToggle(!toggle)
     signup(e.target.name.value, e.target.email.value, e.target.password.value, store.dispatch)
   };
@@ -103,7 +115,7 @@ const SignupPage = () => {
               <div className="noMail">
                 <span>Make sure to check the spam folder!</span>
                 <span>Still can't find it? Just send another one!</span>
-                <button onClick={resendConfirmationMail}>Send another mail to {user.email}</button>
+                <button onClick={() => store.dispatch(resendConfirmationMail)}>Send another mail to {user.email}</button>
               </div>
               :
               <div>
@@ -117,7 +129,7 @@ const SignupPage = () => {
   }
 
   switch (toggle) {
-    case true:
+    case false:
       return messagePage();
     default:
       return inputPage();

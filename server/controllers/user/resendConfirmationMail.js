@@ -3,7 +3,7 @@ const Confirm = require("./confirmation")
 const User = require("../../models/user/config.model")
 var ObjectId = require('mongodb').ObjectID;
 
-router.post("/", async(req, res) => {
+router.post("/", async (req, res) => {
     const oid = ObjectId(req.body.id)
 
     // getting user
@@ -16,7 +16,20 @@ router.post("/", async(req, res) => {
         })
     }
 
-    res.send(Confirm(user.email))
+    const confirmation = await Confirm(user.email)
+
+    if (confirmation.type != "err") {
+        console.log("Confirm(user.email).payload: ", confirmation.payload)
+        res.send({
+            type: "message",
+            payload: confirmation.payload
+        })
+    } else {
+        res.send({
+            type: "err",
+            payload: confirmation.payload
+        })
+    }
 })
 
 module.exports = router

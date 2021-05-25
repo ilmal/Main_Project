@@ -14,22 +14,21 @@ const UserHomePage = () => {
   const [userData, setUserData] = useState([store.getState()]);
 
   const [didMount, setDidMount] = useState(false);
-  const [remount, setRemount] = useState(false)
 
   useEffect(() => {
 
-    //autorefresh logs
-    if (store.getState().serverPods.status != "server not running") {
-      setTimeout(() => {
-        store.dispatch(serverPodsInfo)
-        console.log("hello!")
-        setRemount(!remount)
-      }, 5000);
-    }
+    // //autorefresh logs
+    // if (store.getState().serverPods.status != "server not running") {
+    //   setTimeout(() => {
+    //     store.dispatch(serverPodsInfo)
+    //     console.log("hello!")
+    //     setRemount(!remount)
+    //   }, 50000);
+    // }
 
     setDidMount(true);
     return () => setDidMount(false);
-  }, [remount])
+  })
 
   if (!didMount) {
     return null;

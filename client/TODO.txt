@@ -5,13 +5,11 @@ berätta om sig själv, förbered att skriva och berätta om dig själv
 
 ADD SVENSKA SPRÅK ALTERNATIV
 
-SIGNUP LOGIN REMOVAL ON ALREADY LOGGED IN PEOPLE
 
 MESSAGES (
 
-    Err messages invalid email
-    sent verification message
-
+    // sent verification message
+    // Err messages invalid email
 )
 
 POPUP ( 
@@ -20,6 +18,8 @@ POPUP (
     Message bubble
 
 )
+
+// SIGNUP LOGIN REMOVAL ON ALREADY LOGGED IN PEOPLE
 
 // Auto refresh logs
 

@@ -16,9 +16,16 @@ const Header = () => {
                     <a href="/" className="homeLink"><span>U1</span>servers</a>
                 </div>
                 <div>
-                    <a href="/user/login">LOGIN</a>
-                    <a href="/user/signup">SIGN UP</a>
-                    {userData.auth ? <a href="/user/home">{userData.user.name}</a> : null}
+                    {userData.auth ?
+                        <>
+                            <a href="/user/home">{userData.user.name}</a>
+                        </>
+                        :
+                        <>
+                            <a href="/user/login">LOGIN</a>
+                            <a href="/user/signup">SIGN UP</a>
+                        </>
+                    }
                 </div>
             </div>
         </div>

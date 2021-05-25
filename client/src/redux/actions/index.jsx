@@ -182,20 +182,20 @@ export const confirmation = async () => {
     })
 }
 
-export const resendConfirmationMail = async () => {
+export const resendConfirmationMail = async (dispatch) => {
     await axios.post(`/user/resendconfirmationmail`, {
         id: cookieValueUserID
     })
         .then(response => {
-            if (response.type === "err") {
-                store.dispatch({
+            if (response.data.type === "err") {
+                dispatch({
                     type: "ERR_MESSAGE",
-                    payload: response.payload
+                    payload: response.data.payload
                 })
             } else {
-                store.dispatch({
+                dispatch({
                     type: "MESSAGE",
-                    payload: response.payload
+                    payload: response.data.payload
                 })
             }
         })

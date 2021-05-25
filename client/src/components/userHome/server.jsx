@@ -1,6 +1,7 @@
 import ChangeServerConfig from "./changeServerConfig";
 import { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
+import ReactTooltip from 'react-tooltip';
 
 import { store } from "../../index";
 import { fetchUserData, serverPodsInfo, serverSVCInfo, mcConfGetData } from "../../redux/actions"
@@ -19,6 +20,12 @@ const Server = () => {
   useEffect(() => {
     const ele = document.getElementById('logsText');
     ele.scrollTop = ele.scrollHeight;
+    if (store.getState().serverPods.status != "server not running") {
+      const interval = setInterval(() => {
+        store.dispatch(serverPodsInfo)
+      }, 5000);
+      return () => clearInterval(interval);
+    }
   }, [userData])
 
   useEffect(() => {
@@ -134,7 +141,7 @@ const Server = () => {
         </div>
         <div className="userHomeSegment userHomeStatusOfServer">
           {serverStatus()}
-          <div className="checkStatus fas fa-sync" id="checkStatus" onClick={refreshData}>
+          <div className="checkStatus fas fa-sync" id="checkStatus" onClick={refreshData} data-tip data-for="refreshInfo">
             <span>Check Status</span>
           </div>
         </div>
@@ -151,11 +158,11 @@ const Server = () => {
         </div>
         <div className="userHomeSegment userHomeIpAdress">
           <p>Server Adress:</p>
-          <span onClick={copyText}>{serverIP()}</span>
+          <span data-tip data-for="copyServerAddress" onClick={copyText}>{serverIP()}</span>
         </div>
         <ChangeServerConfig />
         <div className={logsExpand ? "logsMainContainer logsMainContainerExpanded userHomeSegment" : "logsMainContainer userHomeSegment"}>
-          <div className="logsExpandArrow fas fa-expand-arrows-alt" onClick={expandLogs} />
+          <div className="logsExpandArrow fas fa-expand-arrows-alt" onClick={expandLogs} data-tip data-for="expandLogs" />
           <div className="logsText" id="logsText">
             <span>
               {userData.serverPods.logs}
@@ -165,10 +172,19 @@ const Server = () => {
           <div className="logsTextContainer">
             <span>Logs</span>
             <div onClick={refreshData}>
-              <div className="checkStatus fas fa-sync" id="checkStatus" />
+              <div className="checkStatus fas fa-sync" id="checkStatus" data-tip data-for="refreshInfo" />
             </div>
           </div>
         </div>
+        <ReactTooltip id="copyServerAddress" delayShow="100">
+          <p>Click to copy</p>
+        </ReactTooltip>
+        <ReactTooltip id="refreshInfo" place="bottom" delayShow="100">
+          <p>Click to refresh logs</p>
+        </ReactTooltip>
+        <ReactTooltip id="expandLogs" place="bottom" delayShow="100">
+          <p>Click to expand/minimize logs</p>
+        </ReactTooltip>
       </>
     );
   } else {
