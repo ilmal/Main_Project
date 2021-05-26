@@ -13,6 +13,7 @@
 // scss for page 1
 .homeMainContainer {
   @include backgroundImage();
+  position: fixed;
   display: grid;
   grid-template-columns: 15% auto 15%;
   grid-template-rows: 20% auto 20%;
@@ -157,7 +158,10 @@
 }
 
 .homePage2MainContaiener {
-  @include backgroundImage();
+  margin-top: 100vh;
+  height: 100vh;
+  position: relative;
+  background-color: rgba($backgroundColorBack, $alpha: 1);
   display: grid;
   grid-template-columns: 10% 30% 16% auto 16% 10%;
   grid-template-rows: 20% auto 20%;

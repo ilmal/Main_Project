@@ -1,37 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
+import { Link } from "react-scroll";
 
 const HomePage = () => {
   const list = ["Minecraft", "ARK", "Terraria", "Unturned", "Rust"];
 
-  const [page, changepage] = useState(1)
   const [loadAnimation, changeloadAnimation] = useState(false)
-  const [transformUpp, changetransformUpp] = useState(false)
-  const [transformDown, changetransformDown] = useState(false)
   const [i, changei] = useState(-1)
   const [gamesAnimation, changeGamesAnimation] = useState(true)
 
   const history = useHistory();
-
-  const pageUpp = () => {
-    page === 1
-      ? changepage(page)
-      : changepage(page - 1);
-  };
-
-  const pageDown = () => {
-    page === 2
-      ? changepage(page)
-      : changepage(page + 1);
-  };
-
-  const scrollHandler = (e) => {
-    if (e.deltaY > 0) {
-      pageDown();
-    } else {
-      pageUpp();
-    }
-  };
 
   const changeGame = () => {
     console.log(i)
@@ -54,37 +32,6 @@ const HomePage = () => {
     setTimeout(changeGame, 3000);
   })
 
-
-
-  const page1 = () => {
-    return (
-      <div
-        className={
-          transformUpp
-            ? "homeMainContainerTransform"
-            : "homeMainContainer"
-        }
-        onWheel={scrollHandler}
-      >
-        <div className="innerContainer">
-          <span
-            className={
-              loadAnimation ? "homeMainSpan" : "homeMainSpanAway"
-            }
-          >
-            Host your own{" "}
-            <span className="homeChangeGameSpan">{list[i]}</span>{" "}
-            server with <span>U1</span>servers
-          </span>
-        </div>
-        <div
-          className="homePageArrow fas fa-angle-double-down"
-          onClick={pageDown}
-        />
-      </div>
-    );
-  };
-
   const gameSelect = e => {
     switch (e.target.id) {
       case "minecraftSelector":
@@ -98,10 +45,35 @@ const HomePage = () => {
     }
   }
 
-
-  const page2 = () => {
-    return (
-      <div className="homePage2MainContaiener" onWheel={scrollHandler}>
+  const test = () => {
+    return
+  }
+  return (
+    <>
+      <span style={{ position: "fixed", zIndex: "1000", color: "white" }} onClick={
+        <Link
+          activeClass="active"
+          to="section2"
+          spy={true}
+          smooth={true}
+          offset={0}
+          duration={500}
+        >scroll to bottom</Link>
+      }>click me!</span>
+      <div className="homeMainContainer">
+        <div className="innerContainer">
+          <span
+            className={
+              loadAnimation ? "homeMainSpan" : "homeMainSpanAway"
+            }
+          >
+            Host your own{" "}
+            <span className="homeChangeGameSpan nav-item">{list[i]}</span>{" "}
+            server with <span>U1</span>servers
+          </span>
+        </div>
+      </div>
+      <div className="homePage2MainContaiener" id="section2">
         <div className="homePage2Title">
           <span>Choose your game</span>
         </div>
@@ -138,38 +110,10 @@ const HomePage = () => {
               </div>
             </div>
           </div>
-          {/* <div className="homePage2Card4">
-            <span>SOON</span>
-          </div>
-          <div className="homePage2Card5">
-            <span>SOON</span>
-          </div>
-          <div className="homePage2Card6">
-            <span>SOON</span>
-          </div> */}
         </div>
       </div>
-    );
-  };
-
-  const errFunc = () => {
-    return (
-      <div className="homeMainContainer">
-        <div className="innerContainer">
-          <span className="homePageError">error occured</span>
-        </div>
-      </div>
-    );
-  };
-
-  switch (page) {
-    case 1:
-      return page1();
-    case 2:
-      return page2();
-    default:
-      return errFunc();
-  }
+    </>
+  );
 }
 
 export default HomePage;
