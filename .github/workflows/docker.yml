@@ -27,7 +27,7 @@ jobs:
           DOCKER_USER: ${{ secrets.DOCKER_USER }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
         run: |
-          docker login -u DOCKER_USER -p DOCKER_PASSWORD
+          docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
       - name: client build
         run: |
           docker build ./client ilmal/08ng5749f92j58f74f283705fj2034f587204-frontend:latest
