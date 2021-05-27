@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
-import { Link } from "react-scroll";
+import { Link, Element, Events, animateScroll as scroll, scrollSpy, scroller } from 'react-scroll'
 
 const HomePage = () => {
   const list = ["Minecraft", "ARK", "Terraria", "Unturned", "Rust"];
@@ -8,11 +8,12 @@ const HomePage = () => {
   const [loadAnimation, changeloadAnimation] = useState(false)
   const [i, changei] = useState(-1)
   const [gamesAnimation, changeGamesAnimation] = useState(true)
+  const [scrolling, setScrolling] = useState(false)
+  const [offset, setOffset] = useState(0)
 
   const history = useHistory();
 
   const changeGame = () => {
-    console.log(i)
     if (i >= list.length - 1) {
       changei(0)
     } else {
@@ -30,6 +31,28 @@ const HomePage = () => {
       changeGamesAnimation(false)
     }
     setTimeout(changeGame, 3000);
+
+    window.onscroll = () => {
+      // console.log("offset: ", offset, "window.pageYOffset", window.pageYOffset)
+      if (window.pageYOffset < 0) {
+        return
+      }
+      if (offset > window.pageYOffset) {
+        console.log("scroll up")
+        scroll.scrollToTop({
+          duration: 300,
+          smooth: "easeOutQuad",
+        })
+      } else if (offset < window.pageYOffset) {
+        console.log("scroll down")
+        scroller.scrollTo("section2", {
+          duration: 300,
+          smooth: "easeOutQuad",
+          offset: 500
+        })
+      }
+      setOffset(window.pageYOffset)
+    }
   })
 
   const gameSelect = e => {
@@ -45,35 +68,44 @@ const HomePage = () => {
     }
   }
 
-  const test = () => {
-    return
+  const scrollToPage2 = () => {
+    scroller.scrollTo("section2", {
+      duration: 300,
+      smooth: "easeOutQuad",
+      offset: 500
+    })
   }
+
   return (
     <>
-      <span style={{ position: "fixed", zIndex: "1000", color: "white" }} onClick={
-        <Link
-          activeClass="active"
-          to="section2"
-          spy={true}
-          smooth={true}
-          offset={0}
-          duration={500}
-        >scroll to bottom</Link>
-      }>click me!</span>
-      <div className="homeMainContainer">
-        <div className="innerContainer">
-          <span
-            className={
-              loadAnimation ? "homeMainSpan" : "homeMainSpanAway"
-            }
-          >
-            Host your own{" "}
-            <span className="homeChangeGameSpan nav-item">{list[i]}</span>{" "}
+      <div id="section1">
+        <div className="homeMainContainer">
+          <div className="innerContainer">
+            <span
+              className={
+                loadAnimation ? "homeMainSpan" : "homeMainSpanAway"
+              }
+            >
+              Host your own{" "}
+              <span className="homeChangeGameSpan nav-item">{list[i]}</span>{" "}
             server with <span>U1</span>servers
           </span>
+          </div>
         </div>
       </div>
       <div className="homePage2MainContaiener" id="section2">
+        <div className="homePage2TopPart">
+          <div className="homePage2arrowDown">
+            <div className="homePage2ArrowBall" onClick={scrollToPage2}>
+              <div className="homePage2ArrowBallInner">
+                <div className="homePage2ArrowBallInnerRectangle" />
+                <div className="homePage2ArrowBallInnerTriangle" />
+              </div>
+            </div>
+            <div className="homePage2ArrowStick" />
+          </div>
+        </div>
+        <div className="homePage2Background" />
         <div className="homePage2Title">
           <span>Choose your game</span>
         </div>
