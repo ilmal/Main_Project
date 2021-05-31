@@ -1,6 +1,13 @@
 // dotenv
-const dotenv = require("dotenv")
-dotenv.config()
+if (process.env.TYPE === "production") {
+    require("dotenv").config()
+} else {
+    require('dotenv').config({ path: `./.env.dev` })
+}
+
+
+console.log("!!!PROCESS.ENV TEST!!!")
+console.log("process.env.TYPE= ", process.env.TEST)
 
 //requireing db
 require("./models/minecraftConfig/db.js");
@@ -60,8 +67,6 @@ const https_options = {
     key: fs.readFileSync(path.join(__dirname, "cert", "key.pem")),
     cert: fs.readFileSync(path.join(__dirname, "cert", "cert.pem"))
 }
-
-
 
 // setting up server:
 https.createServer(https_options, app).listen(HTTPS_PORT, () => console.log(`HTTPS listening on port: ${HTTPS_PORT}`));
