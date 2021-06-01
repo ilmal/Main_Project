@@ -4,7 +4,7 @@ const request = require('request-promise');
 const logs = async (name) => {
     const config = {
         'method': 'GET',
-        'url': `http://192.168.1.2:8081/api/v1/namespaces/mc-servers/pods/${name}/log`,
+        'url': `${process.env.K8S_DEFAULT_API}/api/v1/namespaces/mc-servers/pods/${name}/log`,
     }
 
     return request(config).then(response => {
@@ -30,7 +30,7 @@ const logs = async (name) => {
 router.post("/pods", async (req, res) => {
     const config = {
         'method': 'GET',
-        'url': 'http://192.168.1.2:8081/api/v1/namespaces/mc-servers/pods',
+        'url': `${process.env.K8S_DEFAULT_API}/api/v1/namespaces/mc-servers/pods`,
     }
 
     const podStatus = await request(config).then(response => {
@@ -74,7 +74,7 @@ router.post("/pods", async (req, res) => {
 router.post("/svc", (req, res) => {
     const config = {
         'method': 'GET',
-        'url': 'http://192.168.1.2:8081/api/v1/namespaces/mc-servers/services',
+        'url': `${process.env.K8S_DEFAULT_API}/api/v1/namespaces/mc-servers/services`,
     }
 
     request(config, (err, response) => {
