@@ -23,25 +23,6 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
       
-      - uses: whoan/docker-build-with-cache-action@v1
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: "${{ secrets.DOCKER_PASSWORD }}"
-          image_name: 08ng5749f92j58f74f283705fj2034f587204-frontend
-      
-      - uses: whoan/docker-build-with-cache-action@v1
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: "${{ secrets.DOCKER_PASSWORD }}"
-          image_name: 947ng59234ngh56943n5g2n4735g29345g7n24395gn-backend
-    
-      - uses: whoan/docker-build-with-cache-action@v1
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: "${{ secrets.DOCKER_PASSWORD }}"
-          image_name: 09n754y60959360m53v8754ymn9305n76_mc-k8s-controller
-      
-      
       - name: docker login
         env:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
