@@ -28,6 +28,8 @@ export const store = createStore(
 const MainComponent = () => {
     const [loading, setLoading] = useState(true)
 
+    console.log(".env: ", process.env.REACT_APP_BACKENDPROXY)
+
     React.useEffect(() => {
         (async function () {
             await store.dispatch(fetchUserData)
