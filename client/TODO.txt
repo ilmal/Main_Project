@@ -1,12 +1,6 @@
-FRANSKA
-
-berätta om sig själv, förbered att skriva och berätta om dig själv
-
-
-
+gib nfs https://askubuntu.com/questions/355715/mount-multiple-nfs-server-drives-mount-to-single-nfs-client-drive
 
 ADD SVENSKA SPRÅK ALTERNATIV
-
 
 MESSAGES (
 
