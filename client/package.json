@@ -2,7 +2,7 @@
   "name": "client",
   "version": "0.1.0",
   "private": false,
-  "proxy": "http://192.168.3.122:3002/api",
+  "proxy": "http://192.168.3.122:31002/api",
   "scripts": {
     "start": "BROWSER=none HTTPS=true react-scripts start",
     "build": "react-scripts build",
