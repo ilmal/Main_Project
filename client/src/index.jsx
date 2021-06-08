@@ -69,7 +69,8 @@ const MainComponent = () => {
 
 ReactDOM.render(
     <MainComponent />
-    , document.querySelector("#root"))
+    , document.querySelector("#root")
+)
 
 /*
 1"@testing-library/jest-dom": "^5.11.9",
