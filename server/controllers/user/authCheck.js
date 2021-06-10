@@ -6,8 +6,13 @@ var ObjectId = require('mongodb').ObjectID;
 
 router.get("/", verifyToken, async (req, res) => {
 
+    if (req.headers.id === null) {
+        res.send({
+            type: "err",
+            payload: "not verified"
+        })
+    }
     const oid = ObjectId(req.headers.id)
-    console.log("oid1", req.headers.id)
 
     // getting user
     const user = await User.findOne({ _id: oid })
