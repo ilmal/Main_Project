@@ -8,7 +8,9 @@ const loginAuth = (req, res, next) => {
     } else {
         if (!token) {
             console.log("access denied")
-            return res.status(401)
+            return res.send({
+                auth: false
+            })
         }
         try {
             const verified = jwt.verify(token, process.env.TOKEN_SECRET, (err) => {

@@ -5,8 +5,6 @@ if (process.env.TYPE === "production") {
     require('dotenv').config({ path: `./.env.dev` })
 }
 
-console.log("NODE_ENV: ", process.env.NODE_ENV)
-
 //requireing db
 require("./models/minecraftConfig/db.js");
 require("./models/user/db.js");
@@ -33,6 +31,8 @@ app.use(bodyparser.json());
 
 app.use((req, res, next) => {
     const corsWhitelist = [
+        "http://localhost:31000",
+        "http://192.168.1.247:31000",
         "https://nils.u1.se:8005",
         "http://nils.u1.se:8005",
         "https://servers.u1.se",
@@ -45,13 +45,18 @@ app.use((req, res, next) => {
         res.header({
             "Access-Control-Allow-Origin": req.headers.origin,
             // "Access-Control-Allow-Origin": "*",
-            "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept, Authorization, Set-Cookie",
-            "Access-Control-Allow-Credentials": "true"
+            // "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept, Authorization, Set-Cookie",
+            "Access-Control-Allow-Headers": "Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers, Accept, Authorization, authorization, id, Set-Cookie",
+            "Access-Control-Allow-Credentials": "true",
+            "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, PATCH, OPTIONS"
         });
         res.set({
             "Access-Control-Allow-Origin": req.headers.origin,
-            "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept, Authorization, Set-Cookie",
-            "Access-Control-Allow-Credentials": "true"
+            // "Access-Control-Allow-Origin": "*",
+            // "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept, Authorization, Set-Cookie",
+            "Access-Control-Allow-Headers": "Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers, Accept, Authorization, authorization, id, Set-Cookie",
+            "Access-Control-Allow-Credentials": "true",
+            "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, PATCH, OPTIONS"
         })
     }
     next();

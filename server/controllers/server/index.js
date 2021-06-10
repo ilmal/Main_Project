@@ -7,7 +7,7 @@ router.post("/", async (req, res) => {
     if (req.body.action === "start") {
         config = {
             'method': 'POST',
-            'url': 'http://192.168.1.2:1004/mc',
+            'url': `${process.env.K8SAPI}/mc`,
             'headers': {
             },
             formData: {
@@ -18,7 +18,7 @@ router.post("/", async (req, res) => {
     } else if (req.body.action === "stop") {
         config = {
             'method': 'POST',
-            'url': 'http://192.168.1.2:1004/mc',
+            'url': `${process.env.K8SAPI}/mc`,
             'headers': {
             },
             formData: {
