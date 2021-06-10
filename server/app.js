@@ -5,8 +5,6 @@ if (process.env.TYPE === "production") {
     require('dotenv').config({ path: `./.env.dev` })
 }
 
-console.log("NODE_ENV: ", process.env.NODE_ENV)
-
 //requireing db
 require("./models/minecraftConfig/db.js");
 require("./models/user/db.js");

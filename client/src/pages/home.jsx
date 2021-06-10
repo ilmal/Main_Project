@@ -21,6 +21,20 @@ const HomePage = () => {
     }
   };
 
+  const changeColorArrowDown = (e) => {
+    if (e) {
+      console.log("changing to white")
+      document.getElementById("random9034872m1f7539405").style.color = "#fff"
+      document.getElementById("random9034872m1f7539405").style.opacity = "0.7"
+      document.getElementById("randomf384ur4398fh34pf").style.backgroundColor = "#fff"
+      document.getElementById("random9034872m1f7539405").style.opacity = "0.7"
+    } else {
+      console.log("changing to dark")
+      document.getElementById("random9034872m1f7539405").style.color = "#141618"
+      document.getElementById("randomf384ur4398fh34pf").style.backgroundColor = "#141618"
+    }
+  }
+
 
   useEffect(() => {
     setTimeout(() => {
@@ -43,6 +57,7 @@ const HomePage = () => {
           duration: 300,
           smooth: "easeOutQuad",
         })
+        changeColorArrowDown(true)
       } else if (offset < window.pageYOffset) {
         console.log("scroll down")
         scroller.scrollTo("section2", {
@@ -50,6 +65,7 @@ const HomePage = () => {
           smooth: "easeOutQuad",
           offset: 500
         })
+        changeColorArrowDown(false)
       }
       setOffset(window.pageYOffset)
     }
@@ -96,13 +112,16 @@ const HomePage = () => {
       <div className="homePage2MainContaiener" id="section2">
         <div className="homePage2TopPart">
           <div className="homePage2arrowDown">
-            <div className="homePage2ArrowBall" onClick={scrollToPage2}>
+            {/* <div className="homePage2ArrowBall" onClick={scrollToPage2}>
               <div className="homePage2ArrowBallInner">
                 <div className="homePage2ArrowBallInnerRectangle" />
                 <div className="homePage2ArrowBallInnerTriangle" />
               </div>
+            </div> */}
+            <div className="homePage2ArrowdownText">
+              <span onClick={scrollToPage2} id="random9034872m1f7539405">SCROLL</span>
             </div>
-            <div className="homePage2ArrowStick" />
+            <div className="homePage2ArrowStick" id="randomf384ur4398fh34pf" />
           </div>
         </div>
         <div className="homePage2Background" />
