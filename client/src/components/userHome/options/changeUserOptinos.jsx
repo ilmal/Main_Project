@@ -31,7 +31,7 @@ const ChangeUserOptinos = () => {
                 .find(row => row.startsWith('userID='))
                 .split('=')[1];
 
-            await axios.post("/user/changeuser", {
+            await axios.post(`${process.env.REACT_APP_BACKENDPROXY}/user/changeuser`, {
                 withCredentials: true,
                 name: e.target.newName.value,
                 email: e.target.newEmail.value,

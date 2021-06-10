@@ -28,6 +28,8 @@ export const store = createStore(
 const MainComponent = () => {
     const [loading, setLoading] = useState(true)
 
+    console.log(".env: ", process.env.REACT_APP_BACKENDPROXY)
+
     React.useEffect(() => {
         (async function () {
             await store.dispatch(fetchUserData)
@@ -67,7 +69,8 @@ const MainComponent = () => {
 
 ReactDOM.render(
     <MainComponent />
-    , document.querySelector("#root"))
+    , document.querySelector("#root")
+)
 
 /*
 1"@testing-library/jest-dom": "^5.11.9",

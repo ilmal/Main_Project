@@ -5,9 +5,7 @@ if (process.env.TYPE === "production") {
     require('dotenv').config({ path: `./.env.dev` })
 }
 
-
-console.log("!!!PROCESS.ENV TEST!!!")
-console.log("process.env.TYPE= ", process.env.TEST)
+console.log("NODE_ENV: ", process.env.NODE_ENV)
 
 //requireing db
 require("./models/minecraftConfig/db.js");
@@ -18,8 +16,8 @@ const app = express();
 const http = require("http")
 const https = require("https")
 const path = require("path")
-const HTTPS_PORT = 3001;
-const HTTP_PORT = 3002;
+const HTTPS_PORT = 31002;
+const HTTP_PORT = 31001;
 const bodyparser = require("body-parser")
 const cookieParser = require("cookie-parser")
 const fs = require("fs")
@@ -35,6 +33,8 @@ app.use(bodyparser.json());
 
 app.use((req, res, next) => {
     const corsWhitelist = [
+        "http://localhost:31000",
+        "http://192.168.1.247:31000",
         "https://nils.u1.se:8005",
         "http://nils.u1.se:8005",
         "https://servers.u1.se",
@@ -47,13 +47,18 @@ app.use((req, res, next) => {
         res.header({
             "Access-Control-Allow-Origin": req.headers.origin,
             // "Access-Control-Allow-Origin": "*",
-            "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept, Authorization, Set-Cookie",
-            "Access-Control-Allow-Credentials": "true"
+            // "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept, Authorization, Set-Cookie",
+            "Access-Control-Allow-Headers": "Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers, Accept, Authorization, authorization, id, Set-Cookie",
+            "Access-Control-Allow-Credentials": "true",
+            "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, PATCH, OPTIONS"
         });
         res.set({
             "Access-Control-Allow-Origin": req.headers.origin,
-            "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept, Authorization, Set-Cookie",
-            "Access-Control-Allow-Credentials": "true"
+            // "Access-Control-Allow-Origin": "*",
+            // "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept, Authorization, Set-Cookie",
+            "Access-Control-Allow-Headers": "Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers, Accept, Authorization, authorization, id, Set-Cookie",
+            "Access-Control-Allow-Credentials": "true",
+            "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, PATCH, OPTIONS"
         })
     }
     next();

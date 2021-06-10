@@ -48,7 +48,7 @@ const ChangeUserPass = () => {
         }
 
 
-        await axios.post("/user/changepass", {
+        await axios.post(`${process.env.REACT_APP_BACKENDPROXY}/user/changepass`, {
             id: cookieValue,
             oldPassword: e.target.oldPassword.value,
             newPassword: e.target.newPassword1.value

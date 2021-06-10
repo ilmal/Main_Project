@@ -17,8 +17,14 @@ if (document.cookie && document.cookie.search("loginAuth") > -1) {
         .split('=')[1];
 }
 
+//setting ip_address to nothing if else isn't specified
+let ip_address = ""
+if (process.env.REACT_APP_BACKENDPROXY != undefined) {
+    ip_address = process.env.REACT_APP_BACKENDPROXY
+}
+
 export const fetchUserData = async (dispatch) => {
-    await axios.post(`/user`, {
+    await axios.post(`${ip_address}/user`, {
         id: cookieValueUserID,
     })
         .then(res => {
@@ -30,7 +36,7 @@ export const fetchUserData = async (dispatch) => {
 }
 
 export const login = (name, pass, dispatch) => {
-    axios.post("/user/login", {
+    axios.post(`${ip_address}/user/login`, {
         withCredentials: true,
         name: name,
         password: pass
@@ -57,7 +63,7 @@ export const login = (name, pass, dispatch) => {
 }
 
 export const signup = async (name, email, password, dispatch) => {
-    axios.post("/user/insert", {
+    axios.post(`${ip_address}/user/insert`, {
         data: {
             name,
             email,
@@ -81,7 +87,7 @@ export const signup = async (name, email, password, dispatch) => {
 }
 
 export const checkUserAuth = async (dispatch) => {
-    await axios.get(`/user/auth`, {
+    await axios.get(`${ip_address}/user/auth`, {
         withCredentials: true,
         headers: {
             'Accept': 'application/json',
@@ -105,7 +111,7 @@ export const authSucess = (dispatch) => {
 }
 
 export const createMcConfig = async (dispatch) => {
-    await axios.post(`/mcConf/create`, {
+    await axios.post(`${ip_address}/mcConf/create`, {
         id: cookieValueUserID
     })
         .then(res => {
@@ -116,7 +122,7 @@ export const createMcConfig = async (dispatch) => {
 }
 
 export const startServer = async (dispatch) => {
-    await axios.post(`/server`, {
+    await axios.post(`${ip_address}/server`, {
         id: cookieValueUserID,
         action: "start"
     })
@@ -128,7 +134,7 @@ export const startServer = async (dispatch) => {
 }
 
 export const stopServer = async (dispatch) => {
-    await axios.post(`/server`, {
+    await axios.post(`${ip_address}/server`, {
         id: cookieValueUserID,
         action: "stop"
     })
@@ -140,7 +146,7 @@ export const stopServer = async (dispatch) => {
 }
 
 export const serverPodsInfo = async () => {
-    await axios.post(`/k8s/pods`, {
+    await axios.post(`${ip_address}/k8s/pods`, {
         id: cookieValueUserID
     })
         .then(res => {
@@ -153,7 +159,7 @@ export const serverPodsInfo = async () => {
 }
 
 export const serverSVCInfo = async (dispatch) => {
-    await axios.post(`/k8s/svc`, {
+    await axios.post(`${ip_address}/k8s/svc`, {
         id: cookieValueUserID
     })
         .then(res => {
@@ -165,7 +171,7 @@ export const serverSVCInfo = async (dispatch) => {
 }
 
 export const mcConfGetData = async (dispatch) => {
-    await axios.post(`/mcConf/getData`, {
+    await axios.post(`${ip_address}/mcConf/getData`, {
         id: cookieValueUserID
     })
         .then(res => {
@@ -177,13 +183,13 @@ export const mcConfGetData = async (dispatch) => {
 }
 
 export const confirmation = async () => {
-    await axios.post(`/confirmation`, {
+    await axios.post(`${ip_address}/confirmation`, {
         id: cookieValueUserID
     })
 }
 
 export const resendConfirmationMail = async (dispatch) => {
-    await axios.post(`/user/resendconfirmationmail`, {
+    await axios.post(`${ip_address}/user/resendconfirmationmail`, {
         id: cookieValueUserID
     })
         .then(response => {

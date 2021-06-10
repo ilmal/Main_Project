@@ -17,7 +17,7 @@ export const MessagePage = () => {
                 .find(row => row.startsWith('userID='))
                 .split('=')[1];
 
-            await axios.post("/nodemailer/messages", {
+            await axios.post(`${process.env.REACT_APP_BACKENDPROXY}/nodemailer/messages`, {
                 withCredentials: true,
                 type: "feedback",
                 content: feedBack,
@@ -49,7 +49,7 @@ export const MessagePage = () => {
                 .find(row => row.startsWith('userID='))
                 .split('=')[1];
 
-            await axios.post("/nodemailer/messages", {
+            await axios.post(`${process.env.REACT_APP_BACKENDPROXY}/nodemailer/messages`, {
                 withCredentials: true,
                 type: "problem",
                 content: feedBack,

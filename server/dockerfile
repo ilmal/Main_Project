@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1
 
 FROM node:12.18.1
-ENV NODE_ENV=production
+ENV TYPE=production
 
 WORKDIR /app
 
@@ -11,4 +11,4 @@ RUN npm install --production
 
 COPY . .
 
-CMD [ "TYPE=production", "node", "app.js" ]
+CMD node app.js

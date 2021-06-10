@@ -22,6 +22,7 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
+      
       - name: docker login
         env:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
@@ -34,7 +35,12 @@ jobs:
       - name: server build
         run: | 
           docker build ./server -t ilmal/947ng59234ngh56943n5g2n4735g29345g7n24395gn-backend:latest
+      - name: customAPI build
+        run: | 
+          docker build ./k8s_custom_API -t ilmal/09n754y60959360m53v8754ymn9305n76_mc-k8s-controller:latest
       - name: docker push
         run: | 
           docker push ilmal/08ng5749f92j58f74f283705fj2034f587204-frontend:latest
           docker push ilmal/947ng59234ngh56943n5g2n4735g29345g7n24395gn-backend:latest
+          docker push ilmal/09n754y60959360m53v8754ymn9305n76_mc-k8s-controller:latest
+

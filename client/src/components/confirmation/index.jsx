@@ -18,7 +18,7 @@ const Confirmation = () => {
     const token = window.location.pathname.replace("/confirmation/", "")
     const id = queryString.parse(location.search)._id
 
-    axios.post("/confirmation", {
+    axios.post(`${process.env.REACT_APP_BACKENDPROXY}/confirmation`, {
         token,
         id
     }).then(res => {
