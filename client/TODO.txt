@@ -2,6 +2,8 @@ big nfs https://askubuntu.com/questions/355715/mount-multiple-nfs-server-drives-
 
 ADD SVENSKA SPRÅK ALTERNATIV
 
+creating a que
+
 MESSAGES (
 
     // sent verification message
@@ -10,14 +12,10 @@ MESSAGES (
 
 POPUP ( 
     
-    ServerAdress copy
-    Message bubble
+    // ServerAdress copy
+    // Message bubble
 
 )
-
-creating a que
-
-
 
 // SIGNUP LOGIN REMOVAL ON ALREADY LOGGED IN PEOPLE
 
