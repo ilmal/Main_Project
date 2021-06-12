@@ -1,6 +1,8 @@
-gib nfs https://askubuntu.com/questions/355715/mount-multiple-nfs-server-drives-mount-to-single-nfs-client-drive
+big nfs https://askubuntu.com/questions/355715/mount-multiple-nfs-server-drives-mount-to-single-nfs-client-drive
 
 ADD SVENSKA SPRÅK ALTERNATIV
+
+creating a que
 
 MESSAGES (
 
@@ -10,8 +12,8 @@ MESSAGES (
 
 POPUP ( 
     
-    ServerAdress copy
-    Message bubble
+    // ServerAdress copy
+    // Message bubble
 
 )
 

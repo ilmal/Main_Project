@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
-import { Link, Element, Events, animateScroll as scroll, scrollSpy, scroller } from 'react-scroll'
+import { animateScroll as scroll, scroller } from 'react-scroll'
 
 const HomePage = () => {
   const list = ["Minecraft", "ARK", "Terraria", "Unturned", "Rust"];
@@ -8,7 +8,6 @@ const HomePage = () => {
   const [loadAnimation, changeloadAnimation] = useState(false)
   const [i, changei] = useState(-1)
   const [gamesAnimation, changeGamesAnimation] = useState(true)
-  const [scrolling, setScrolling] = useState(false)
   const [offset, setOffset] = useState(0)
 
   const history = useHistory();

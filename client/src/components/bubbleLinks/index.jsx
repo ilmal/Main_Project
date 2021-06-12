@@ -1,4 +1,5 @@
 import { useHistory } from "react-router-dom";
+import ReactTooltip from 'react-tooltip';
 
 const Boubbles = () => {
 
@@ -10,15 +11,20 @@ const Boubbles = () => {
     }
 
     return (
-        <div className="bubbleContainer" onClick={clickHandler}>
-            <div className="defaultBubble helpBubble fas fa-comments">
-                <div className="bubbleAlert">
-                    <div className="bubbleAlertCenter" />
+        <>
+            <div className="bubbleContainer" onClick={clickHandler}>
+                <div className="defaultBubble helpBubble fas fa-comments" data-tip data-for="SupportBubble">
+                    <div className="bubbleAlert">
+                        <div className="bubbleAlertCenter" />
+                    </div>
                 </div>
-            </div>
-            {/* <div className="defaultBubble twitterBubble fab fa-twitter" />
+                {/* <div className="defaultBubble twitterBubble fab fa-twitter" />
             <div className="defaultBubble instagramBubble fab fa-instagram" /> */}
-        </div>
+            </div>
+            <ReactTooltip id="SupportBubble" delayShow="100">
+                <p>Support & Feature requests</p>
+            </ReactTooltip>
+        </>
     );
 }
 
