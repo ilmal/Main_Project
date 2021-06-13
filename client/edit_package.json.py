@@ -17,6 +17,6 @@ fin = open(file_to_edit, "wt")
 os.system("echo file edit and save complete")
 fin.write(data)
 
-os.system("echo " + fin.read())
+print("echo " + fin.read())
 
 fin.close()
