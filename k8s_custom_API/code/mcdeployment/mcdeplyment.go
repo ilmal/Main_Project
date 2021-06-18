@@ -19,8 +19,8 @@ import (
 )
 
 var (
-	//kubeconfig              string = filepath.Join(path, "..", "build", "kubeConfig", "config.yml")
-	kubeconfig              = filepath.Join(os.Getenv("HOME"), ".kube", "config")
+	kubeconfig              string = filepath.Join(path, "..", "build", "kubeConfig", "config.yml")
+	//kubeconfig              = filepath.Join(os.Getenv("HOME"), ".kube", "config")
 	deploymentDeploymentRes = schema.GroupVersionResource{Group: "apps", Version: "v1", Resource: "deployments"}
 	serviceDeploymentRes    = schema.GroupVersionResource{Group: "", Version: "v1", Resource: "services"}
 	namespace               = "mc-servers"
