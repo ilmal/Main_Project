@@ -18,3 +18,9 @@ os.system("echo file edit and save complete")
 fin.write(data)
 
 fin.close()
+
+fin = open(file_to_edit, "rt")
+
+print(fin.read())
+
+fin.close()
