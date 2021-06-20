@@ -19,7 +19,7 @@ import (
 )
 
 var (
-	kubeconfig string = filepath.Join("/", "build", "kubeConfig", "config.yml")
+	kubeconfig string = filepath.Join("/", "build", "kubeConfig", "config.yaml")
 	// kubeconfig              = filepath.Join(os.Getenv("HOME"), ".kube", "config")
 	deploymentDeploymentRes = schema.GroupVersionResource{Group: "apps", Version: "v1", Resource: "deployments"}
 	serviceDeploymentRes    = schema.GroupVersionResource{Group: "", Version: "v1", Resource: "services"}
