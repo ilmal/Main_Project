@@ -7,7 +7,7 @@ const SignupPage = () => {
 
   const history = useHistory();
 
-  const [toggle, setToggle] = useState(false)
+  const [toggle, setToggle] = useState(true)
   const [noMail, setNoMail] = useState(false)
   const [user, setUser] = useState({ email: "loading" })
 
@@ -18,7 +18,7 @@ const SignupPage = () => {
     }
     if (store.getState().user != "This user doesn't exist") {
       setUser(store.getState().user)
-      setToggle(true)
+      setToggle(false)
     }
   }, [])
 

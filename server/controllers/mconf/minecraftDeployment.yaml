@@ -19,6 +19,13 @@ spec:
       containers:
       - image: itzg/minecraft-server
         name: minecraft-server
+        resources:
+          requests:
+            memory: "2Gi"
+            cpu: "4000m"
+          limits:
+            memory: "2Gi"
+            cpu: "4000m"
         env:
         - name: TYPE
           value: "VANILLA"

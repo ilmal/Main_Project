@@ -20,6 +20,7 @@ const Server = () => {
   useEffect(() => {
     const ele = document.getElementById('logsText');
     ele.scrollTop = ele.scrollHeight;
+    // refresh logs
     if (store.getState().serverPods.status != "server not running") {
       const interval = setInterval(() => {
         store.dispatch(serverPodsInfo)
@@ -98,6 +99,8 @@ const Server = () => {
         return <div className="closingDiv defaultDiv"><p className="closing">Shutting Down</p></div>
       case "Pending":
         return <div className="closingDiv defaultDiv"><p className="closing">Starting up</p></div>
+      case "Queuing":
+        return <div className="closingDiv defaultDiv"><p className="closing">Queuing for server</p></div>
       case "server not running":
         return <div className="closedDiv defaultDiv"><p className="closed">Not Running</p></div>
       default:
@@ -106,7 +109,7 @@ const Server = () => {
   }
   const serverIP = () => {
     if (userData.serverPods.status !== "server not running") {
-      return <span>nils.u1.se:{userData.serverSVC.port}</span>
+      return <span>mc.servers.u1.se:{userData.serverSVC.port}</span>
     } else {
       return <span>----</span>
     }
@@ -157,7 +160,7 @@ const Server = () => {
           </div>
         </div>
         <div className="userHomeSegment userHomeIpAdress">
-          <p>Server Adress:</p>
+          <p>Server IP:</p>
           <span data-tip data-for="copyServerAddress" onClick={copyText}>{serverIP()}</span>
         </div>
         <ChangeServerConfig />
