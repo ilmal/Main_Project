@@ -41,10 +41,13 @@ const clusterQueFunc = (data, id) => {
     for (let i = 0; i < data.items.length; i++) {
         const element = data.items[i];
         // check how many pods are good to be set in que
-        if (element.status.conditions[0].message.indexOf("Insufficient memory") > -1 ||
-            element.status.conditions[0].message.indexOf("Insufficient cpu") > -1) {
-            // adding pods to the que
-            queArr.push({ name: element.metadata.labels.app, time: element.metadata.creationTimestamp })
+        // exiting if pods dosn't have message
+        if (element.status.conditions[0].message != undefined) {
+            if (element.status.conditions[0].message.indexOf("Insufficient memory") > -1 ||
+                element.status.conditions[0].message.indexOf("Insufficient cpu") > -1) {
+                // adding pods to the que
+                queArr.push({ name: element.metadata.labels.app, time: element.metadata.creationTimestamp })
+            }
         }
     }
     // sorting the que after time
@@ -85,13 +88,16 @@ router.post("/pods", async (req, res) => {
             if (element.metadata.name.includes(req.body.id)) {
                 if (element.status.phase === "Pending") {
                     // if k8s cluster is full
-                    if (element.status.conditions[0].message.indexOf("Insufficient memory") > -1 ||
-                        element.status.conditions[0].message.indexOf("Insufficient cpu") > -1) {
+                    // exiting if pods dosn't have message
+                    if (element.status.conditions[0].message != undefined) {
+                        if (element.status.conditions[0].message.indexOf("Insufficient memory") > -1 ||
+                            element.status.conditions[0].message.indexOf("Insufficient cpu") > -1) {
 
-                        return {
-                            status: "Queuing",
-                            podName: null,
-                            queuing: clusterQueFunc(data, req.body.id)
+                            return {
+                                status: "Queuing",
+                                podName: null,
+                                queuing: clusterQueFunc(data, req.body.id)
+                            }
                         }
                     }
 

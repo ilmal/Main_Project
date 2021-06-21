@@ -102,6 +102,13 @@
       &:hover{
         color:rgba($color: #fff, $alpha: .8);
       }
+      span{
+        color: rgba($color: $blueColor, $alpha: 0.7);
+        margin: 0 .4rem 0 .4rem;
+        &:hover{
+          color:rgba($color: $blueColor, $alpha: .9);
+        }
+      }
     } 
     div{
       grid-row: 3/4;

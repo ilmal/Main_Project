@@ -9,8 +9,6 @@ creating a que (
 
 )
 
-
-
 MESSAGES (
 
     // sent verification message

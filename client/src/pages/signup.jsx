@@ -108,7 +108,7 @@ const SignupPage = () => {
       <div className="signupMainBody">
         <div className="SignupBody">
           <div className="messageBody">
-            <span>Follow the link sent to {user.email} to verify you account!</span>
+            <span>Follow the link sent to <span> {user.email} </span> and verify you account!</span>
             <div className="noMailLine" />
             {noMail ?
               <div className="noMail">
