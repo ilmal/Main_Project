@@ -1,5 +1,7 @@
 const router = require("express").Router();
 const request = require('request-promise');
+const moment = require("moment")
+moment().format()
 
 const logs = async (name) => {
     const config = {
@@ -17,6 +19,7 @@ const logs = async (name) => {
                 lines[i].indexOf("Mismatch in destroy block pos:") > -1 ||                                                  //preformance
                 lines[i].indexOf("[init] Setting initial memory to") > -1 ||                                                //spec details
                 lines[i].indexOf("[Autopause loop]") > -1 ||                                                                //autopause
+                lines[i].indexOf("[Autopause]") > -1 ||                                                                     //autopause
                 lines[i].indexOf("[RCON Client /127.0.0.1 #2/INFO]: Thread RCON Client /127.0.0.1 shutting down") > -1 ||   //autopause
                 lines[i].indexOf("[RCON Listener #1/INFO]: Thread RCON Client /127.0.0.1 started") > -1 ||                  //autopause
                 lines[i].indexOf("[Server thread/INFO]: [Rcon: Saved the game]") > -1) {                                    //autopause
@@ -131,7 +134,7 @@ router.post("/pods", async (req, res) => {
         }
         res.send({
             status: podStatus.status,
-            logs: logsData
+            logs: logsData,
         }).end()
     }
 })
@@ -166,6 +169,53 @@ router.post("/svc", (req, res) => {
             throw "Server is not running!"
         } catch (error) {
             console.log(error)
+        }
+    })
+})
+
+router.post("/time", async (req, res) => {
+    const config = {
+        'method': 'GET',
+        'url': `${process.env.K8S_DEFAULT_API}/api/v1/namespaces/mc-servers/pods`,
+    }
+
+    await request(config).then(response => {
+        const data = JSON.parse(response)
+
+        // getting the pods
+        for (let i = 0; i < data.items.length; i++) {
+            const element = data.items[i];
+            //getting a specific pod
+            if (element.metadata.name.includes(req.body.id)) {
+                // setting timestamp to a default if it's not reset, or have been reset before
+                let timeStamp = element.metadata.creationTimestamp
+                if (req.body.reset) {
+                    timeStamp = moment().toDate()
+                    console.log("req.body.reset", req.body.reset)
+                }
+                if (req.body.resetTime) {
+                    timeStamp = req.body.resetTime // send this to client 
+                    console.log("req.body.resetTime", req.body.resetTime)
+                }
+                const newDateObj = moment(timeStamp).add(30, 'm').toDate()
+                const currentTime = moment().toDate()
+                console.log("newDateObj: ", newDateObj, "currentTime: ", currentTime)
+                console.log((newDateObj - currentTime) / 60000)
+                if (currentTime > newDateObj) {
+                    console.log("THE TIME HAS EXPIRED!!!!!!")
+                    res.send({
+                        resetTime: null,
+                        message: 'Your time has expired, please click the "Reset time" button below!',
+                        timeLeft: null
+                    })
+                } else {
+                    res.send({
+                        resetTime: timeStamp,
+                        message: null,
+                        timeLeft: null
+                    })
+                }
+            }
         }
     })
 })

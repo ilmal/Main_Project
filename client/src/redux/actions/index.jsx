@@ -170,6 +170,21 @@ export const serverSVCInfo = async (dispatch) => {
         })
 }
 
+export const serverTimeInfo = async (dispatch, reset, resetTime) => {
+    console.log("reset: ", reset, "resetTime: ", resetTime)
+    await axios.post(`${ip_address}/k8s/time`, {
+        id: cookieValueUserID,
+        reset,
+        resetTime
+    })
+        .then(res => {
+            dispatch({
+                type: "SERVER_TIME_DATA",
+                payload: res.data
+            })
+        })
+}
+
 export const mcConfGetData = async (dispatch) => {
     await axios.post(`${ip_address}/mcConf/getData`, {
         id: cookieValueUserID

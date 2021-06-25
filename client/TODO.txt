@@ -2,6 +2,8 @@ big nfs https://askubuntu.com/questions/355715/mount-multiple-nfs-server-drives-
 
 ADD SVENSKA SPRÅK ALTERNATIV
 
+Fortfarande problem med att manipulera logs
+
 creating a que (
 
     allocation to 1000m, sedan kan jag kolla mängden pods som har en err meddelande av att de inte har tilllräckligt med cpu. 

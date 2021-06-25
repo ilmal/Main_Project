@@ -1,16 +1,20 @@
 .userHomeLayout {
-  height: 90vh;
+  height: 110vh;
   width: 100%;
+  margin-top: 3%;
   display: grid;
   grid-template-columns: 20% 5% repeat(3, 20% 5%);
-  grid-template-rows: auto repeat(5, 13% 5%);
+  grid-template-rows: auto repeat(7, 11% 3%);
   align-items: center;
 }
 
 /*scss for menu*/
 
 .userHomesideMenu {
+  position: fixed;
   height: 100%;
+  margin-top: 5%;
+  width: 20%;
   grid-column: 1 /2;
   grid-row: 2 / 14;
   .active{
@@ -301,6 +305,75 @@ scss for the Server tab
   .logsText span{
     font-size: 1rem;
     bottom: 100px;
+  }
+}
+
+.playtimeContainer{
+  grid-column: 3/6;
+  grid-row: 12/14;
+  display: grid;
+  grid-template-columns: 49.5% 1% 49.5%;
+  grid-template-rows: 100%;
+  .playtimeTimeContainer{
+    grid-column: 1/2;
+    grid-row: 1/2;
+    display: grid;
+    grid-template-columns: 49% 2% 49%;
+    grid-template-rows: 30% 70%;
+    .playtimetimedescription{
+      grid-column: 3/4;
+      grid-row: 1/2;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: flex-end;
+      justify-content: flex-start;
+      span{
+        color: rgba($color: #fff, $alpha: .7);
+        transform: translateY(1rem);
+      }
+    }
+    .playtimetimetime{
+      grid-column: 1/2;
+      grid-row: 2/3;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: flex-start;
+      justify-content: flex-end;
+      span{
+        color: rgba($color: $blueColor, $alpha: .7);
+        font-size: 3rem;
+      }
+    }
+  }
+  .playtimeContainerLine{
+    grid-column: 2/3;
+    grid-row: 1/2;
+    width: 100%;
+    height: 30%;
+    border-right: rgba($color: #fff, $alpha: .3) solid 1px;
+    display: flex;
+    align-self: center;
+  }
+  .playtimeBtnContainer{
+    grid-column: 3/4;
+    grid-row: 1/2;
+    justify-self: center;
+    align-self: center;
+    button{
+      border: none;
+      outline: none;
+      border-radius: 10px;
+      padding: 1rem 4rem 1rem 4rem;
+      background-color: rgba($blueColor, $alpha: 0.2);
+      color: rgba($blueColor, $alpha: 0.8);
+      transition: all .5s ease;
+      &:hover{
+        color: rgba($blueColor, $alpha: 1);
+        background-color: rgba($blueColor, $alpha: .3);
+      }
+    }
   }
 }
 

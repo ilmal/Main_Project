@@ -68,9 +68,7 @@ spec:
         
         - name: AUTOPAUSE_TIMEOUT_EST
           value: "360"
-
-
-
+          
         ports:
         - containerPort: 25565
           name: minecraft

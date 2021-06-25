@@ -4,14 +4,18 @@ import { useHistory } from "react-router-dom";
 import ReactTooltip from 'react-tooltip';
 
 import { store } from "../../index";
-import { fetchUserData, serverPodsInfo, serverSVCInfo, mcConfGetData } from "../../redux/actions"
+import { fetchUserData, serverPodsInfo, serverSVCInfo, mcConfGetData, serverTimeInfo } from "../../redux/actions"
 import { startServer, stopServer } from "../../redux/actions/index"
 
 const Server = () => {
   const [userData, updateUserData] = useState(store.getState());
   const [logsExpand, setLogsExpand] = useState(false)
+  //const []
 
   const history = useHistory();
+
+  const reset = false
+  const resetTime = new Date()
 
   store.subscribe(() => {
     updateUserData(store.getState());
@@ -20,10 +24,13 @@ const Server = () => {
   useEffect(() => {
     const ele = document.getElementById('logsText');
     ele.scrollTop = ele.scrollHeight;
-    // refresh logs
+
+    // refresh logs 
+
     if (store.getState().serverPods.status != "server not running") {
       const interval = setInterval(() => {
         store.dispatch(serverPodsInfo)
+        serverTimeInfo(store.dispatch, reset, resetTime)
       }, 5000);
       return () => clearInterval(interval);
     }
@@ -179,6 +186,20 @@ const Server = () => {
             </div>
           </div>
         </div>
+        <div className="playtimeContainer userHomeSegment">
+          <div className="playtimeTimeContainer" data-tip data-for="playtimeleft">
+            <div className="playtimetimetime">
+              <span>23</span>
+            </div>
+            <div className="playtimetimedescription">
+              <span>minutes</span>
+            </div>
+          </div>
+          <div className="playtimeContainerLine" />
+          <div className="playtimeBtnContainer">
+            <button>Refresh</button>
+          </div>
+        </div>
         <ReactTooltip id="copyServerAddress" delayShow="100">
           <p>Click to copy</p>
         </ReactTooltip>
@@ -187,6 +208,9 @@ const Server = () => {
         </ReactTooltip>
         <ReactTooltip id="expandLogs" place="bottom" delayShow="100">
           <p>Click to expand/minimize logs</p>
+        </ReactTooltip>
+        <ReactTooltip id="playtimeleft" place="top" delayShow="20">
+          <p>play time remaining</p>
         </ReactTooltip>
       </>
     );
