@@ -11,6 +11,8 @@ creating a que (
 
 )
 
+fixa tiden, fortfarande inte klar! :(
+
 logs vanliga meddelanden se bättre ut. 
 
 not done with info page user home thingy
