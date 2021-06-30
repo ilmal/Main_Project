@@ -187,17 +187,22 @@ const Server = () => {
           </div>
         </div>
         <div className="playtimeContainer userHomeSegment">
-          <div className="playtimeTimeContainer" data-tip data-for="playtimeleft">
-            <div className="playtimetimetime">
-              <span>23</span>
-            </div>
-            <div className="playtimetimedescription">
-              <span>minutes</span>
-            </div>
+          <div className="playtimeTitleContainer">
+            <span>Play time</span>
           </div>
-          <div className="playtimeContainerLine" />
-          <div className="playtimeBtnContainer">
-            <button>Refresh</button>
+          <div className="playtimeInfoContainer">
+            <div className="playtimeTimeContainer" data-tip data-for="playtimeleft">
+              <div className="playtimetimetime">
+                <span>23</span>
+              </div>
+              <div className="playtimetimedescription">
+                <span>minutes</span>
+              </div>
+            </div>
+            <div className="playtimeContainerLine" />
+            <div className="playtimeBtnContainer">
+              <button>Refresh</button>
+            </div>
           </div>
         </div>
         <ReactTooltip id="copyServerAddress" delayShow="100">

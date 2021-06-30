@@ -23,21 +23,25 @@ const Bubbles = () => {
             console.log("infoPanel")
             return
         }
+        if (origin.indexOf("infoPanelBubbleExitInner") > -1) {
+            setInfoPanel(!infoPanel)
+            console.log("infoPanel")
+            return
+        }
         store.dispatch({
             type: "ERR_MESSAGE",
             payload: "Something went wrong while handling your request"
         })
     }
 
+    // enable disable scroll on infopanel
     useEffect(() => {
         if (infoPanel) {
-
+            //document.body.style.overflow = "hidden"
+        } else if (!infoPanel) {
+            //document.body.style.overflow = "scroll"
         }
-        document.getElementById("random03242jcmvmj0v23cm4").addEventListener("scroll", (e) => {
-            e.preventDefault()
-            console.log("heyoooooo!")
-        })
-    })
+    }, [infoPanel])
 
     return (
         <>
@@ -48,7 +52,34 @@ const Bubbles = () => {
                     </div>
                 </div>
                 {window.location.pathname === "/user/home" ? <div className="defaultBubble infoBubble fas fa-exclamation" data-tip data-for="InfoBubble" onClick={clickHandler} /> : null}
-                {infoPanel ? <InfoPanelUserHome /> : null}
+
+                {
+                    infoPanel ?
+                        <>
+                            <div className="infoPanelBlur" />
+                            <div className="infoPanelContainerOuter">
+                                <div className="infoPanelContainer">
+                                    <div className="infoPanelBubbleConatiner">
+                                        <div className="infoPanelBubbleInner">
+                                            <div className={
+                                                window.location.pathname === "/user/home" ? "infoPanelBubbleInnerUserHome fas fa-exclamation" : null
+                                            } />
+                                        </div>
+                                        <div className="infoPanelBubbleExit">
+                                            <div className="infoPanelBubbleExitInner" onClick={clickHandler}>
+                                                <span>Exit</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="infoPanelContainerInner">
+                                        {window.location.pathname === "/user/home" ? <InfoPanelUserHome /> : null}
+                                    </div>
+                                </div>
+                            </div>
+                        </>
+                        : null
+                }
+
                 {/* <div className="defaultBubble twitterBubble fab fa-twitter" />
             <div className="defaultBubble instagramBubble fab fa-instagram" /> */}
             </div>
