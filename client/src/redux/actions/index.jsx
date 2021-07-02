@@ -121,7 +121,7 @@ export const createMcConfig = async (dispatch) => {
         })
 }
 
-export const startServer = async (dispatch) => {
+export const StartServer = async (dispatch) => {
     await axios.post(`${ip_address}/server`, {
         id: cookieValueUserID,
         action: "start"
@@ -133,7 +133,7 @@ export const startServer = async (dispatch) => {
         })
 }
 
-export const stopServer = async (dispatch) => {
+export const StopServer = async (dispatch) => {
     await axios.post(`${ip_address}/server`, {
         id: cookieValueUserID,
         action: "stop"
@@ -150,7 +150,6 @@ export const serverPodsInfo = async () => {
         id: cookieValueUserID
     })
         .then(res => {
-            console.log(res)
             store.dispatch({
                 type: "SERVER_PODS_DATA",
                 payload: res.data
@@ -170,18 +169,21 @@ export const serverSVCInfo = async (dispatch) => {
         })
 }
 
-export const serverTimeInfo = async (dispatch, reset, resetTime) => {
-    console.log("reset: ", reset, "resetTime: ", resetTime)
+export const serverTimeInfo = async (dispatch, reset, timeOfReset) => {
     await axios.post(`${ip_address}/k8s/time`, {
         id: cookieValueUserID,
         reset,
-        resetTime
+        timeOfReset
     })
         .then(res => {
-            dispatch({
-                type: "SERVER_TIME_DATA",
-                payload: res.data
-            })
+            if (res.data.err) {
+                console.error("err occured at response from k8s/time see (actions index)", res.data.err)
+            } else {
+                dispatch({
+                    type: "SERVER_TIME_DATA",
+                    payload: res.data
+                })
+            }
         })
 }
 

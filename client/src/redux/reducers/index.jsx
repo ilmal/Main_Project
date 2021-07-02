@@ -5,7 +5,11 @@ const initailState = {
     auth: null,
     serverPods: "default",
     serverSVC: "default",
-    serverTIME: null,
+    serverTIME: {
+        timeOfReset: null,
+        timeLeft: 0,
+        serverShutDown: false
+    },
     env: [
         { name: "", value: "" },
         { name: "", value: "" },

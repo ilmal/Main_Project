@@ -1,6 +1,8 @@
-big nfs https://askubuntu.com/questions/355715/mount-multiple-nfs-server-drives-mount-to-single-nfs-client-drive
+bigger nfs https://askubuntu.com/questions/355715/mount-multiple-nfs-server-drives-mount-to-single-nfs-client-drive
 
 ADD SVENSKA SPRÅK ALTERNATIV
+
+Page still not responsive, HAVE FUN FIXING THAT! :)
 
 Fortfarande problem med att manipulera logs
 
@@ -10,6 +12,12 @@ creating a que (
     Jag måste se till så att det går i ordning. Alltså att den som är först blir startad först. 
 
 )
+
+forget password recovery
+
+bug with time when starting server and instently hitting the refresh (need to send the time req iunstatnly)
+
+buggy behavior when inserting email and not verifying, then trying to sign up with same email
 
 fixa tiden, fortfarande inte klar! :(
 

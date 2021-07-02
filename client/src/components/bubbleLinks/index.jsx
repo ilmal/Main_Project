@@ -37,9 +37,9 @@ const Bubbles = () => {
     // enable disable scroll on infopanel
     useEffect(() => {
         if (infoPanel) {
-            //document.body.style.overflow = "hidden"
+            document.body.style.overflow = "hidden"
         } else if (!infoPanel) {
-            //document.body.style.overflow = "scroll"
+            document.body.style.overflow = "scroll"
         }
     }, [infoPanel])
 
@@ -56,7 +56,7 @@ const Bubbles = () => {
                 {
                     infoPanel ?
                         <>
-                            <div className="infoPanelBlur" />
+                            <div className="infoPanelBlur" onClick={clickHandler} />
                             <div className="infoPanelContainerOuter">
                                 <div className="infoPanelContainer">
                                     <div className="infoPanelBubbleConatiner">

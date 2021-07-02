@@ -117,6 +117,10 @@ router.post("/pods", async (req, res) => {
                     queuing: false
                 }
             }
+            res.send({
+                status: "server not running",
+                logs: "server not running"
+            }).end()
         }
         res.send({
             status: "server not running",
@@ -152,23 +156,21 @@ router.post("/svc", (req, res) => {
                 const element = data.items[i];
                 console.log(element.metadata.labels.app)
                 if (element.metadata.labels.app.includes(req.body.id)) {
-                    console.log("server found, sending successfull SVC-DATA now!")
                     console.log(element.spec.ports[0].nodePort)
                     res.send({
                         port: element.spec.ports[0].nodePort
                     })
                     res.end()
-                    throw "server found, exit function"
+                    throw "server SVC found, exit function"
                 }
             }
-            console.log("server not found, no port!")
             res.send({
                 status: "server not running"
             })
             res.end()
-            throw "Server is not running!"
+            throw "Server SVC is not running!"
         } catch (error) {
-            console.log(error)
+            //console.log(error)
         }
     })
 })
@@ -189,34 +191,53 @@ router.post("/time", async (req, res) => {
             if (element.metadata.name.includes(req.body.id)) {
                 // setting timestamp to a default if it's not reset, or have been reset before
                 let timeStamp = element.metadata.creationTimestamp
+
+                // req.body.reset = if the server should reset the time
+                // req.body.timeOfReset = the time the server was last reset, this is needed to calculate remaining time after a reset
+
+                //console.log("req.body.reset: ", req.body.reset, "req.body.timeOfReset: ", req.body.timeOfReset)
+
+                if (req.body.timeOfReset) {
+                    timeStamp = req.body.timeOfReset // send this to client 
+                }
                 if (req.body.reset) {
                     timeStamp = moment().toDate()
-                    console.log("req.body.reset", req.body.reset)
                 }
-                if (req.body.resetTime) {
-                    timeStamp = req.body.resetTime // send this to client 
-                    console.log("req.body.resetTime", req.body.resetTime)
-                }
-                const newDateObj = moment(timeStamp).add(30, 'm').toDate()
+                // creating a new timestamp with the added 30 min
+                const newTimeStamp = moment(timeStamp).add(1, 'm').toDate()
                 const currentTime = moment().toDate()
-                console.log("newDateObj: ", newDateObj, "currentTime: ", currentTime)
-                console.log((newDateObj - currentTime) / 60000)
-                if (currentTime > newDateObj) {
+                // calculating time remaining
+                const timeLeftExact = (newTimeStamp - currentTime) / 60000 //NewTimeStamp - currentTimeStamp in milliseconds converted to mins
+                const timeLeft = timeLeftExact.toString().split(".")[0]
+
+                //console.log("Time left: ", timeLeft)
+
+                // check if the current time is more recent than the newTimeStamp, if case: the time has expired
+                if (currentTime > newTimeStamp) {
                     console.log("THE TIME HAS EXPIRED!!!!!!")
                     res.send({
-                        resetTime: null,
-                        message: 'Your time has expired, please click the "Reset time" button below!',
-                        timeLeft: null
+                        timeOfReset: null,
+                        timeLeft: 0,
+                        serverShutDown: true
                     })
                 } else {
                     res.send({
-                        resetTime: timeStamp,
-                        message: null,
-                        timeLeft: null
+                        timeOfReset: timeStamp,
+                        timeLeft: timeLeft,
+                        serverShutDown: false
                     })
                 }
+                return
             }
+            console.log("server not found (/k8s/time)")
+            res.send({
+                "err": "server not running"
+            })
         }
+        console.log("no servers runninng (/k8s/time)")
+        res.send({
+            "err": "no servers running"
+        })
     })
 })
 

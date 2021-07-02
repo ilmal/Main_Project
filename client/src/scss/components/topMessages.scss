@@ -17,11 +17,12 @@
 @mixin messagedefaults {
     pointer-events: none;
     transform: translateY(-50px);
+    top: 0;
     width: 100%;
     height: 50px;
     animation-name: animateIn;
     animation-duration: 5s;
-    position: absolute;
+    position: fixed;
     display: flex;
     justify-content: center;
     align-items: center;
