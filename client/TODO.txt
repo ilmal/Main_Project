@@ -4,8 +4,6 @@ ADD SVENSKA SPRÅK ALTERNATIV
 
 Page still not responsive, HAVE FUN FIXING THAT! :)
 
-Fortfarande problem med att manipulera logs
-
 creating a que (
 
     allocation to 1000m, sedan kan jag kolla mängden pods som har en err meddelande av att de inte har tilllräckligt med cpu. 
@@ -13,14 +11,14 @@ creating a que (
 
 )
 
+
+--------------------------- Currently problems with path /changepass FIX IT!
+
+
+call to action home page
+
 forget password recovery
 
-bug with time when starting server and instently hitting the refresh (need to send the time req iunstatnly)
-
 buggy behavior when inserting email and not verifying, then trying to sign up with same email
-
-fixa tiden, fortfarande inte klar! :(
-
-logs vanliga meddelanden se bättre ut. 
 
 not done with info page user home thingy

@@ -1,23 +1,19 @@
+const router = require("express").Router()
+const Confirm = require("./confirmation")
 const User = require("../../models/user/config.model")
 const nodemailer = require("nodemailer")
 const jwt = require("jsonwebtoken")
 
-const Confirm = async (email) => {
-    // if name exists
-    const user = await User.findOne({ email })
+
+router.post("/", async (req, res) => {
+
+    // getting user
+    const user = await User.findOne({ email: req.body.email })
     if (!user) {
-        console.log("User does not exist")
-        return ({
+        console.log("cannot find user (updatepassmail)")
+        return res.send({
             type: "err",
-            payload: "User does not exist"
-        })
-    }
-    //if user already verified (this should never be possible, but still :) )
-    if (user.verified) {
-        console.log("User already verified")
-        return ({
-            type: "err",
-            payload: "User already verified"
+            payload: "there are no users with this email"
         })
     }
 
@@ -27,7 +23,7 @@ const Confirm = async (email) => {
     })
     console.log("mailToken: ", token)
 
-    const url = `servers.u1.se/confirmation/${token}?_id=${user._id}`
+    const url = `${process.env.SERVER_ADRESS}/changepass/${token}?_id=${user._id}`
 
     const transporter = nodemailer.createTransport({
         service: "gmail",
@@ -36,12 +32,12 @@ const Confirm = async (email) => {
             pass: process.env.EMAILPASS
         },
     });
-    const responseMessage = "Message sent!"
+    let responseMessage = "Message sent!"
 
-    const info = await transporter.sendMail({
+    await transporter.sendMail({
         from: "servers.u1.se@gmail.com", // sender address
-        to: email, // list of receivers
-        subject: `Activate you Servers.u1.se account here`, // Subject line
+        to: req.body.email, // list of receivers
+        subject: `Reset your ${process.env.SERVER_ADRESS} password here!`, // Subject line
         html: `<p>${url}</p>`, // html body
     }).catch(err => {
         console.log(err)
@@ -53,6 +49,6 @@ const Confirm = async (email) => {
         type: "message",
         payload: responseMessage
     })
-}
+})
 
-module.exports = Confirm
+module.exports = router

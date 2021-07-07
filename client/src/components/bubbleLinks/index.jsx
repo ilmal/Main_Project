@@ -83,10 +83,10 @@ const Bubbles = () => {
                 {/* <div className="defaultBubble twitterBubble fab fa-twitter" />
             <div className="defaultBubble instagramBubble fab fa-instagram" /> */}
             </div>
-            <ReactTooltip id="SupportBubble" delayShow="50">
+            <ReactTooltip id="SupportBubble" delayShow={50}>
                 <p>Support & Feature requests</p>
             </ReactTooltip>
-            <ReactTooltip id="InfoBubble" delayShow="50">
+            <ReactTooltip id="InfoBubble" delayShow={50}>
                 <p>Info about page</p>
             </ReactTooltip>
         </>

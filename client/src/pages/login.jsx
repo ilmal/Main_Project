@@ -1,10 +1,14 @@
 import { login } from "../redux/actions/index";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import ReactTooltip from 'react-tooltip';
 import { useHistory } from "react-router-dom";
 import { store } from "..";
 
+import ForgotPassComponent from "../components/login/forgetPass";
+
 const LoginPage = () => {
+    const [forgotPass, setForgotPass] = useState(false)
+
     const history = useHistory();
 
     ReactTooltip.rebuild()
@@ -25,6 +29,17 @@ const LoginPage = () => {
     const toSignup = () => {
         history.push("/user/signup");
         window.location.reload();
+    }
+
+    const forgotPassFunc = () => {
+        setForgotPass(true)
+    }
+
+    if (forgotPass) {
+        console.log("forgotPassThingy")
+        return (
+            <ForgotPassComponent />
+        )
     }
 
     return (
@@ -48,7 +63,10 @@ const LoginPage = () => {
                     </div>
                     <button type="submit" className="loginButton">submit</button>
                 </form>
-                <span className="loginSignUp" onClick={toSignup}>First time? Sign up!</span>
+                <div className="loginLinks">
+                    <span className="loginSignUp" onClick={toSignup}>First time? Sign up!</span>
+                    <span className="loginForgotPass" onClick={forgotPassFunc}>Forgot password?</span>
+                </div>
             </div>
         </div >
     );

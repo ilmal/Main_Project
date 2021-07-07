@@ -224,3 +224,21 @@ export const resendConfirmationMail = async (dispatch) => {
         })
 }
 
+export const updatePassMail = async (dispatch, email) => {
+    await axios.post(`${ip_address}/user/updatepassmail`, {
+        email
+    })
+        .then(response => {
+            if (response.data.type === "err") {
+                dispatch({
+                    type: "ERR_MESSAGE",
+                    payload: response.data.payload
+                })
+            } else {
+                dispatch({
+                    type: "MESSAGE",
+                    payload: response.data.payload
+                })
+            }
+        })
+}
