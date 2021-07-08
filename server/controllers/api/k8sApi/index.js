@@ -15,7 +15,7 @@ const logs = async (name) => {
 
         //removing the messages that should get removed
         for (let i = 0; i < lines.length; i++) {
-            if (lines[i].indexOf("Can't keep up! Is the server overloaded?") > -1 ||                                        //preformance
+            if (lines[i].indexOf("Can't keep up!") > -1 ||                                                                  //preformance
                 lines[i].indexOf("Mismatch in destroy block pos:") > -1 ||                                                  //preformance
                 lines[i].indexOf("[init] Setting initial memory to") > -1 ||                                                //spec details
                 lines[i].indexOf("[Autopause loop]") > -1 ||                                                                //autopause
@@ -24,6 +24,9 @@ const logs = async (name) => {
                 lines[i].indexOf("[RCON Listener #1/INFO]: Thread RCON Client /127.0.0.1 started") > -1 ||                  //autopause
                 lines[i].indexOf("[Server thread/INFO]: [Rcon: Saved the game]") > -1) {                                    //autopause
 
+                if (lines[i].indexOf("Can't keep up!") > -1) {
+                    console.log(lines[i])
+                }
                 lines.splice(i, 1)
             }
 
@@ -204,7 +207,7 @@ router.post("/time", async (req, res) => {
                     timeStamp = moment().toDate()
                 }
                 // creating a new timestamp with the added 30 min
-                const newTimeStamp = moment(timeStamp).add(1, 'm').toDate()
+                const newTimeStamp = moment(timeStamp).add(30, 'm').toDate()
                 const currentTime = moment().toDate()
                 // calculating time remaining
                 const timeLeftExact = (newTimeStamp - currentTime) / 60000 //NewTimeStamp - currentTimeStamp in milliseconds converted to mins

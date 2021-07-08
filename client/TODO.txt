@@ -11,13 +11,16 @@ creating a que (
 
 )
 
-
-adding messages to updatePassMail thingy, send recovery link update!
+when default message is shown in the logs hover will show toolbar for expand logs
 
 call to action home page
-
-forget password recovery
 
 buggy behavior when inserting email and not verifying, then trying to sign up with same email
 
 not done with info page user home thingy
+
+Heyo!
+
+Since you are an admin in the Polite Potatoes discord server I thought I'd turn to you for this question. 
+
+I'm messing around with creating a game server hosting site, and want to get some experience hosting for actual people. 
