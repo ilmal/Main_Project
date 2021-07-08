@@ -51,7 +51,7 @@ const Bubbles = () => {
                         <div className="bubbleAlertCenter" />
                     </div>
                 </div>
-                {window.location.pathname === "/user/home" ? <div className="defaultBubble infoBubble fas fa-exclamation" data-tip data-for="InfoBubble" onClick={clickHandler} /> : null}
+                //{window.location.pathname === "/user/home" ? <div className="defaultBubble infoBubble fas fa-exclamation" data-tip data-for="InfoBubble" onClick={clickHandler} /> : null}
 
                 {
                     infoPanel ?
