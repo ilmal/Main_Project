@@ -1,12 +1,11 @@
 const router = require("express").Router()
-let request = require('request');
+const bcrypt = require("bcrypt")
 const User = require("../../models/user/config.model")
 const jwt = require("jsonwebtoken")
 var ObjectId = require('mongodb').ObjectID;
+router.post("/", (req, res) => {
 
-router.post("/", async (req, res) => {
-
-    const verified = jwt.verify(req.body.token, process.env.TOKEN_SECRET, async (err) => {
+    jwt.verify(req.body.token, process.env.TOKEN_SECRET, async (err) => {
         if (err) {
             if (err.name === "TokenExpiredError") {
                 console.log("ExpiredToken since: ", err.expiredAt)
@@ -39,20 +38,23 @@ router.post("/", async (req, res) => {
                     payload: "cannot find user"
                 })
             }
-            user.verified = true
+            const salt = await bcrypt.genSalt(10)
+            const hashedPass = await bcrypt.hash(req.body.newPassword, salt)
+
+            user.password = hashedPass
 
             await user.save(err => {
                 if (err) {
-                    console.log("ERR, during insertion at changeUserValues.js: ", err)
+                    console.log("ERR, during insertion at updatePassValidation: ", err)
                     return res.send({
                         type: "err",
-                        payload: "ERR, during insertion at changeUserValues.js"
+                        payload: "something went wrong during password update, please try again later!"
                     })
                 } else {
                     console.log("saved!")
                     res.send({
                         type: "success",
-                        payload: "success"
+                        payload: "password updated!"
                     })
                 }
             })
@@ -60,4 +62,4 @@ router.post("/", async (req, res) => {
     })
 })
 
-module.exports = router;
+module.exports = router

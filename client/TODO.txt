@@ -12,8 +12,7 @@ creating a que (
 )
 
 
---------------------------- Currently problems with path /changepass FIX IT!
-
+adding messages to updatePassMail thingy, send recovery link update!
 
 call to action home page
 

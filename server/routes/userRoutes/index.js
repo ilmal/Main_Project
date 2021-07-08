@@ -10,7 +10,7 @@ const auth = require("../../controllers/user/authCheck")
 const changePass = require("../../controllers/user/changePass")
 const changeUserValues = require("../../controllers/user/changeUserValues")
 const resendconfirmationMail = require("../../controllers/user/resendConfirmationMail")
-const updatepassmail = require("../../controllers/user/updatepassmail")
+const updatepass = require("../../controllers/user/updatepassmail")
 
 
 router.use("/", user)
@@ -21,7 +21,7 @@ router.use("/auth", auth)
 router.use("/changepass", changePass)
 router.use("/changeuser", changeUserValues)
 router.use("/resendconfirmationmail", resendconfirmationMail)
-router.use("/updatepassmail", updatepassmail)
+router.use("/updatepass", updatepass)
 
 
 

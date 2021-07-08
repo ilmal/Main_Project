@@ -5,8 +5,8 @@ const mcConfRouter = require("./mcConfRoutes")
 const k8sRouter = require("./k8sApiRoutes")
 const serverRouter = require("./serverRouter")
 const nodemailer = require("./nodemailer")
-const confirmation = require("./confimationRoutes")
-const changePass = require("./changePassRoutes")
+const confirmationValidation = require("./confimationValidationRoutes")
+const updatePassValidation = require("./updatePassValidationRoutes")
 
 
 router.use("/user", userRouter)
@@ -14,7 +14,7 @@ router.use("/mcConf", mcConfRouter)
 router.use("/server", serverRouter)
 router.use("/k8s", k8sRouter)
 router.use("/nodemailer", nodemailer)
-router.use("/changepass", changePass)
-router.use("/confirmation", confirmation)
+router.use("/confirmationvalidation", confirmationValidation)
+router.use("/updatepassValidation", updatePassValidation)
 
 module.exports = router

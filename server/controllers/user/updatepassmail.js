@@ -23,7 +23,7 @@ router.post("/", async (req, res) => {
     })
     console.log("mailToken: ", token)
 
-    const url = `${process.env.SERVER_ADRESS}/changepass/${token}?_id=${user._id}`
+    const url = `${process.env.SERVER_ADRESS}/updatepass/${token}?_id=${user._id}`
 
     const transporter = nodemailer.createTransport({
         service: "gmail",

@@ -199,10 +199,10 @@ export const mcConfGetData = async (dispatch) => {
         })
 }
 
-export const confirmation = async () => {
-    await axios.post(`${ip_address}/confirmation`, {
-        id: cookieValueUserID
-    })
+export const confirmation = async () => { // function never called, see code /components/confirmation/index.jsx, reason is history() method. Fix when time.
+}
+
+export const changePass = async () => { // function never called, see code /components/changePass/index.jsx, reason is history() method. Fix when time.
 }
 
 export const resendConfirmationMail = async (dispatch) => {
@@ -225,7 +225,7 @@ export const resendConfirmationMail = async (dispatch) => {
 }
 
 export const updatePassMail = async (dispatch, email) => {
-    await axios.post(`${ip_address}/user/updatepassmail`, {
+    await axios.post(`${ip_address}/user/updatepass`, {
         email
     })
         .then(response => {

@@ -1,13 +1,19 @@
 import { store } from "../.."
 import { updatePassMail } from "../../redux/actions"
 
-
 const ForgotPassComponent = () => {
+
 
     const sendLinkFunc = (e) => {
         e.preventDefault()
-        console.log(e.target.email.value)
         updatePassMail(store.dispatch, e.target.email.value)
+        store.dispatch({
+            type: "MESSAGE",
+            payload: `Check your ${e.target.email.value} mail to recover password`
+        })
+        setTimeout(() => {
+            window.location.reload();
+        }, 2000)
     }
 
     const goBackFunc = () => {
