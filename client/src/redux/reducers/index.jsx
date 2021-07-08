@@ -5,6 +5,11 @@ const initailState = {
     auth: null,
     serverPods: "default",
     serverSVC: "default",
+    serverTIME: {
+        timeOfReset: null,
+        timeLeft: 0,
+        serverShutDown: false
+    },
     env: [
         { name: "", value: "" },
         { name: "", value: "" },
@@ -43,6 +48,11 @@ const Reducer = (state = initailState, action) => {
             return {
                 ...state,
                 serverSVC: action.payload
+            }
+        case "SERVER_TIME_DATA":
+            return {
+                ...state,
+                serverTIME: action.payload
             }
         case "MC_CONF_GET_DATA":
             return {

@@ -19,6 +19,13 @@ spec:
       containers:
       - image: itzg/minecraft-server
         name: minecraft-server
+        resources:
+          requests:
+            memory: "2Gi"
+            cpu: "1000m"
+          limits:
+            memory: "2Gi"
+            cpu: "1000m"
         env:
         - name: TYPE
           value: "VANILLA"
@@ -53,6 +60,15 @@ spec:
         - name: OVERRIDE_OPS
           value: "true"
 
+        - name: MEMORY
+          value: "2g"
+
+        - name: ENABLE_AUTOPAUSE
+          value: "TRUE"
+        
+        - name: AUTOPAUSE_TIMEOUT_EST
+          value: "360"
+          
         ports:
         - containerPort: 25565
           name: minecraft

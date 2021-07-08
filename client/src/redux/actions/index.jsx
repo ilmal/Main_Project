@@ -121,7 +121,7 @@ export const createMcConfig = async (dispatch) => {
         })
 }
 
-export const startServer = async (dispatch) => {
+export const StartServer = async (dispatch) => {
     await axios.post(`${ip_address}/server`, {
         id: cookieValueUserID,
         action: "start"
@@ -133,7 +133,7 @@ export const startServer = async (dispatch) => {
         })
 }
 
-export const stopServer = async (dispatch) => {
+export const StopServer = async (dispatch) => {
     await axios.post(`${ip_address}/server`, {
         id: cookieValueUserID,
         action: "stop"
@@ -150,7 +150,6 @@ export const serverPodsInfo = async () => {
         id: cookieValueUserID
     })
         .then(res => {
-            console.log(res)
             store.dispatch({
                 type: "SERVER_PODS_DATA",
                 payload: res.data
@@ -170,6 +169,24 @@ export const serverSVCInfo = async (dispatch) => {
         })
 }
 
+export const serverTimeInfo = async (dispatch, reset, timeOfReset) => {
+    await axios.post(`${ip_address}/k8s/time`, {
+        id: cookieValueUserID,
+        reset,
+        timeOfReset
+    })
+        .then(res => {
+            if (res.data.err) {
+                console.error("err occured at response from k8s/time see (actions index)", res.data.err)
+            } else {
+                dispatch({
+                    type: "SERVER_TIME_DATA",
+                    payload: res.data
+                })
+            }
+        })
+}
+
 export const mcConfGetData = async (dispatch) => {
     await axios.post(`${ip_address}/mcConf/getData`, {
         id: cookieValueUserID
@@ -182,10 +199,10 @@ export const mcConfGetData = async (dispatch) => {
         })
 }
 
-export const confirmation = async () => {
-    await axios.post(`${ip_address}/confirmation`, {
-        id: cookieValueUserID
-    })
+export const confirmation = async () => { // function never called, see code /components/confirmation/index.jsx, reason is history() method. Fix when time.
+}
+
+export const changePass = async () => { // function never called, see code /components/changePass/index.jsx, reason is history() method. Fix when time.
 }
 
 export const resendConfirmationMail = async (dispatch) => {
@@ -207,3 +224,21 @@ export const resendConfirmationMail = async (dispatch) => {
         })
 }
 
+export const updatePassMail = async (dispatch, email) => {
+    await axios.post(`${ip_address}/user/updatepass`, {
+        email
+    })
+        .then(response => {
+            if (response.data.type === "err") {
+                dispatch({
+                    type: "ERR_MESSAGE",
+                    payload: response.data.payload
+                })
+            } else {
+                dispatch({
+                    type: "MESSAGE",
+                    payload: response.data.payload
+                })
+            }
+        })
+}

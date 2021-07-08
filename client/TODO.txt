@@ -1,38 +1,26 @@
-big nfs https://askubuntu.com/questions/355715/mount-multiple-nfs-server-drives-mount-to-single-nfs-client-drive
+bigger nfs https://askubuntu.com/questions/355715/mount-multiple-nfs-server-drives-mount-to-single-nfs-client-drive
 
 ADD SVENSKA SPRÅK ALTERNATIV
 
-creating a que
+Page still not responsive, HAVE FUN FIXING THAT! :)
 
-MESSAGES (
+creating a que (
 
-    // sent verification message
-    // Err messages invalid email
-)
-
-POPUP ( 
-    
-    // ServerAdress copy
-    // Message bubble
+    allocation to 1000m, sedan kan jag kolla mängden pods som har en err meddelande av att de inte har tilllräckligt med cpu. 
+    Jag måste se till så att det går i ordning. Alltså att den som är först blir startad först. 
 
 )
 
-// SIGNUP LOGIN REMOVAL ON ALREADY LOGGED IN PEOPLE
+when default message is shown in the logs hover will show toolbar for expand logs
 
-// Auto refresh logs
+call to action home page
 
-// SOMETHING WEIRD WITH ADDING OPS THEN ADDING WHITE, PERHAPS COMPLETLY CHANGE THE OPS AND WHITELIST CHANGE LIST
+buggy behavior when inserting email and not verifying, then trying to sign up with same email
 
-// EMAIL VERIFICATION
+not done with info page user home thingy
 
-// dölj server preformance
+Heyo!
 
-// copy click server address
+Since you are an admin in the Polite Potatoes discord server I thought I'd turn to you for this question. 
 
-//FIXA PASS CHANGE AND USER CHANGE
-
-// ENDAST TILLÅTA INLOGGADE SKICKA FEEDBACK SAMT ERR, SKICKA MED ID MED ALLA MEDELANDEN
-
-// MOVE THE SET COOKIE TO THE CLIENT SIDE SO THAT CROSS ORIGIN ISN'T A PROBLEM
-
-// Det bör gå att endast andvända HTTPS proxy => frontend; HTTP frontend => backend. Annart commit no life rope.
+I'm messing around with creating a game server hosting site, and want to get some experience hosting for actual people. 

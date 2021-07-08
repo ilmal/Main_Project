@@ -7,7 +7,7 @@
     height: 20%;
     display: grid;
     grid-template-rows: 10% 40% 40% 10%;
-    grid-template-columns: 10% 26% 28% 26% 10%;
+    grid-template-columns: 5% 20% 5% 20% 5% 20% 5% 20%;
     align-items: center;
     justify-content: center;
     .defaultBubble{
@@ -35,7 +35,7 @@
         background-color: rgba($yellowColor, $alpha: 1);
         color: black;
         .bubbleAlert{
-            z-index: 101;
+            z-index: 1;
             background-color: red;
             width: .6em;
             height: .6em;
@@ -54,6 +54,12 @@
                 border-radius: 50%;
             }
         }
+    }
+    .infoBubble{
+        grid-column: 4/5;
+        grid-row: 3/4;
+        background-color: rgba($blueColor, $alpha: 1);
+        color: black;
     }
     .twitterBubble{
         grid-column: 3/4;

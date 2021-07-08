@@ -102,6 +102,13 @@
       &:hover{
         color:rgba($color: #fff, $alpha: .8);
       }
+      span{
+        color: rgba($color: $blueColor, $alpha: 0.7);
+        margin: 0 .4rem 0 .4rem;
+        &:hover{
+          color:rgba($color: $blueColor, $alpha: .9);
+        }
+      }
     } 
     div{
       grid-row: 3/4;
@@ -146,7 +153,7 @@
         font-size: 1.3em;
         transition: none;
         &:hover{
-          color: rgba($color: #fff, $alpha: 1);
+          color: rgba($color: #fff, $alpha: .7);
         }
       }
       button{

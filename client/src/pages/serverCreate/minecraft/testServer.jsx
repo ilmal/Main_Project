@@ -29,13 +29,13 @@ const MinecraftBasic = () => {
                 <div className="specsKeyValue">
                     <div className="specSeperator" />
                     <div className="specValue cpu">
-                        <span>CPU<span className="value"> EARLY ACCESS SPECS </span></span>
+                        <span>CPU<span className="value"> 1 CORE </span></span>
                     </div>
                     <div className="specValue mem">
-                        <span>Memory<span className="value"> EARLY ACCESS SPECS </span></span>
+                        <span>Memory<span className="value"> 2 GB </span></span>
                     </div>
                     <div className="specValue storage">
-                        <span>Storage<span className="value">Dynamic - HDD</span></span>
+                        <span>Storage<span className="value">Unlimited storage</span></span>
                     </div>
                 </div>
                 <div className="innerHeader gameHeader">
@@ -44,7 +44,7 @@ const MinecraftBasic = () => {
                 <div className="gameKeyValue">
                     <div className="gameSeperator" />
                     <div className="gameValue">
-                        <span>Max players<span className="value">Unlimited</span></span>
+                        <span>Max players<span className="value">10</span></span>
                     </div>
                     <div className="gameValue plugins">
                         <span>Plugins<span className="value">Unavailable</span></span>

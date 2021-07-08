@@ -1,0 +1,242 @@
+@keyframes blurAnimation{
+    0%{
+        opacity: 0;
+    }
+    100%{
+        opacity: 1;
+    }
+}
+
+@keyframes infoPanelIn {
+    0%{
+        transform: scale(0);
+    }
+}
+
+.infoPanelBlur{
+    position: fixed;
+    z-index: 2;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    backdrop-filter: blur(2px);
+    background-color: rgba($color: #fff, $alpha: .1);
+    opacity: 0;
+    animation: blurAnimation 1s ease forwards;
+}
+
+.infoPanelContainerOuter{
+    position: fixed;
+    z-index: 3;
+    top:0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template-rows: 5% 90% 5%;
+    grid-template-columns: 5% 90% 5%;
+    .infoPanelContainer{
+        grid-column: 2/3;
+        grid-row: 2/3;
+        width: 100%;
+        height: 100%;
+        animation: infoPanelIn .5s ease forwards;
+        display: grid;
+        grid-template-columns: 10% 80% 10%;
+        grid-template-rows: 10% 80% 10%;
+        .infoPanelBubbleConatiner{
+            grid-column: 2/3;
+            grid-row: 1/2;
+            width: 15%;
+            transform: translate(-12%,50%);
+            display: grid;
+            grid-template-rows: 100%;
+            grid-template-columns: 40% 60%;
+            align-items: center;
+            .infoPanelBubbleInner{
+                width: 5.5rem;
+                height: 5.5rem;
+                grid-column: 1/2;
+                grid-row: 1/2;
+                z-index: 1;
+                .infoPanelBubbleInnerUserHome{
+                    width: 100%;
+                    height: 100%;
+                    border-radius: 100%;
+                    background-color: rgba($color: $blueColor, $alpha: 1);
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    font-size: 2rem;
+                }
+            }
+            .infoPanelBubbleExit{
+                grid-column: 1/3;
+                grid-row: 1/2;
+                height: 60%;
+                margin-left: 1rem;
+                border-radius: 10px;
+                background-color: rgba($color: $backgroundColor, $alpha: 1);
+                .infoPanelBubbleExitInner{
+                    width: 100%;
+                    height: 100%;
+                    border-radius: 10px;
+                    background-color: rgba($color: $redColor, $alpha: .25);
+                    display: grid;
+                    grid-template-rows: 100%;
+                    grid-template-columns: 30% 70%;
+                    justify-items: center;
+                    align-items: center;
+                    transition: all .5s ease;
+                    span{
+                        grid-column: 2/3;
+                        grid-row: 1/2;
+                        font-size: 1.5rem;
+                        color: rgba($color: $redColor, $alpha: .7);
+                        pointer-events: none;
+                    }
+                    &:hover{
+                        background-color: rgba($color: $redColor, $alpha: .40);
+                        color: rgba($color: $redColor, $alpha: 1);
+                    }
+                }
+            }
+        }
+        .infoPanelContainerInner{
+            grid-row: 2/3;
+            grid-column: 2/3;
+            background-color: rgba($color: $backgroundColorBack, $alpha: 1);
+            border-radius: 10px;
+            .InfoPaneluserHomeContainer{
+                width: 100%;
+                height: 100%;
+                display: grid;
+                grid-template-columns: 1% 20% 2% 76% 1%;
+                grid-template-rows: 3% 7% 89% 1%;
+                .InfoPaneluserHomeMenuContainer{
+                    grid-column: 2/3;
+                    grid-row: 3/4;
+                    width: 100%;
+                    height: 100%;
+                    border-radius: 10px;
+                    background-color: rgba($color: $backgroundColor, $alpha: 1);
+                    display: grid;
+                    grid-template-rows: 100%;
+                    grid-template-columns: 5% 95%;
+                    .InfoPaneluserHomeMenuContainerInner{
+                        grid-column: 2/3;
+                        grid-row: 1/2;
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: start;
+                        align-items: start;
+                        flex-wrap: nowrap;
+                        p{
+                            margin-top: 1rem;
+                            font-size: 2rem;
+                            color: rgba($color: #fff, $alpha: .8);
+                            width: 100%;
+                            text-align: center;
+                        }
+                        .InfoPaneluserHomeMenuLine{
+                            margin-top: 1rem;
+                            width: 40%;
+                            border-bottom: rgba($color: #fff, $alpha: .25) solid 1px;
+                            display: grid;
+                            align-self: center;
+                        }
+                        span{
+                            margin-top: 2rem;
+                            font-size: 1.3rem;
+                            color: rgba($color: #fff, $alpha: .8);
+                        }
+                    }
+                }
+                .InfoPaneluserHomeContentContainer{
+                    grid-column: 4/5;
+                    grid-row: 2/4;
+                    background-color: rgba($color: $backgroundColor, $alpha: 1);
+                    border-radius: 10px;
+                    display: grid;
+                    grid-template-columns: 100%;
+                    grid-template-rows: 10rem auto;
+                    .InfoPaneluserHomeContentTitleContainer{
+                        grid-column: 1/2;
+                        grid-row: 1/2;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        span{
+                            color: rgba($color: #fff, $alpha: .8);
+                            font-size: 3rem;
+                        }
+                    }
+                    .InfoPaneluserHomeContentMainConatiner{
+                        grid-column: 1/2;
+                        grid-row: 2/3;
+                        display: grid;
+                        grid-template-columns: 5% 80% 15%;
+                        grid-template-rows: 85% 15%;
+                        .InfoPaneluserHomeContentMainConatinerInner{
+                            grid-column: 2/3;
+                            grid-row: 1/2;
+                        }
+                        .InfoPaneluserHomeContentMainPageSelectorContainer{
+                            grid-row: 2/3;
+                            grid-column: 2/3;
+                            width: 30%;
+                            height: 100%;
+                            transform: translateX(50%);
+                            background-color: #262e35;
+                            height: 80%;
+                            border-radius: 10px;
+                            display: grid;
+                            grid-template-columns: 49.5% 1% 49.5%;
+                            grid-template-rows: 100%;
+                            justify-self: end;
+                            .InfoPaneluserHomeArrowLeft{
+                                grid-column: 1/2;
+                                grid-row: 1/2;
+                                display: flex;
+                                flex-direction: column;
+                                justify-content: center;
+                                align-items: center;
+                                color: rgba($color: #fff, $alpha: .7);
+                            }
+                            .InfoPaneluserHomeArrowLine{
+                                grid-column: 2/3;
+                                grid-row: 1/2;
+                                height: 30%;
+                                border-left: 1px rgba($color: #fff, $alpha: .35) solid;
+                                display: grid;
+                                align-self: center;
+                            }
+                            .InfoPaneluserHomeArrowRight{
+                                grid-column: 3/4;
+                                grid-row: 1/2;
+                                width: 100%;
+                                height: 100%;
+                                color: rgba($color: #fff, $alpha: .7);
+                                display: flex;
+                                justify-content: center;
+                                align-items: center;
+                                &:hover ~ .InfoPaneluserHomeArrowChangeColor{
+                                    background-color: blue;
+                                    z-index: 1;
+                                }
+                                span{
+                                    pointer-events: none;
+                                }
+                            }
+                            .InfoPaneluserHomeArrowChangeColor{
+                                grid-column: 1/4;
+                                grid-row: 1/2;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

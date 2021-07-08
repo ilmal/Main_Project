@@ -7,7 +7,7 @@ const SignupPage = () => {
 
   const history = useHistory();
 
-  const [toggle, setToggle] = useState(false)
+  const [toggle, setToggle] = useState(true)
   const [noMail, setNoMail] = useState(false)
   const [user, setUser] = useState({ email: "loading" })
 
@@ -18,7 +18,7 @@ const SignupPage = () => {
     }
     if (store.getState().user != "This user doesn't exist") {
       setUser(store.getState().user)
-      setToggle(true)
+      setToggle(false)
     }
   }, [])
 
@@ -108,7 +108,7 @@ const SignupPage = () => {
       <div className="signupMainBody">
         <div className="SignupBody">
           <div className="messageBody">
-            <span>Follow the link sent to {user.email} to verify you account!</span>
+            <span>Follow the link sent to <span> {user.email} </span> and verify you account!</span>
             <div className="noMailLine" />
             {noMail ?
               <div className="noMail">

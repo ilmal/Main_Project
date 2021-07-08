@@ -65,7 +65,7 @@ const UserHomePage = () => {
 
   //auth();
   return (
-    <dir className="userHomeLayout">
+    <dir className="userHomeLayout" id="random03242jcmvmj0v23cm4">
       <dir className="userHomesideMenu">
         <SideMenu setState={changeState} />
       </dir>

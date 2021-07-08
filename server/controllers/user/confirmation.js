@@ -2,6 +2,11 @@ const User = require("../../models/user/config.model")
 const nodemailer = require("nodemailer")
 const jwt = require("jsonwebtoken")
 
+
+// this is called from userInsert
+
+// this code sends the mail to the client
+
 const Confirm = async (email) => {
     // if name exists
     const user = await User.findOne({ email })
@@ -12,7 +17,7 @@ const Confirm = async (email) => {
             payload: "User does not exist"
         })
     }
-    //if user already verified (this should never be possible, biut still :) )
+    //if user already verified (this should never be possible, but still :) )
     if (user.verified) {
         console.log("User already verified")
         return ({
@@ -41,7 +46,7 @@ const Confirm = async (email) => {
     const info = await transporter.sendMail({
         from: "servers.u1.se@gmail.com", // sender address
         to: email, // list of receivers
-        subject: `Activate you Servers.u1.se account here`, // Subject line
+        subject: `Activate your ${process.env.SERVER_ADRESS} account here`, // Subject line
         html: `<p>${url}</p>`, // html body
     }).catch(err => {
         console.log(err)

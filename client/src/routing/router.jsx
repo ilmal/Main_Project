@@ -9,6 +9,7 @@ import userRouter from "./user/userRouter"
 import serverRouter from "./server/serverRouter"
 import MessageRouter from "./message"
 import ConfirmationRouter from "./user/confirmationRouter"
+import updatePassRouter from "./user/changepassRouter"
 import notFoundPage from "./misc/notFoundPage"
 
 const HomeRouter = () => {
@@ -24,6 +25,8 @@ const HomeRouter = () => {
                 <Route exact path="/message/*" component={MessageRouter} />
                 <Route exact path="/confirmation" component={ConfirmationRouter} />
                 <Route exact path="/confirmation/*" component={ConfirmationRouter} />
+                <Route exact path="/updatepass" component={updatePassRouter} />
+                <Route exact path="/updatepass/*" component={updatePassRouter} />
                 <Route path="*" component={notFoundPage} />
             </Switch>
         </Router>
