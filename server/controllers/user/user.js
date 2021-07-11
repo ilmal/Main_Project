@@ -9,7 +9,7 @@ router.post("/", async (req, res) => {
     // if email exists
     const user = await User.findOne({ _id: oid })
     if (!user || user === "null") {
-        console.log("user does not exist2")
+        console.log("user does not exist (/user/user.js)")
         res.send("This user doesn't exist")
     } else {
         console.log("You are: ", user.name)
