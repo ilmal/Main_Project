@@ -13,27 +13,26 @@ const logs = async (name) => {
         // break the textblock into an array of lines
         var lines = response.split('\n');
 
-        //removing the messages that should get removed
-        for (let i = 0; i < lines.length; i++) {
-            if (lines[i].indexOf("Can't keep up!") > -1 ||                                                                  //preformance
-                lines[i].indexOf("Mismatch in destroy block pos:") > -1 ||                                                  //preformance
-                lines[i].indexOf("[init] Setting initial memory to") > -1 ||                                                //spec details
-                lines[i].indexOf("[Autopause loop]") > -1 ||                                                                //autopause
-                lines[i].indexOf("[Autopause]") > -1 ||                                                                     //autopause
-                lines[i].indexOf("[RCON Client /127.0.0.1 #2/INFO]: Thread RCON Client /127.0.0.1 shutting down") > -1 ||   //autopause
-                lines[i].indexOf("[RCON Listener #1/INFO]: Thread RCON Client /127.0.0.1 started") > -1 ||                  //autopause
-                lines[i].indexOf("[Server thread/INFO]: [Rcon: Saved the game]") > -1) {                                    //autopause
+        //filtering logs and removing logs that should get removed
+        filterdLines = lines.filter(data => {
+            if (data.indexOf("Can't keep up!") > -1 ||                                                                  //preformance
+                data.indexOf("Mismatch in destroy block pos:") > -1 ||                                                  //preformance
+                data.indexOf("[init] Setting initial memory to") > -1 ||                                                //spec details
+                data.indexOf("[Autopause loop]") > -1 ||                                                                //autopause
+                data.indexOf("[Autopause]") > -1 ||                                                                     //autopause
+                data.indexOf("[RCON Client /127.0.0.1 #2/INFO]: Thread RCON Client /127.0.0.1 shutting down") > -1 ||   //autopause
+                data.indexOf("[RCON Listener #1/INFO]: Thread RCON Client /127.0.0.1 started") > -1 ||                  //autopause
+                data.indexOf("[Server thread/INFO]: [Rcon: Saved the game]") > -1) {                                    //autopause
 
-                if (lines[i].indexOf("Can't keep up!") > -1) {
-                    console.log(lines[i])
-                }
-                lines.splice(i, 1)
+                return false
+            } else {
+                return true
             }
+        })
 
-        }
 
         // join the array back into a single string
-        var newtext = lines.join('\n');
+        var newtext = filterdLines.join('\n');
         return newtext
     })
 }
@@ -207,7 +206,7 @@ router.post("/time", async (req, res) => {
                     timeStamp = moment().toDate()
                 }
                 // creating a new timestamp with the added 30 min
-                const newTimeStamp = moment(timeStamp).add(30, 'm').toDate()
+                const newTimeStamp = moment(timeStamp).add(2, 'm').toDate()
                 const currentTime = moment().toDate()
                 // calculating time remaining
                 const timeLeftExact = (newTimeStamp - currentTime) / 60000 //NewTimeStamp - currentTimeStamp in milliseconds converted to mins

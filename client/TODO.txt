@@ -11,24 +11,84 @@ creating a que (
 
 )
 
-when default message is shown in the logs hover will show toolbar for expand logs
+unable to retrive contariner logs message when sutting down, makte taht message into a default message
 
 call to action home page
+
+when token expire, remove cookies, mainly because signup messed up when token expire, might be other solution
 
 buggy behavior when inserting email and not verifying, then trying to sign up with same email
 
 not done with info page user home thingy
 
+still need to fix que issue, mainly that the order doesn't seem to be correct!
+
+need to add more info about playtime, not verry clear at the moment!
+
+Seemms to be a bug when the client closes the tab the server isn't updated, and with that never stopped, whitch will lead to the system clogging up FIX HIGH PRIORITY
+
+
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><<
+
+pantano PENDING
+
+Potatoes X
+
+Harvestor of soul PENDING
+
+Rogues Nation PENDING
+
+Team Beneficial PENDING
+
+CIJOUS LABRATORY YES
+
+INFINITY PENDING
+
+Chill Lounge PENDING
+
+Tricky's PENDING
+
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><<
+
 Heyo!
 
-Since you are an admin in the Polite Potatoes discord server I thought I'd turn to you for this question. 
+Since you are a mod in r/minecraft server I thought I'd turn to you for this question. 
 
 I'm messing around with creating a game server hosting site, and want to get some experience hosting for actual people. 
 
-Would it be possible for me to share my site on this discord server? I'm not looking for advertisment, I make no money from this site. Everything on there is completly free!
+Would it be possible for me to share my site on the r/minecraft subreddit? I'm not looking for advertisement, I make no money from this site. Everything on there is completely free!
 
-It would mean that members of this server could get completly free servers, and in return I get experience and help with bug fixing!
+It would mean that members of this subreddit could get completely free servers, and in return I get experience and help with bug fixing!
 
-Here is the site! servers.u1.se
+Here is the site! https://servers.u1.se
 
 Thanks for your time! : )
+
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+
+Heyo!
+
+Since you are a mod in the Tricky's discord server I thought I'd turn to you for this question. 
+
+I'm messing around with creating a game server hosting site, and want to get some experience hosting for actual people. 
+
+Would it be possible for me to share my site in the discord server? I'm not looking for advertisement, I make no money from this site. Everything on there is completely free!
+
+It would mean that members of this subreddit could get completely free servers, and in return I get experience and help with bug fixing!
+
+Here is the site! https://servers.u1.se
+
+Thanks for your time! : )
+
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+Offering a free minecraft server!
+
+I'm currently setting up a hosting site and need to test my system. 
+This means that I will be hosting free minecraft servers for anyone.
+
+Here is the site! https://servers.u1.se 
+Everything is free!
+
+Thanks for helping me and have fun with your own minecraft server!

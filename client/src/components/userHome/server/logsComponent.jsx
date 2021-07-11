@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react"
 import { useStore } from "react-redux"
+import ReactTooltip from 'react-tooltip';
 
 import refreshData from "./refreshData"
 
@@ -71,43 +72,53 @@ const LogsComponent = () => {
         refreshData(e, store, userData)
     }
 
-    // ------------- functions for different pods status -----------
+    // ------------- functions for different pods status (default messages) -----------
 
 
     const running = () => {
         return (
-            <div className={logsExpand ? "logsMainContainer logsMainContainerHover logsMainContainerExpanded userHomeSegment" : "logsMainContainer logsMainContainerHover userHomeSegment"}>
-                <div className="logsExpandArrow fas fa-expand-arrows-alt" onClick={expandLogs} data-tip data-for="expandLogs" />
-                <div className="logsText" id="logsText">
-                    <span>
-                        {userData.serverPods.logs}
-                        <p></p>
-                    </span>
-                </div>
-                <div className="logsTextContainer">
-                    <span>Logs</span>
-                    <div onClick={refreshDataFunc}>
-                        <div className="checkStatus fas fa-sync" data-tip data-for="refreshInfo" />
+            <>
+                <div className={logsExpand ? "logsMainContainer logsMainContainerHover logsMainContainerExpanded userHomeSegment" : "logsMainContainer logsMainContainerHover userHomeSegment"}>
+                    <div className="logsExpandArrow fas fa-expand-arrows-alt" onClick={expandLogs} data-tip data-for="expandLogs" />
+                    <div className="logsText" id="logsText">
+                        <span>
+                            {userData.serverPods.logs}
+                            <p></p>
+                        </span>
+                    </div>
+                    <div className="logsTextContainer">
+                        <span>Logs</span>
+                        <div onClick={refreshDataFunc}>
+                            <div className="checkStatus fas fa-sync" data-tip data-for="refreshInfo" />
+                        </div>
                     </div>
                 </div>
-            </div>
+                <ReactTooltip id="refreshInfo" place="bottom" delayShow={100}>
+                    <p>Click to refresh logs</p>
+                </ReactTooltip>
+                <ReactTooltip id="expandLogs" place="bottom" delayShow={100}>
+                    <p>Click to expand/minimize logs</p>
+                </ReactTooltip>
+            </>
         )
     }
 
     const logsMessageBoiler = (e) => {
         return (
-            <div className="logsMainContainer userHomeSegment">
+            <>
+                <div className="logsMainContainer userHomeSegment">
 
-                <div className="logsMessageContainer">
-                    {e === "shuttingDown" ? <ShuttingDown /> : null}
-                    {e === "startingUp" ? <StartingUp /> : null}
-                    {e === "queue" ? <Queue /> : null}
-                    {e === "notRunning" ? <NotRunning /> : null}
+                    <div className="logsMessageContainer">
+                        {e === "shuttingDown" ? <ShuttingDown /> : null}
+                        {e === "startingUp" ? <StartingUp /> : null}
+                        {e === "queue" ? <Queue /> : null}
+                        {e === "notRunning" ? <NotRunning /> : null}
+                    </div>
+                    <div className="logsTextContainer">
+                        <span>Logs</span>
+                    </div>
                 </div>
-                <div className="logsTextContainer">
-                    <span>Logs</span>
-                </div>
-            </div>
+            </>
         )
     }
 

@@ -110,19 +110,15 @@ const Server = () => {
           <p>Server IP:</p>
           <span data-tip data-for="copyServerAddress" onClick={copyText}>{serverIP()}</span>
         </div>
+
         <ChangeServerConfig />
         <LogsComponent />
         <PlayTimeComponent />
-        <ReactTooltip id="copyServerAddress" delayShow="100">
+
+        <ReactTooltip id="copyServerAddress" delayShow={100}>
           <p>Click to copy</p>
         </ReactTooltip>
-        <ReactTooltip id="refreshInfo" place="bottom" delayShow="100">
-          <p>Click to refresh logs</p>
-        </ReactTooltip>
-        <ReactTooltip id="expandLogs" place="bottom" delayShow="100">
-          <p>Click to expand/minimize logs</p>
-        </ReactTooltip>
-        <ReactTooltip id="playtimeleft" place="top" delayShow="20">
+        <ReactTooltip id="playtimeleft" place="top" delayShow={20}>
           <p>play time remaining</p>
         </ReactTooltip>
       </>

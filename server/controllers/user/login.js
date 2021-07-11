@@ -40,23 +40,12 @@ router.post("/", async (req, res) => {
     if (domainWhitelist.indexOf(req.headers.origin) !== -1) {
         cookieDomain = req.headers.origin
     }
-    // res.cookie("loginAuth", token, {
-    //     sameSite: 'none', secure: true
-    // })
-    // res.cookie("userID", user.id, {
-    //     sameSite: 'none', secure: true 
-    // })
+
     res.send({
         "loginAuth": token,
         "userID": user.id,
         "message": "Success!"
     })
-
-    // res
-    //     .writeHead(200, {
-    //         "Set-Cookie": [`loginAuth=${token}; Secure;SameSite=None;Path=/`, `userID=${user.id}; Secure;SameSite=None;Path=/`]
-    //     })
-    //     .send()
 
     console.log("login success")
 })
