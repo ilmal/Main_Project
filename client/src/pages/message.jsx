@@ -77,7 +77,7 @@ export const MessagePage = () => {
                     <span>Add to our todo-list</span>
                 </div>
                 <form className="innerBottomContainer">
-                    <textarea id="04835lsdfkj43" placeholder="Put your feature request here!" onChange={(e) => setFeedBack(e.target.value)} />
+                    <textarea id="04835lsdfkj43" placeholder="Put any feature requests here!" onChange={(e) => setFeedBack(e.target.value)} />
                     <button type="submit" onClick={sendFeed}>Send</button>
                 </form>
             </div>
@@ -86,7 +86,7 @@ export const MessagePage = () => {
                     <span>Report any problems here</span>
                 </div>
                 <form className="innerBottomContainer">
-                    <textarea id="934765yiusdf" placeholder="Share your problems here!" onChange={(e) => seterrMessage(e.target.value)} />
+                    <textarea id="934765yiusdf" placeholder="Share any problems here!" onChange={(e) => seterrMessage(e.target.value)} />
                     <button type="submit" onClick={sendErr}>Send</button>
                 </form>
             </div>

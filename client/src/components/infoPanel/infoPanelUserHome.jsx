@@ -3,15 +3,26 @@ import { useState } from "react";
 const InfoPaneluserHome = () => {
     const [page, setPage] = useState("overview")
 
-    const overviewFunc = () => {
+    const overviewPage = () => {
         return (
             <>
                 <div className="InfoPaneluserHomeContentTitleContainer">
-                    <span>What is this menu?</span>
+                    <span>Home Page</span>
+                    <div className="InfoPaneluserHomeContentTitleLine" />
                 </div>
                 <div className="InfoPaneluserHomeContentMainConatiner">
                     <div className="InfoPaneluserHomeContentMainConatinerInner">
+                        <div className="InfoPaneluserHomeContentText">
+                            <span>Get info about our server features</span>
+                        </div>
+                        <div className="InfoPaneluserHomeContentArrow">
+                            <div className="InfoPaneluserHomeContentArrowBox">
 
+                            </div>
+                            <div className="InfoPaneluserHomeContentArrowline">
+
+                            </div>
+                        </div>
                     </div>
                     <div className="InfoPaneluserHomeContentMainPageSelectorContainer">
                         <div className="InfoPaneluserHomeArrowLeft">
@@ -21,16 +32,14 @@ const InfoPaneluserHome = () => {
                         <div className="InfoPaneluserHomeArrowRight">
                             <span>next</span>
                         </div>
-                        <div className="InfoPaneluserHomeArrowChangeColor">
-
-                        </div>
+                        <div className="InfoPaneluserHomeArrowChangeColor" />
                     </div>
                 </div>
             </>
         )
     }
 
-    const playTimeFunc = () => {
+    const playTimePage = () => {
         return (
             <>
                 <div className="InfoPaneluserHomeContentTitleContainer">
@@ -48,11 +57,11 @@ const InfoPaneluserHome = () => {
     const content = () => {
         switch (page) {
             case "overview":
-                return overviewFunc()
+                return overviewPage()
             case "playTime":
-                return playTimeFunc()
+                return playTimePage()
             default:
-                return overviewFunc()
+                return overviewPage()
         }
     }
 
