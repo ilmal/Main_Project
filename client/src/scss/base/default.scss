@@ -6,6 +6,7 @@
 #2B8C69 darkish green
 #1a1a1a dark gray
 #fffafafa almost White
+#E24D42 smooth red
 */
 
 * {
@@ -24,7 +25,9 @@ $greenColor: #51cf66;
 $orangeColor: #ff8100;
 $pinkColor: rgba(204,93,232, 0.9);
 $redColor: #fa5252;
+$smoothRed: #E24D42;
 $yellowColor: #eed202;
+$smoothYellow: #eab839;
 
 body {
   // background-color: #212529;

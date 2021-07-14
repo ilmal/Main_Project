@@ -1,32 +1,43 @@
-import { useHistory } from "react-router-dom";
 import { useState } from "react";
+import { loadStripe } from "@stripe/stripe-js";
+import { Elements } from "@stripe/react-stripe-js"
 
-import { MinecraftTest, MinecraftBasic, MinecraftNormal, MinecraftPremuim } from "./serverLevels"
+import MinecraftLevels from "./minecraftLevels"
 
 const MinecraftCreate = () => {
 
-    const history = useHistory();
     const [isCardPressed, setisCardPressed] = useState("not pressed")
+
+    //stripe
+
+    const PUBLIC_KEY = "pk_test_51JCk7wGWd5hOwkfP4Q7UpN498uJW5oa2q7vb97viqghzRSpqilFLqtCB161iX4LOg68mkwqwHaptGyl0rgaB5NSf0080vAPRe9"
+
+    const stripeLoad = loadStripe(PUBLIC_KEY)
 
 
     if (isCardPressed !== "not pressed") {
         switch (isCardPressed) {
             case "test":
                 return (
-                    <MinecraftTest level="test" />
+                    <Elements stripe={stripeLoad}>
+                        <MinecraftLevels level="test" />
+                    </Elements>
                 )
             case "basic":
                 return (
-                    <MinecraftBasic level="basic" />
-                )
+                    <Elements stripe={stripeLoad}>
+                        <MinecraftLevels level="basic" />
+                    </Elements>)
             case "normal":
                 return (
-                    <MinecraftNormal level="normal" />
-                )
+                    <Elements stripe={stripeLoad}>
+                        <MinecraftLevels level="normal" />
+                    </Elements>)
             case "premium":
                 return (
-                    <MinecraftPremuim level="premium" />
-                )
+                    <Elements stripe={stripeLoad}>
+                        <MinecraftLevels level="premium" />
+                    </Elements>)
             default:
                 window.location.reload();
                 break;

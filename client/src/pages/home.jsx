@@ -74,7 +74,7 @@ const HomePage = () => {
     switch (e.target.id) {
       case "minecraftSelector":
         console.log("Woooooo, let's play some minectaft")
-        history.push("/server/minecraft/home");
+        history.push("/server/minecraft");
         window.location.reload();
         break;
       default:
@@ -103,8 +103,8 @@ const HomePage = () => {
             >
               Host your own{" "}
               <span className="homeChangeGameSpan nav-item">{list[i]}</span>{" "}
-            server with <span>U1</span>servers
-          </span>
+              server with <span>U1</span>servers
+            </span>
           </div>
         </div>
       </div>
