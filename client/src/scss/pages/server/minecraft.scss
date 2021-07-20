@@ -236,59 +236,180 @@
 
 .minecraftBasicBody{
     width: 100%;
-    height: 200vh;
+    height: 150vh;
     margin-top: 100px;
     display: grid;
-    grid-template-columns: 7% auto 7%;
-    grid-template-rows: 40% auto;
+    grid-template-columns: 7% 86% 7%;
+    grid-template-rows: 70% 30%;
     .overviewBody{
         grid-column: 2/3;
+        grid-row: 1/2;
         display: grid;
         grid-template-columns: 25% 30% 30% 15%;
-        grid-template-rows: 10% 50% 40%;
+        grid-template-rows: 10% 15% 40% 30%;
         .header{
             align-self: end;
             span{
                 align-self: end;
                 color: white;
-                font-size: 40px;
+                font-size: 2.5rem;
             }
         }
-        .innerHeader{
-            align-self: end;
-            grid-row: 1/2;
-            span{
-                font-size: 1.7rem;
-                color:white;
-            }
-        }
-        .specHeader{
-            grid-column: 2/3;
-            animation-name: animateInAnimation;
-            animation-duration: .5s;
-        }
-        .gameHeader{
-            grid-column: 3/4;
-            animation-name: animateInAnimation;
-            animation-duration: .5s;
-        }
-        .specsKeyValue{
-            grid-column: 2/3;
-            grid-row: 2/3;
+        @mixin upperContainers(){
+            grid-row: 1/3;
             display: grid;
+            grid-template-rows: 40% 60%;
             grid-template-columns: 100%;
-            grid-template-rows: 10% repeat(3, 30%);
-            .specSeperator{
-                align-self: center;
+            span{
+                grid-column: 1/2;
                 grid-row: 1/2;
+                align-self: end;
+                font-size: 1.7rem;
+                color:rgba($color: #fff, $alpha: .9);
+            }
+            .upperContainersSeperator{
+                grid-row: 1/2;
+                grid-column: 1/2;
                 width: 50%;
-                border-bottom: 1px $orangeColor solid;
+                transform: translateY(1rem);
                 animation-name: animateInAnimation;
                 animation-duration: 1s;
             }
+        }
+        .planContainer{
+            @include upperContainers;
+            grid-column: 2/3;
+            .upperContainersSeperator{
+                border-bottom: 1px $orangeColor solid;
+            }
+            .TESTContainersSeperator{
+                border-bottom: 1px $greenColor solid;
+            }
+            .BASICContainersSeperator{
+                border-bottom: 1px $greenColor solid;
+            }
+            .NORMALContainersSeperator{
+                border-bottom: 1px $blueColor solid;
+            }
+            .PREMIUMContainersSeperator{
+                border-bottom: 1px $pinkColor solid;
+            }
+            .planContainerInner{
+                grid-row: 2/3;
+                grid-column: 1/2;
+                display: flex;
+                justify-content: start;
+                align-items: center;
+                @mixin innerContainer {
+                    width: 50%;
+                    height: 40%;
+                    border-radius: 10px;
+                    display: flex;
+                    justify-content: center;
+                    span{
+                        align-self: center;
+                    }
+                }
+                .TEST{
+                    @include innerContainer;
+                    background-color: rgba($color: $greenColor, $alpha: .35);
+                    span{
+                        color: rgba($color: $greenColor, $alpha: .9);
+                    }
+                    .upperContainersSeperator{
+                        border-bottom: 1px $greenColor solid;
+                    }
+                }
+                .BASIC{
+                    @include innerContainer;
+                    background-color: rgba($color: $greenColor, $alpha: .35);
+                    span{
+                        color: rgba($color: $greenColor, $alpha: .9);
+                    }
+                    .upperContainersSeperator{
+                        border-bottom: 1px $greenColor solid;
+                    }
+                }
+                .NORMAL{
+                    @include innerContainer;
+                    background-color: rgba($color: $blueColor, $alpha: .35);
+                    span{
+                        color: rgba($color: $blueColor, $alpha: .9);
+                    }
+                    .upperContainersSeperator{
+                        border-bottom: 1px $blueColor solid;
+                    }
+                }
+                .PREMIUM{
+                    @include innerContainer;
+                    background-color: rgba($color: $pinkColor, $alpha: .35);
+                    span{
+                        color: rgba($color: $pinkColor, $alpha: .9);
+                    }
+                    .upperContainersSeperator{
+                        border-bottom: 1px $pinkColor solid;
+                    }
+                }
+            }
+        }
+        .priceContainer{
+            @include upperContainers;
+            grid-column: 3/4;
+            .upperContainersSeperator{
+                border-bottom: 1px $smoothRed solid;
+            }
+            .priceContainerInner{
+                grid-row: 2/3;
+                grid-column: 1/2;
+                align-self: center;
+                justify-self: start;
+                width: 50%;
+                height: fit-content;
+                display: flex;
+                justify-content: start;
+                align-items: center;
+                span{
+                    align-self: center;
+                    color: rgba($color: #fff, $alpha: .9);
+                    font-size: 2rem;
+                }
+                p{
+                    align-self: flex-start;
+                    color: rgba($color: #fff, $alpha: .9);
+                    font-size: .8rem;
+                    margin-top: .2rem;
+                }
+            }
+        }
+        @mixin specsContainers(){
+            grid-row: 3/4;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: space-around;
+            .specHeader{
+                grid-column: 1/2;
+                align-self: end;
+                grid-row: 1/2;
+                animation-name: animateInAnimation;
+                animation-duration: .5s;
+                width: 100%;
+                span{
+                    font-size: 1.7rem;
+                    color:rgba($color: #fff, $alpha: .9);
+                }
+                .specSeperator{
+                    grid-row: 2/3;
+                    grid-column: 1/2;
+                    width: 50%;
+                    padding-top: 1rem;
+                    animation-name: animateInAnimation;
+                    animation-duration: 1s;
+                }
+            }
             .specValue{
                 grid-row: 2/3;
-                align-self: center;
+                grid-column: 1/2;
                 display: flex;
                 justify-content: flex-start;
                 animation-name: animateInAnimation;
@@ -299,7 +420,6 @@
                 }
                 .value{
                     margin-left: 20px;
-                    color: $orangeColor;
                 }
             }
             .mem{
@@ -313,50 +433,29 @@
                 animation-duration: 2s;
             }
         }
-        .gameKeyValue{
+        .specsConatiner{
+            @include specsContainers;
+            grid-column: 2/3;
+            .specHeader .specSeperator{
+                border-bottom: 1px $orangeColor solid;
+            }
+            .specValue .value{
+                color: $orangeColor;
+            }
+        }
+        .gameContainer{
+            @include specsContainers;
             grid-column: 3/4;
-            grid-row: 2/3;
-            display: grid;
-            grid-template-columns: 100%;
-            grid-template-rows: 10% repeat(3, 30%);
-            .gameSeperator{
-                align-self: center;
-                grid-row: 1/2;
-                width: 50%;
+            .specHeader .specSeperator{
                 border-bottom: 1px $blueColor solid;
-                animation-name: animateInAnimation;
-                animation-duration: 1s;
             }
-            .gameValue{
-                grid-row: 2/3;
-                align-self: center;
-                display: flex;
-                justify-content: flex-start;
-                animation-name: animateInAnimation;
-                animation-duration: 1s;
-                span{
-                    font-size: 20px;
-                    color:white;
-                }
-                .value{
-                    margin-left: 20px;
-                    color: $blueColor;
-                }
-            }
-            .plugins{
-                grid-row:3/4;
-                animation-name: animateInAnimation;
-                animation-duration: 1.5s;
-            }
-            .mods{
-                grid-row: 4/5;
-                animation-name: animateInAnimation;
-                animation-duration: 2s;
+            .specValue .value{
+                color: $blueColor;
             }
         }
         .changeLevelContainer{
             grid-column: 2/4;
-            grid-row: 3/4;
+            grid-row: 4/5;
             width: 80%;
             display: grid;
             grid-template-columns: repeat(3, 30% 3%);
@@ -367,7 +466,7 @@
                 grid-row: 1/2;
                 span{
                     font-size: 1.7rem;
-                    color:white;
+                    color:rgba($color: #fff, $alpha: .9);
                 }
             }
             .changeLevelSeperator{
@@ -388,6 +487,7 @@
                 display: grid;
                 grid-template-rows: 35% 35% 30%;
                 grid-template-columns: 100%;
+                transition: all .5s ease;
                 .changeLevelinnerContainer{
                     width: 100%;
                     grid-column: 1/2;
@@ -406,6 +506,9 @@
                 @include changeLevelDefaults;
                 grid-column: 1/2;
                 background-color: rgba($color: $greenColor,  $alpha: .35);
+                &:hover{
+                    background-color: rgba($color: $greenColor,  $alpha: .50);
+                }
                 span{
                     color: rgba($color: $greenColor, $alpha: 1);
                 }
@@ -414,6 +517,9 @@
                 @include changeLevelDefaults;
                 grid-column: 3/4;
                 background-color: rgba($color: $blueColor,  $alpha: .35);
+                &:hover{
+                    background-color: rgba($color: $blueColor,  $alpha: .50);
+                }
                 span{
                     color: rgba($color: $blueColor, $alpha: 1);
                 }
@@ -422,6 +528,9 @@
                 @include changeLevelDefaults;
                 grid-column: 5/6;
                 background-color: rgba($color: $pinkColor,  $alpha: .35);
+                &:hover{
+                    background-color: rgba($color: $pinkColor,  $alpha: .50);
+                }
                 span{
                     color: rgba($color: $pinkColor, $alpha: 1);
                 }

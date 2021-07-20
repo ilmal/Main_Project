@@ -7,49 +7,65 @@ import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js"
 
 
 // getting different data deplending on what server type selected
-const levelValuesFunc = (props) => {
-    switch (props.level) {
+const levelValuesFunc = (propsLevel) => {
+    console.log("propsLevel: ", propsLevel)
+    switch (propsLevel) {
         case "test":
             return ({
+                "plan": "TEST",
+                "color": "blue",
+                "price": "10",
                 "cpu": "1",
                 "mem": "2",
                 "storage": "Unlimited",
-                "players": "10",
+                "players": "4",
                 "plugins": "Unavailable",
                 "mods": "Unavailable"
             })
         case "basic":
             return {
-                "cpu": "ERR",
-                "mem": "ERR",
+                "plan": "BASIC",
+                "color": "$greenColor",
+                "price": "10",
+                "cpu": "1",
+                "mem": "2",
                 "storage": "Unlimited",
-                "players": "10",
+                "players": "4",
                 "plugins": "Unavailable",
                 "mods": "Unavailable"
             }
         case "normal":
             return {
-                "cpu": "ERR",
-                "mem": "ERR",
+                "plan": "NORMAL",
+                "color": "$blueColor",
+                "price": "15",
+                "cpu": "2",
+                "mem": "4",
                 "storage": "Unlimited",
-                "players": "10",
+                "players": "8",
                 "plugins": "Unavailable",
                 "mods": "Unavailable"
             }
         case "premium":
             return {
-                "cpu": "ERR",
-                "mem": "ERR",
+                "plan": "PREMIUM",
+                "color": "$pinkolor",
+                "price": "20",
+                "cpu": "4",
+                "mem": "8",
                 "storage": "Unlimited",
-                "players": "10",
+                "players": "12",
                 "plugins": "Unavailable",
                 "mods": "Unavailable"
             }
 
         default:
             return {
-                "cpu": "ERR",
-                "mem": "ERR",
+                "plan": "BASIC",
+                "color": "$greenColor",
+                "price": "10",
+                "cpu": "1",
+                "mem": "2",
                 "storage": "Unlimited",
                 "players": "10",
                 "plugins": "Unavailable",
@@ -79,10 +95,10 @@ const CARD_OPTIONS = {
 }
 
 const MinecraftLevels = (props) => {
-    const history = useHistory(levelValuesFunc(props));
+    const history = useHistory();
 
     const state = useSelector(state => state)
-    const [values, setValues] = useState()
+    const [values, setValues] = useState(levelValuesFunc(props.level))
     const toServer = () => {
         console.log(state.auth)
         if (!state.auth) {
@@ -94,21 +110,9 @@ const MinecraftLevels = (props) => {
         }
     }
 
-    const handleClick = (orgin) => {
-        switch (origin) {
-            case "basic":
-
-                break;
-            case "normal":
-
-                break;
-            case "premium":
-
-                break;
-            default:
-                window.location.reload();
-                break;
-        }
+    const handleClick = (origin) => {
+        console.log(origin)
+        setValues(levelValuesFunc(origin))
     }
 
     return (
@@ -117,34 +121,51 @@ const MinecraftLevels = (props) => {
                 <div className="header">
                     <span>Overview</span>
                 </div>
-                <div className="innerHeader specHeader">
-                    <span>Specs</span>
+                <div className="planContainer">
+                    <span>Selected Plan</span>
+                    <div className={values.plan + "ContainersSeperator upperContainersSeperator"} />
+                    <div className="planContainerInner">
+                        <div className={values.plan}>
+                            <span >{values.plan}</span>
+                        </div>
+                    </div>
                 </div>
-                <div className="specsKeyValue">
-                    <div className="specSeperator" />
+                <div className="priceContainer">
+                    <span>Price</span>
+                    <div className="upperContainersSeperator" />
+                    <div className="priceContainerInner">
+                        <span>{values.price}</span>
+                        <p>/month</p>
+                    </div>
+                </div>
+                <div className="specsConatiner">
+                    <div className="specHeader">
+                        <span>Specs</span>
+                        <div className="specSeperator" />
+                    </div>
                     <div className="specValue cpu">
-                        <span>CPU<span className="value"> {levelValuesFunc(props).cpu} CORE </span></span>
+                        <span>CPU<span className="value"> {values.cpu} CORE </span></span>
                     </div>
                     <div className="specValue mem">
-                        <span>Memory<span className="value"> {levelValuesFunc(props).mem} GB </span></span>
+                        <span>Memory<span className="value"> {values.mem} GB </span></span>
                     </div>
                     <div className="specValue storage">
-                        <span>Storage<span className="value">{levelValuesFunc(props).storage} storage</span></span>
+                        <span>Storage<span className="value">{values.storage} storage</span></span>
                     </div>
                 </div>
-                <div className="innerHeader gameHeader">
-                    <span>Game Features</span>
-                </div>
-                <div className="gameKeyValue">
-                    <div className="gameSeperator" />
-                    <div className="gameValue">
-                        <span>Max players<span className="value">{levelValuesFunc(props).players}</span></span>
+                <div className="gameContainer">
+                    <div className="specHeader">
+                        <span>Game Features</span>
+                        <div className="specSeperator" />
                     </div>
-                    <div className="gameValue plugins">
-                        <span>Plugins<span className="value">{levelValuesFunc(props).plugins}</span></span>
+                    <div className="specValue cpu">
+                        <span>Recomended players<span className="value">{values.players}</span></span>
                     </div>
-                    <div className="gameValue mods">
-                        <span>Mods<span className="value">{levelValuesFunc(props).mods}</span></span>
+                    <div className="specValue mem">
+                        <span>Plugins<span className="value">{values.plugins}</span></span>
+                    </div>
+                    <div className="specValue storage">
+                        <span>Mods<span className="value">{values.mods}</span></span>
                     </div>
                 </div>
                 <div className="changeLevelContainer">
@@ -152,19 +173,19 @@ const MinecraftLevels = (props) => {
                         <span>Compare plans</span>
                     </div>
                     <div className="changeLevelSeperator" />
-                    <div className="changeLevelBasic">
-                        <div className="changeLevelinnerContainer" onClick={() => handleClick("basic")}>
-                            <span>BASIC</span>
-                        </div>
-                    </div>
-                    <div className="changeLevelNormal">
+                    <div className="changeLevelBasic" onClick={() => handleClick("basic")}>
                         <div className="changeLevelinnerContainer">
                             <span>BASIC</span>
                         </div>
                     </div>
-                    <div className="changeLevelPremium">
+                    <div className="changeLevelNormal" onClick={() => handleClick("normal")}>
                         <div className="changeLevelinnerContainer">
-                            <span>BASIC</span>
+                            <span>NORMAL</span>
+                        </div>
+                    </div>
+                    <div className="changeLevelPremium" onClick={() => handleClick("premium")}>
+                        <div className="changeLevelinnerContainer">
+                            <span>PREMIUM</span>
                         </div>
                     </div>
                 </div>
