@@ -27,6 +27,9 @@ need to add more info about playtime, not verry clear at the moment!
 
 Seemms to be a bug when the client closes the tab the server isn't updated, and with that never stopped, whitch will lead to the system clogging up FIX HIGH PRIORITY
 
+Fix the server plan page, need to change the selected plan (its taking to much attention) 
+
+need to fix the compare plans to light up the plan selected
 
 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><<
 

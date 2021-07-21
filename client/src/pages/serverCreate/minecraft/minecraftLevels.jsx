@@ -1,8 +1,7 @@
 import { useHistory } from "react-router-dom";
 import { useSelector } from "react-redux"
-import axios from "axios"
 import React, { useState } from 'react'
-import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js"
+import ServerPlan from "../../../components/payments/serverPlan";
 
 
 
@@ -14,7 +13,7 @@ const levelValuesFunc = (propsLevel) => {
             return ({
                 "plan": "TEST",
                 "color": "blue",
-                "price": "10",
+                "price": "€15",
                 "cpu": "1",
                 "mem": "2",
                 "storage": "Unlimited",
@@ -26,8 +25,8 @@ const levelValuesFunc = (propsLevel) => {
             return {
                 "plan": "BASIC",
                 "color": "$greenColor",
-                "price": "10",
-                "cpu": "1",
+                "price": "€15",
+                "cpu": "2",
                 "mem": "2",
                 "storage": "Unlimited",
                 "players": "4",
@@ -38,8 +37,8 @@ const levelValuesFunc = (propsLevel) => {
             return {
                 "plan": "NORMAL",
                 "color": "$blueColor",
-                "price": "15",
-                "cpu": "2",
+                "price": "€20",
+                "cpu": "3",
                 "mem": "4",
                 "storage": "Unlimited",
                 "players": "8",
@@ -50,7 +49,7 @@ const levelValuesFunc = (propsLevel) => {
             return {
                 "plan": "PREMIUM",
                 "color": "$pinkolor",
-                "price": "20",
+                "price": "€25",
                 "cpu": "4",
                 "mem": "8",
                 "storage": "Unlimited",
@@ -64,33 +63,13 @@ const levelValuesFunc = (propsLevel) => {
                 "plan": "BASIC",
                 "color": "$greenColor",
                 "price": "10",
-                "cpu": "1",
+                "cpu": "2",
                 "mem": "2",
                 "storage": "Unlimited",
                 "players": "10",
                 "plugins": "Unavailable",
                 "mods": "Unavailable"
             }
-    }
-}
-
-const CARD_OPTIONS = {
-    iconStyle: "solid",
-    style: {
-        base: {
-            iconColor: "#c4f0ff",
-            color: "#fff",
-            fontWeight: 500,
-            fontFamily: "Roboto, Open Sans, Segoe UI, sans-serif",
-            fontSize: "16px",
-            fontSmoothing: "antialiased",
-            ":-webkit-autofill": { color: "#fce883" },
-            "::placeholder": { color: "#87bbfd" }
-        },
-        invalid: {
-            iconColor: "#ffc7ee",
-            color: "#ffc7ee"
-        }
     }
 }
 
@@ -113,6 +92,40 @@ const MinecraftLevels = (props) => {
     const handleClick = (origin) => {
         console.log(origin)
         setValues(levelValuesFunc(origin))
+    }
+
+    const paymentOptions = (data) => {
+        let plan = "default"
+
+        // cheking what payment should be displayed depending on plan
+        if (data === "BASIC" |
+            data === "NORMAL" |
+            data === "PREMIUM"
+        ) {
+            plan = "default"
+        }
+
+        if (data === "TEST") {
+            plan = "free"
+        }
+
+        switch (plan) {
+            case "default":
+                return (
+                    <ServerPlan />
+                )
+            case "free":
+                return (
+                    <div className="freeBody">
+                        <button onClick={toServer}>Get FREE server</button>
+                    </div>
+                )
+
+            default:
+                return (
+                    <ServerPlan />
+                )
+        }
     }
 
     return (
@@ -194,10 +207,7 @@ const MinecraftLevels = (props) => {
                 <div className="header">
                     <span>Payment</span>
                 </div>
-                <div className="freeBody">
-                    <button onClick={toServer}>Get FREE server</button>
-                </div>
-
+                {paymentOptions(values.plan)}
             </div>
         </div>
     )
