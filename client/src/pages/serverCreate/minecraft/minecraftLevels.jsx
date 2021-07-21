@@ -112,7 +112,7 @@ const MinecraftLevels = (props) => {
         switch (plan) {
             case "default":
                 return (
-                    <ServerPlan />
+                    <ServerPlan values={values} />
                 )
             case "free":
                 return (
@@ -123,7 +123,7 @@ const MinecraftLevels = (props) => {
 
             default:
                 return (
-                    <ServerPlan />
+                    <ServerPlan values={values} />
                 )
         }
     }

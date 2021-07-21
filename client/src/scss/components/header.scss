@@ -9,6 +9,7 @@
   justify-content: center;
   z-index: 10;
   background-color: transparent;
+  pointer-events: none;
 }
 
 .headerInnerBanner {
@@ -20,6 +21,7 @@
 }
 
 .headerInnerBanner a {
+  pointer-events: visible;
   margin-right: 40px;
   text-decoration: none;
   transition: 1s all ease;

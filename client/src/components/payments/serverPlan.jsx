@@ -21,10 +21,22 @@ const CARD_OPTIONS = {
     }
 }
 
-const ServerPlan = () => {
+const ServerPlan = (props) => {
     return (
         <>
-            <h1>TESTING!</h1>
+            <div className="paymentInfoContainer">
+                <div className="paymentInfoHeader">
+                    <span>Info</span>
+                    <div className="paymentInfoHeaderSeperator" />
+                </div>
+                <span className="paymentInfoCompanyName">U1Servers</span>
+                <span className="paymentInfoPlan">{props.values.plan}</span>
+                <span className="paymentInfoPrice">{props.values.price}</span>
+
+            </div>
+            <div className="paymentDataContainer">
+
+            </div>
             <CardElement options={CARD_OPTIONS} />
         </>
     )

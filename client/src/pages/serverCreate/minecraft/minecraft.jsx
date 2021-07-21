@@ -6,14 +6,17 @@ import MinecraftLevels from "./minecraftLevels"
 
 const MinecraftCreate = () => {
 
-    const [isCardPressed, setisCardPressed] = useState("not pressed")
+    //const [isCardPressed, setisCardPressed] = useState("not pressed")
+    const [isCardPressed, setisCardPressed] = useState("basic")
 
-    //stripe
+
+    // ----------- stripe -------------
 
     const PUBLIC_KEY = "pk_test_51JCk7wGWd5hOwkfP4Q7UpN498uJW5oa2q7vb97viqghzRSpqilFLqtCB161iX4LOg68mkwqwHaptGyl0rgaB5NSf0080vAPRe9"
 
     const stripeLoad = loadStripe(PUBLIC_KEY)
 
+    //---------------------------------
 
     if (isCardPressed !== "not pressed") {
         switch (isCardPressed) {

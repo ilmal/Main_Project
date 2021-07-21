@@ -236,11 +236,11 @@
 
 .minecraftBasicBody{
     width: 100%;
-    height: 150vh;
+    height: 210vh;
     margin-top: 100px;
     display: grid;
     grid-template-columns: 7% 86% 7%;
-    grid-template-rows: 70% 30%;
+    grid-template-rows: 50% 5% 45%;
     .overviewBody{
         grid-column: 2/3;
         grid-row: 1/2;
@@ -370,12 +370,12 @@
                 align-items: center;
                 span{
                     align-self: center;
-                    color: rgba($color: #fff, $alpha: .9);
+                    color: rgba($color: #fff, $alpha: .7);
                     font-size: 2rem;
                 }
                 p{
                     align-self: flex-start;
-                    color: rgba($color: #fff, $alpha: .9);
+                    color: rgba($color: #fff, $alpha: .7);
                     font-size: .8rem;
                     margin-top: .2rem;
                 }
@@ -416,7 +416,7 @@
                 animation-duration: 1s;
                 span{
                     font-size: 20px;
-                    color:white;
+                    color:rgba($color: #fff, $alpha: .7);
                 }
                 .value{
                     margin-left: 20px;
@@ -533,43 +533,6 @@
                 }
                 span{
                     color: rgba($color: $pinkColor, $alpha: 1);
-                }
-            }
-        }
-    }
-    .paymentBody{
-        grid-column: 2/3;
-        display: grid;
-        grid-template-columns: 25% 30% 30% 15%;
-        grid-template-rows: 10% 50% 40%;
-        .header{
-            align-self: end;
-            grid-column: 1/2;
-            grid-row: 1/2;
-            span{
-                align-self: end;
-                color: white;
-                font-size: 40px;
-            }
-        }
-        .freeBody{
-            grid-column: 2/4;
-            grid-row: 2/3;
-            display: flex;
-            justify-content: flex-start;
-            align-items: flex-start;
-            margin-top: 40px;
-            button{
-                outline: none;
-                border: none;
-                background-color: rgba($greenColor, $alpha: .15);
-                color: rgba($greenColor, $alpha: .9);
-                font-size: 1em;
-                padding: 3% 15% 3% 15%;
-                border-radius: 10px;
-                transition: all 1s ease;
-                &:hover{
-                    background-color: rgba($greenColor, $alpha: .25);
                 }
             }
         }

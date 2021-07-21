@@ -1,0 +1,68 @@
+.paymentBody{
+    grid-column: 2/3;
+    grid-row: 3/4;
+    display: grid;
+    grid-template-columns: 25% 30% 30% 15%;
+    grid-template-rows: 10% 70% 20%;
+    .header{
+        align-self: end;
+        grid-column: 1/2;
+        grid-row: 1/2;
+        span{
+            align-self: end;
+            color: white;
+            font-size: 40px;
+        }
+    }
+    .paymentInfoContainer{
+        grid-column: 2/3;
+        grid-row: 1/3;
+        display: grid;
+        grid-template-columns: 100%;
+        grid-template-rows: 12.5% 7.5% repeat(4, 20%);
+        .paymentInfoHeader{
+            display: grid;
+            grid-template-columns: 100%;
+            grid-template-rows: 100%;
+            justify-items: start;
+            align-items: end;
+            span{
+                font-size: 2rem;
+                color: rgba($color: #fff, $alpha: .7);
+            }
+            .paymentInfoHeaderSeperator{
+                transform: translateY(1rem);
+                width: 50%;
+                height: 100%;
+                border-bottom: 1px solid rgba($color: $orangeColor, $alpha: 1);
+            }
+        }
+        .paymentInfoInfoContainer{
+
+        }
+    }
+    .paymentDataContainer{
+
+    }
+    .freeBody{
+        grid-column: 2/4;
+        grid-row: 2/3;
+        display: flex;
+        justify-content: flex-start;
+        align-items: flex-start;
+        margin-top: 40px;
+        button{
+            outline: none;
+            border: none;
+            background-color: rgba($greenColor, $alpha: .15);
+            color: rgba($greenColor, $alpha: .9);
+            font-size: 1em;
+            padding: 3% 15% 3% 15%;
+            border-radius: 10px;
+            transition: all 1s ease;
+            &:hover{
+                background-color: rgba($greenColor, $alpha: .25);
+            }
+        }
+    }
+}
