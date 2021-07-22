@@ -13,7 +13,7 @@ const levelValuesFunc = (propsLevel) => {
             return ({
                 "plan": "TEST",
                 "color": "blue",
-                "price": "€15",
+                "price": "15",
                 "cpu": "1",
                 "mem": "2",
                 "storage": "Unlimited",
@@ -25,7 +25,7 @@ const levelValuesFunc = (propsLevel) => {
             return {
                 "plan": "BASIC",
                 "color": "$greenColor",
-                "price": "€15",
+                "price": "15",
                 "cpu": "2",
                 "mem": "2",
                 "storage": "Unlimited",
@@ -37,7 +37,7 @@ const levelValuesFunc = (propsLevel) => {
             return {
                 "plan": "NORMAL",
                 "color": "$blueColor",
-                "price": "€20",
+                "price": "20",
                 "cpu": "3",
                 "mem": "4",
                 "storage": "Unlimited",
@@ -49,7 +49,7 @@ const levelValuesFunc = (propsLevel) => {
             return {
                 "plan": "PREMIUM",
                 "color": "$pinkolor",
-                "price": "€25",
+                "price": "25",
                 "cpu": "4",
                 "mem": "8",
                 "storage": "Unlimited",
@@ -147,7 +147,7 @@ const MinecraftLevels = (props) => {
                     <span>Price</span>
                     <div className="upperContainersSeperator" />
                     <div className="priceContainerInner">
-                        <span>{values.price}</span>
+                        <span>{values.price}€</span>
                         <p>/month</p>
                     </div>
                 </div>

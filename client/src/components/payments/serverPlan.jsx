@@ -22,22 +22,38 @@ const CARD_OPTIONS = {
 }
 
 const ServerPlan = (props) => {
+
+    const OneTimePayment = () => {
+        return (
+            <div>
+                <span>hello</span>
+                <CardElement options={CARD_OPTIONS} />
+            </div>
+        )
+    }
+
+    const subscriptionPayment = () => {
+
+    }
+
     return (
         <>
             <div className="paymentInfoContainer">
-                <div className="paymentInfoHeader">
+                <div className="paymentInnerHeader">
                     <span>Info</span>
-                    <div className="paymentInfoHeaderSeperator" />
+                    <div className="paymentInnerHeaderSeperator" />
                 </div>
-                <span className="paymentInfoCompanyName">U1Servers</span>
-                <span className="paymentInfoPlan">{props.values.plan}</span>
-                <span className="paymentInfoPrice">{props.values.price}</span>
-
+                <div className={props.values.plan + " paymentInfoPriceContainer"}>
+                    <span className="paymentInfoPlan">{props.values.plan}</span>
+                    <span className="paymentInfoPrice">{props.values.price}€</span>
+                </div>
             </div>
             <div className="paymentDataContainer">
-
+                <div className="paymentInnerHeader">
+                    <span>Pay</span>
+                    <div className="paymentInnerHeaderSeperator" />
+                </div>
             </div>
-            <CardElement options={CARD_OPTIONS} />
         </>
     )
 }
