@@ -31,6 +31,19 @@ Fix the server plan page, need to change the selected plan (its taking to much a
 
 need to fix the compare plans to light up the plan selected
 
+need to fix so that k8s proxy is more reliable as well as prometheus 
+
+
+
+
+
+IM BACK BABY!!!!!!!!!!!!!!
+
+
+
+
+
+
 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><<
 
 pantano PENDING

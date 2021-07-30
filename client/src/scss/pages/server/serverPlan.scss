@@ -79,6 +79,20 @@
                 border-bottom: 1px solid rgba($color: $blueColor, $alpha: 1);
             }
         }
+        .paymentOneTimeMainContainer{
+            grid-column: 1/2;
+            grid-row: 3/6;
+            display: grid;
+            grid-template-rows: 10% 90%;
+            grid-template-columns: 100%;
+            position: relative;
+            .paymentOneTimeEmail{
+                @include inputDefaults($blueColor, 50%);
+            }
+            .paymentOneTimeCardDetails{
+                
+            }
+        }
     }
     .freeBody{
         grid-column: 2/4;

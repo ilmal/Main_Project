@@ -1,5 +1,6 @@
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js"
 import axios from "axios"
+import { useState } from "react"
 
 const CARD_OPTIONS = {
     iconStyle: "solid",
@@ -23,12 +24,44 @@ const CARD_OPTIONS = {
 
 const ServerPlan = (props) => {
 
+    const [cardInfo, setCardInfo] = useState({
+        email: "",
+        cardNumber: "",
+        cardDate: "",
+        cardCVC: ""
+    })
+
+    const paymentSelection = (value) => {
+        switch (value) {
+            case "sub":
+                return subscriptionPayment();
+            case "oneTime":
+                return OneTimePayment();
+            default:
+                return OneTimePayment();
+        }
+    }
+
     const OneTimePayment = () => {
+        const handleSubmit = (e) => {
+            e.perventDefaults()
+            setCardInfo({
+                ...cardInfo,
+                email: e.target.email.value
+            })
+        }
         return (
-            <div>
-                <span>hello</span>
+            <form className="paymentOneTimeMainContainer" onSubmit={handleSubmit}>
+                <div className="paymentOneTimeEmail">
+                    <input type="text" name="email" autoComplete="off" required />
+                    <label>
+                        <span>Email</span>
+                    </label>
+                </div>
+                <div className="paymentOneTimeCardDetails">
+                </div>
                 <CardElement options={CARD_OPTIONS} />
-            </div>
+            </form>
         )
     }
 
@@ -53,6 +86,11 @@ const ServerPlan = (props) => {
                     <span>Pay</span>
                     <div className="paymentInnerHeaderSeperator" />
                 </div>
+                <OneTimePayment />
+                {/* INSERT A PROPER SOLUTION TO CHOSE BETWEEN ONE TIME PAYMENT AND SUBSCRIPTION */}
+                {/* <div className="paymentInnerPaymentSelectionMain">
+
+                </div> */}
             </div>
         </>
     )

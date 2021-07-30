@@ -55,3 +55,56 @@ span, p, a, h1, h2, h3, button, input, label{
   0%{opacity: 0}
   100%{opacity: 1}
 }
+
+@mixin inputDefaults($colorVar, $width){
+  position: relative;
+  width: $width;
+  input{
+      border: none;
+      padding-top: 1rem;
+      width: 100%;
+      outline: none;
+      font-size: 1.3rem;
+      background-color: transparent;
+      color: rgba($color: #fff, $alpha: 0.65);
+  }
+  input:focus + label span,
+  input:valid + label span{
+      transform: translateY(-150%);
+      font-size: 13px;
+      color: rgba($color: $colorVar, $alpha: 0.5);
+  }
+  input:focus + label::after,
+  input:valid + label::after{
+      transform: translateX(0%);
+  }
+  label{
+      display: block;
+      position: absolute;
+      bottom: 0px;
+      left: 0px;
+      height: 100%;
+      width: 100%;
+      pointer-events: none;
+      border-bottom: 1px solid rgba($color: #fff, $alpha: 0.15);
+      color: rgba($color: #fff, $alpha: 1);
+      overflow: hidden;
+      span{
+          position: absolute;
+          bottom: 5px;
+          left: 0px;
+          transition: all 0.3s ease;
+      }
+  }
+  label::after{
+      content: "";
+      position: absolute;
+      left: 0px;
+      bottom: -1px;
+      height: 100%;
+      width: 100%;
+      border-bottom: 3px solid rgba($color: $colorVar, $alpha: 0.5);
+      transform: translateX(-100%);
+      transition: transform 0.5s ease;
+  }
+}
