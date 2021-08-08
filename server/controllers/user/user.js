@@ -3,6 +3,8 @@ var ObjectId = require('mongodb').ObjectID;
 
 const User = require("../../models/user/config.model")
 
+const Products = require("../../models/user/config.modelProducts")
+
 router.post("/", async (req, res) => {
     const oid = ObjectId(req.body.id)
 

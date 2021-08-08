@@ -28,6 +28,7 @@ $redColor: #fa5252;
 $smoothRed: #E24D42;
 $yellowColor: #eed202;
 $smoothYellow: #eab839;
+$paymentColor: #87bbfd;
 
 body {
   // background-color: #212529;
@@ -56,7 +57,7 @@ span, p, a, h1, h2, h3, button, input, label{
   100%{opacity: 1}
 }
 
-@mixin inputDefaults($colorVar, $width){
+@mixin inputDefaults($colorVar: $blueColor, $width: 100%){
   position: relative;
   width: $width;
   input{
