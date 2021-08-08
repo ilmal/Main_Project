@@ -7,6 +7,7 @@ const serverRouter = require("./serverRouter")
 const nodemailer = require("./nodemailer")
 const confirmationValidation = require("./confimationValidationRoutes")
 const updatePassValidation = require("./updatePassValidationRoutes")
+const stripeRouter = require("./stripeRoutes")
 
 
 router.use("/user", userRouter)
@@ -16,5 +17,6 @@ router.use("/k8s", k8sRouter)
 router.use("/nodemailer", nodemailer)
 router.use("/confirmationvalidation", confirmationValidation)
 router.use("/updatepassValidation", updatePassValidation)
+router.use("/stripe", stripeRouter)
 
 module.exports = router

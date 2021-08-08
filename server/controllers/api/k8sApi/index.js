@@ -206,7 +206,7 @@ router.post("/time", async (req, res) => {
                     timeStamp = moment().toDate()
                 }
                 // creating a new timestamp with the added 30 min
-                const newTimeStamp = moment(timeStamp).add(2, 'm').toDate()
+                const newTimeStamp = moment(timeStamp).add(30, 'm').toDate()
                 const currentTime = moment().toDate()
                 // calculating time remaining
                 const timeLeftExact = (newTimeStamp - currentTime) / 60000 //NewTimeStamp - currentTimeStamp in milliseconds converted to mins
@@ -224,6 +224,7 @@ router.post("/time", async (req, res) => {
                     })
                 } else {
                     res.send({
+
                         timeOfReset: timeStamp,
                         timeLeft: timeLeft,
                         serverShutDown: false

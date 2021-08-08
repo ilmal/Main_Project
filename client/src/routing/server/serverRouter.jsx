@@ -3,13 +3,12 @@ import {
     Route,
 } from "react-router-dom"
 
-import MinecraftRouter from "./minecraftRouter"
+import MinecraftCreate from "../../pages/serverCreate/minecraft/minecraft"
 
 const userRouter = () => {
     return (
         <Router>
-            <Route exact path="*/minecraft" component={MinecraftRouter} />
-            <Route exact path="*/minecraft/*" component={MinecraftRouter} />
+            <Route exact path="*/minecraft" component={MinecraftCreate} />
         </Router>
     );
 }
