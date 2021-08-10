@@ -467,6 +467,8 @@
                 span{
                     font-size: 1.7rem;
                     color:rgba($color: #fff, $alpha: .9);
+                    animation-name: animateInAnimation;
+                    animation-duration: 1.2s;
                 }
             }
             .changeLevelSeperator{
@@ -477,7 +479,7 @@
                 width: 50%;
                 border-bottom: 1px #eab839 solid;
                 animation-name: animateInAnimation;
-                animation-duration: 1s;
+                animation-duration: 1.2s;
             }
             @mixin changeLevelDefaults {
                 grid-row: 2/3;
@@ -488,6 +490,8 @@
                 grid-template-rows: 35% 35% 30%;
                 grid-template-columns: 100%;
                 transition: all .5s ease;
+                animation-name: animateInAnimation;
+                animation-duration: 1.4s;
                 &:hover{
                     transform: scale(1.01);
                 }

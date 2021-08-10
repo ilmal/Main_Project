@@ -1,6 +1,12 @@
+// modules
 import { CardElement, CardNumberElement, CardExpiryElement, CardCvcElement, useElements, useStripe } from "@stripe/react-stripe-js"
 import axios from "axios"
-import { useState } from "react"
+import { useState, useEffect } from "react"
+
+// custom files
+import { successPayment, failPayment } from "./paymentHandler"
+
+// images
 import amexIcon from "../../images/stripe/amexIcon.svg"
 import visaIcon from "../../images/stripe/mastercardIcon.svg"
 import mastercardIcon from "../../images/stripe/visaIcon.svg"
@@ -28,15 +34,19 @@ const CARD_OPTIONS = {
 
 
 const ServerPlan = (props) => {
-    const [cardInfo, setCardInfo] = useState({
-        email: "",
-        cardNumber: "",
-        cardDate: "",
-        cardCVC: ""
-    })
-    const [success, setSuccess] = useState(false)
+    // const [success, setSuccess] = useState("default")
+    const [success, setSuccess] = useState("default")
     const elements = useElements()
     const stripe = useStripe()
+
+    // enable disable scroll paymentHandler
+    useEffect(() => {
+        if (success != "default") {
+            document.body.style.overflow = "hidden"
+        } else if (success === "default") {
+            document.body.style.overflow = "scroll"
+        }
+    }, [success])
 
     const paymentSelection = (value) => {
         switch (value) {
@@ -47,6 +57,14 @@ const ServerPlan = (props) => {
             default:
                 return OneTimePayment();
         }
+    }
+
+    const paymentSuccess = () => {
+
+    }
+
+    const paymentFailure = () => {
+
     }
 
     const OneTimePayment = () => {
@@ -73,10 +91,17 @@ const ServerPlan = (props) => {
                     },
                     id
                 })
-                if (response.data.success) {
-                    console.log('%c%s', 'color: green', "successful payment")
-                    setSuccess(true)
+                // dispaying err if response is err
+                if (!response.data.sucess) {
+                    console.log('%c%s', 'color: red', "payment failed")
+                    setSuccess("fail")
+                    return
                 }
+
+                // dispaying success if response is successful
+                console.log('%c%s', 'color: green', "successful payment")
+                setSuccess("success")
+                return
 
             } catch (error) {
                 console.error(error)
@@ -127,6 +152,19 @@ const ServerPlan = (props) => {
 
     }
 
+    const paymentHandler = () => {
+        switch (success) {
+            case "success":
+                return successPayment();
+            case "fail":
+                return failPayment();
+            case "default":
+                return null;
+            default:
+                return null;
+        }
+    }
+
     return (
         <>
             <div className="paymentInfoContainer">
@@ -150,6 +188,7 @@ const ServerPlan = (props) => {
 
                 </div> */}
             </div>
+            {paymentHandler()}
         </>
     )
 }

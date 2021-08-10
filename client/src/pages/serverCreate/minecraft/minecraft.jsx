@@ -7,7 +7,7 @@ import MinecraftLevels from "./minecraftLevels"
 const MinecraftCreate = () => {
 
     //const [isCardPressed, setisCardPressed] = useState("not pressed")
-    const [isCardPressed, setisCardPressed] = useState("basic")
+    const [isCardPressed, setisCardPressed] = useState("not pressed")
 
 
     // ----------- stripe -------------
