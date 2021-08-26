@@ -9,7 +9,7 @@ const paymentHanderDefaults = (spec) => {
     )
 }
 
-export const successPayment = (history) => {
+export const passFormPayment = (history) => {
 
     const formHandler = (e) => {
         e.preventDefault()
@@ -26,7 +26,7 @@ export const successPayment = (history) => {
     const spec = (
         <>
             <div className="paymentHandlerHeader">
-                <span>Payment Successful!</span>
+                <span>One more step!</span>
             </div>
             <div className="paymentHandlerHeaderDivider" />
             <form className="paymentHandlerCreatePassContainer" onSubmit={formHandler}>
@@ -41,12 +41,12 @@ export const successPayment = (history) => {
                     <div className="paymentHandlerInput2">
                         <input type="password" name="password2" className="loginInput" autoComplete="off" required />
                         <label className="paymentHandlerLabel">
-                            <span className="paymentHandlerLabelValue">Password</span>
+                            <span className="paymentHandlerLabelValue">Retype Password</span>
                         </label>
                     </div>
                 </div>
                 <button type="submit">Create account</button>
-                <span className="paymentHandlerCreatePassToLogin" onClick={redirectToLogin}>Already have an account? To login</span>
+                <span className="paymentHandlerCreatePassToLogin" onClick={redirectToLogin}>Already have an account? Login</span>
             </form>
         </>
     )

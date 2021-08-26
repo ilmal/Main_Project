@@ -5,7 +5,7 @@ import { useState, useEffect } from "react"
 import { useHistory } from "react-router-dom";
 
 // custom files
-import { successPayment, failPayment } from "./paymentHandler"
+import { passFormPayment, failPayment } from "./paymentHandler"
 
 // images
 import amexIcon from "../../images/stripe/amexIcon.svg"
@@ -35,8 +35,8 @@ const CARD_OPTIONS = {
 
 
 const ServerPlan = (props) => {
-    // const [success, setSuccess] = useState("default")
-    const [success, setSuccess] = useState("success")
+    // const [passForm, setpassForm] = useState("default")
+    const [passForm, setpassForm] = useState("passForm")
     const elements = useElements()
     const stripe = useStripe()
 
@@ -45,12 +45,12 @@ const ServerPlan = (props) => {
 
     // enable disable scroll paymentHandler
     useEffect(() => {
-        if (success != "default") {
+        if (passForm != "default") {
             document.body.style.overflow = "hidden"
-        } else if (success === "default") {
+        } else if (passForm === "default") {
             document.body.style.overflow = "scroll"
         }
-    }, [success])
+    }, [passForm])
 
     const paymentSelection = (value) => {
         switch (value) {
@@ -63,7 +63,7 @@ const ServerPlan = (props) => {
         }
     }
 
-    const paymentSuccess = () => {
+    const paymentpassForm = () => {
 
     }
 
@@ -98,13 +98,13 @@ const ServerPlan = (props) => {
                 // dispaying err if response is err
                 if (!response.data.sucess) {
                     console.log('%c%s', 'color: red', "payment failed")
-                    setSuccess("fail")
+                    setpassForm("fail")
                     return
                 }
 
-                // dispaying success if response is successful
-                console.log('%c%s', 'color: green', "successful payment")
-                setSuccess("success")
+                // dispaying passForm if response is passFormful
+                console.log('%c%s', 'color: green', "passFormful payment")
+                setpassForm("passForm")
                 return
 
             } catch (error) {
@@ -157,9 +157,9 @@ const ServerPlan = (props) => {
     }
 
     const paymentHandler = () => {
-        switch (success) {
-            case "success":
-                return successPayment(history);
+        switch (passForm) {
+            case "passForm":
+                return passFormPayment(history);
             case "fail":
                 return failPayment();
             case "default":
