@@ -20,6 +20,7 @@
 
 $backgroundColorBack: #141618;
 $backgroundColor: #212529;
+$backgroundColorLight: #293036;
 $blueColor: #329af0;
 $greenColor: #51cf66;
 $orangeColor: #ff8100;
@@ -57,7 +58,7 @@ span, p, a, h1, h2, h3, button, input, label{
   100%{opacity: 1}
 }
 
-@mixin inputDefaults($colorVar: $blueColor, $width: 100%, $fontSize: 1.3rem){
+@mixin inputDefaults($colorVar: $blueColor, $width: 100%, $fontSize: 1.3rem, $height: 100%){
   position: relative;
   width: $width;
   input{
@@ -72,7 +73,7 @@ span, p, a, h1, h2, h3, button, input, label{
   input:focus + label span,
   input:valid + label span{
       transform: translateY(-150%);
-      font-size: $fontSize;
+      font-size: 1rem;
       color: rgba($color: $colorVar, $alpha: 0.5);
   }
   input:focus + label::after,
@@ -84,7 +85,7 @@ span, p, a, h1, h2, h3, button, input, label{
       position: absolute;
       bottom: 0px;
       left: 0px;
-      height: 100%;
+      height: $height;
       width: 100%;
       pointer-events: none;
       border-bottom: 1px solid rgba($color: #fff, $alpha: 0.15);

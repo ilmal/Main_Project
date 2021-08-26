@@ -9,11 +9,17 @@ const paymentHanderDefaults = (spec) => {
     )
 }
 
-export const successPayment = () => {
+export const successPayment = (history) => {
 
     const formHandler = (e) => {
         e.preventDefault()
+        console.log('%c%s', 'color: green', "password1", e.target.password1.value)
+        console.log('%c%s', 'color: green', "password2", e.target.password2.value)
+    }
 
+    const redirectToLogin = () => {
+        history.push("/user/login");
+        window.location.reload();
     }
 
     // passing specific layout of successPayment to the paymentHandlerDefault func
@@ -22,17 +28,26 @@ export const successPayment = () => {
             <div className="paymentHandlerHeader">
                 <span>Payment Successful!</span>
             </div>
-            <div className="paymentHandlerCreatePassContainer">
-                <span>Create account:</span>
-                <form onClick={formHandler}>
+            <div className="paymentHandlerHeaderDivider" />
+            <form className="paymentHandlerCreatePassContainer" onSubmit={formHandler}>
+                <span className="paymentHandlerCreatePassHeader">Create account:</span>
+                <div className="paymentHandlerPassContainer">
                     <div className="paymentHandlerInput1">
-                        <input type="password" name="password" className="loginInput" autoComplete="off" required />
+                        <input type="password" name="password1" className="loginInput" autoComplete="off" required />
                         <label className="paymentHandlerLabel">
                             <span className="paymentHandlerLabelValue">Password</span>
                         </label>
                     </div>
-                </form>
-            </div>
+                    <div className="paymentHandlerInput2">
+                        <input type="password" name="password2" className="loginInput" autoComplete="off" required />
+                        <label className="paymentHandlerLabel">
+                            <span className="paymentHandlerLabelValue">Password</span>
+                        </label>
+                    </div>
+                </div>
+                <button type="submit">Create account</button>
+                <span className="paymentHandlerCreatePassToLogin" onClick={redirectToLogin}>Already have an account? To login</span>
+            </form>
         </>
     )
     return paymentHanderDefaults(spec)

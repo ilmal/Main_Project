@@ -2,6 +2,7 @@
 import { CardElement, CardNumberElement, CardExpiryElement, CardCvcElement, useElements, useStripe } from "@stripe/react-stripe-js"
 import axios from "axios"
 import { useState, useEffect } from "react"
+import { useHistory } from "react-router-dom";
 
 // custom files
 import { successPayment, failPayment } from "./paymentHandler"
@@ -35,9 +36,12 @@ const CARD_OPTIONS = {
 
 const ServerPlan = (props) => {
     // const [success, setSuccess] = useState("default")
-    const [success, setSuccess] = useState("default")
+    const [success, setSuccess] = useState("success")
     const elements = useElements()
     const stripe = useStripe()
+
+    // history
+    const history = useHistory();
 
     // enable disable scroll paymentHandler
     useEffect(() => {
@@ -155,7 +159,7 @@ const ServerPlan = (props) => {
     const paymentHandler = () => {
         switch (success) {
             case "success":
-                return successPayment();
+                return successPayment(history);
             case "fail":
                 return failPayment();
             case "default":
