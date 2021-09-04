@@ -93,19 +93,7 @@
                 justify-content: center;
                 align-items: center;
                 input{
-                    color: rgba($color: #fff, $alpha: .9);
-                    background-color: transparent;
-                    outline: none;
-                    border: solid 2px $backgroundColor;
-                    border-radius: 10px;
-                    width: 100%;
-                    font-size: 1rem;
-                    font-weight: 500;
-                    height: 1.3rem;
-                    padding: 1rem;
-                    &::placeholder{
-                        color:$paymentColor;
-                    }
+                    @include inputCardStyle(100%);
                 }
             }
             @mixin paymentOneTimeCardDetailsDefaults{
@@ -164,20 +152,73 @@
                 justify-content: center;
                 align-items: center;
                 button{
-                    width: 100%;
-                    outline: none;
-                    border: none;
-                    padding: 1rem 0rem 1rem 0rem;
-                    border-radius: 10px;
-                    background-color: rgba($color: $blueColor, $alpha: .45);
-                    color:rgba($color: #fff, $alpha: .7);
-                    font-size: 1.3rem;
-                    transition: all .5s ease;
-                    &:hover{
-                        transform: scale(1.01);
-                        background-color: rgba($color: $blueColor, $alpha: .55);
-                    }
+                    @include inputButtonStyle;
                 }
+            }
+        }
+        @mixin paymentLoginSignupContainer(){
+            grid-row: 3/6;
+            grid-column: 1/2;
+            display: grid;
+            grid-template-columns: 100%;
+            .paymentLoginSignupHeader{
+                grid-column: 1/2;
+                grid-row: 1/2;
+                color: rgba($color: #fff, $alpha: .8);
+                font-size: 1.3rem;
+                display: flex;
+                justify-self: center;
+            }
+            .paymentLoginSignupsHeaderSeperator{
+                grid-column: 1/2;
+                grid-row: 1/2;
+                width: 6%;
+                height: 60%;
+                display: flex;
+                justify-self: center;
+                border-bottom: rgba($color: #fff, $alpha: .3) solid 1px;
+            }
+            input{
+                grid-column: 1/2;
+                @include inputCardStyle;
+            }
+            .paymentLoginSignupButtonLinkContainer{
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                button{
+                    @include inputButtonStyle(50%, 80%);
+                }
+                span{
+                    color: rgba($color: #fff, $alpha: .7);
+                    @include hover($blueColor)
+                }                
+            }
+        }
+        .paymentLoginMainContainer{
+            @include paymentLoginSignupContainer();
+            grid-template-rows: 15% 20% 20% 20% 25%;
+            .paymentLoginEmail{
+                grid-row: 2/3;
+            }
+            .paymentLoginPassword{
+                grid-row: 3/4;
+            }
+            .paymentLoginSignupButtonLinkContainer{
+                grid-row: 4/5;
+            }
+        }
+        .paymentSignupMainContainer{
+            @include paymentLoginSignupContainer();
+            grid-template-rows: 15% 20% 20% 20% 20% 5%;
+            .paymentSignupEmail{
+                grid-row: 2/3;
+            }
+            .paymentSignupPassword1{
+                grid-row: 3/4;
+            }
+            .paymentSignupPassword2{
+                grid-row: 4/5;
             }
         }
     }

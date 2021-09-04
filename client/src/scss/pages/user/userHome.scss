@@ -30,7 +30,7 @@
     font-size: 50px;
     color: rgba($color: #fff, $alpha: 0.7);
     transition: all ease 1s;
-    @include green-hover;
+    @include hover($greenColor);
     animation-name: animateInAnimation;
     animation-duration: .5s;
   }
@@ -192,7 +192,7 @@ scss for the Server tab
   justify-content: space-evenly;
   align-items: center;
   span {
-    @include green-hover;
+    @include hover;
     font-size: 20px;
     color: rgba($blueColor, $alpha: 0.7);
     cursor: copy;

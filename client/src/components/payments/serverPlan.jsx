@@ -1,47 +1,33 @@
 // modules
-import { CardElement, CardNumberElement, CardExpiryElement, CardCvcElement, useElements, useStripe } from "@stripe/react-stripe-js"
-import axios from "axios"
 import { useState, useEffect } from "react"
 import { useHistory } from "react-router-dom";
 
+// redux
+import { store } from "../../index"
+
+// custom hooks
+import usePaymentLoginSignupHook from "./paymentLoginSignup";
+
 // custom files
 import { passFormPayment, failPayment } from "./paymentHandler"
-
-// images
-import amexIcon from "../../images/stripe/amexIcon.svg"
-import visaIcon from "../../images/stripe/mastercardIcon.svg"
-import mastercardIcon from "../../images/stripe/visaIcon.svg"
-import cvcIcon from "../../images/stripe/cvcIcon.svg"
-
-const CARD_OPTIONS = {
-    iconStyle: "solid",
-    type: "card",
-    style: {
-        base: {
-            iconColor: "#c4f0ff",
-            color: "#fff",
-            fontWeight: 500,
-            fontSize: "1.3rem",
-            ":-webkit-autofill": { color: "#fce883" },
-            "::placeholder": { color: "#87bbfd" }
-        },
-        invalid: {
-            iconColor: "#ffc7ee",
-            color: "#ffc7ee"
-        }
-    }
-}
-
-
+import { OneTimePayment } from "./payments"
 
 const ServerPlan = (props) => {
     // const [passForm, setpassForm] = useState("default")
-    const [passForm, setpassForm] = useState("passForm")
-    const elements = useElements()
-    const stripe = useStripe()
+    const [passForm, setpassForm] = useState("default")
+
+    // redux
+    const [userData, setUserData] = useState(store.getState())
 
     // history
     const history = useHistory();
+
+    //customHook
+    const paymentLoginSignupHook = usePaymentLoginSignupHook();
+
+    store.subscribe(() => {
+        setUserData(store.getState());
+    });
 
     // enable disable scroll paymentHandler
     useEffect(() => {
@@ -71,89 +57,20 @@ const ServerPlan = (props) => {
 
     }
 
-    const OneTimePayment = () => {
-        const handleSubmit = async (e) => {
-            e.preventDefault()
-            const { error, paymentMethod } = await stripe.createPaymentMethod({
-                type: "card",
-                card: elements.getElement(CardNumberElement),
-                billing_details: {
-                    email: e.target.email.value
-                }
-            })
-
-            if (error) {
-                console.error(error)
-                return
-            }
-            try {
-                const { id } = paymentMethod
-                const response = await axios.post("/stripe", {
-                    product: {
-                        game: "minecraft",
-                        plan: props.values.plan
-                    },
-                    id
-                })
-                // dispaying err if response is err
-                if (!response.data.sucess) {
-                    console.log('%c%s', 'color: red', "payment failed")
-                    setpassForm("fail")
-                    return
-                }
-
-                // dispaying passForm if response is passFormful
-                console.log('%c%s', 'color: green', "passFormful payment")
-                setpassForm("passForm")
-                return
-
-            } catch (error) {
-                console.error(error)
-            }
-
-
-            console.log(paymentMethod)
-        }
-        return (
-            <form className="paymentOneTimeMainContainer" onSubmit={handleSubmit}>
-                <div className="paymentOneTimeEmail">
-                    <input type="email" name="email" placeholder="Email" autoComplete="off" required />
-                </div>
-                <div className="paymentOneTimeCardDetails1">
-                    <div className="paymentCardElementCardNumber">
-                        <div className="CardNumberElementDiv">
-                            <CardNumberElement options={CARD_OPTIONS} />
-                        </div>
-                        <div className="cardIcons">
-                            <img src={amexIcon} />
-                            <img src={visaIcon} />
-                            <img src={mastercardIcon} />
-                        </div>
-                    </div>
-
-                </div>
-                <div className="paymentOneTimeCardDetails2">
-                    <div className="paymentCardElementCardExpiry">
-                        <CardExpiryElement options={CARD_OPTIONS} />
-                    </div>
-                    <div className="paymentCardElementCardCvc">
-                        <div className="CardNumberElementDiv">
-                            <CardCvcElement options={CARD_OPTIONS} />
-                        </div>
-                        <div className="cardIcons">
-                            <img src={cvcIcon} />
-                        </div>
-                    </div>
-                </div>
-                <div className="paymentOneTimeSubmitContainer">
-                    <button type="submit">Pay</button>
-                </div>
-            </form>
-        )
-    }
-
     const subscriptionPayment = () => {
 
+    }
+
+    const isLoggedInFunc = () => {
+        if (userData.auth) {
+            return (
+                OneTimePayment(props)
+            )
+        }
+        return (
+            //OneTimePayment(props)
+            paymentLoginSignupHook
+        )
     }
 
     const paymentHandler = () => {
@@ -186,10 +103,9 @@ const ServerPlan = (props) => {
                     <span>Pay</span>
                     <div className="paymentInnerHeaderSeperator" />
                 </div>
-                <OneTimePayment />
+                {isLoggedInFunc()}
                 {/* INSERT A PROPER SOLUTION TO CHOSE BETWEEN ONE TIME PAYMENT AND SUBSCRIPTION */}
                 {/* <div className="paymentInnerPaymentSelectionMain">
-
                 </div> */}
             </div>
             {paymentHandler()}
