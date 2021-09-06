@@ -63,6 +63,7 @@ export const login = (name, pass, dispatch) => {
 }
 
 export const signup = async (name, email, password, dispatch) => {
+    console.log("sending req to signup")
     axios.post(`${ip_address}/user/insert`, {
         data: {
             name,
@@ -71,6 +72,7 @@ export const signup = async (name, email, password, dispatch) => {
         }
     })
         .then(async (response) => {
+            console.log("response from signup")
             if (response.data === "User created") {
                 login(name, password, dispatch)
                 dispatch({
