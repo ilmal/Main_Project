@@ -84,23 +84,19 @@ export default () => {
         // showing signup verification if state verifySignup is true
         if (verifySignup) return (
             <div className="paymentVerificationSignupMainBody">
-                <div className="paymentVerificationSignupBody">
-                    <div className="paymentVerificationMessageBody">
-                        <span>Follow the link sent to <span> {user.email} </span> and verify you account!</span>
-                        <div className="noMailLine" />
-                        {clientNoMail ?
-                            <div className="noMail">
-                                <span>Make sure to check the spam folder!</span>
-                                <span>Still can't find it? Just send another one!</span>
-                                <button onClick={() => store.dispatch(resendConfirmationMail)}>Send another mail to {user.email}</button>
-                            </div>
-                            :
-                            <div>
-                                <span onClick={() => setClientNoMail(true)}>Can't find the email?</span>
-                            </div>
-                        }
-                    </div>
+                <div className="paymentVerificationHeader">
+                    <span>Follow the link sent to <span> {user.email} </span> and verify you account!</span>
                 </div>
+                <div className="paymentVerificationNoMailLine" />
+                {clientNoMail ?
+                    <div className="paymentVerificationNoMail">
+                        <button onClick={() => store.dispatch(resendConfirmationMail)}>Send another mail to {user.email}</button>
+                    </div>
+                    :
+                    <div className="paymentVerificationLink">
+                        <span onClick={() => setClientNoMail(true)}>Can't find the email?</span>
+                    </div>
+                }
             </div>
         )
         return (
