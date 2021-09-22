@@ -148,8 +148,10 @@
             .paymentOneTimeSubmitContainer{
                 grid-row: 4/5;
                 grid-column: 1/2;
+                align-self: end;
+                height: 90%;
                 display: flex;
-                justify-content: center;
+                justify-content: flex-end;
                 align-items: center;
                 button{
                     @include inputButtonStyle;
