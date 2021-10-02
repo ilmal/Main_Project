@@ -8,14 +8,18 @@ const { cookie } = require("request-promise")
 
 router.post("/", async (req, res) => {
 
-    // if name exists
-    const user = await User.findOne({ name: req.body.name })
+    // check if name exists
+    let user = await User.findOne({ name: req.body.name })
     if (!user) {
-        console.log("User does not exist1")
-        return res.send("User doesn't exist")
+        // check for email
+        user = await User.findOne({ email: req.body.name })
+        if (!user) {
+            console.log("User does not exist1")
+            return res.send("User doesn't exist")
+        }
     }
 
-    // if pass is correct
+    // check if pass is correct
     const pass = await bcrypt.compare(req.body.password, user.password)
     if (!pass) {
         console.log("Pass not valid")

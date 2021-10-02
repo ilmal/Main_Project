@@ -52,7 +52,7 @@ const LoginPage = () => {
                     <div className="loginForm">
                         <input type="text" name="name" className="loginInput" autoComplete="off" required />
                         <label className="loginLable">
-                            <span className="loginLableValue" data-tip='test'>Name</span>
+                            <span className="loginLableValue" data-tip='test'>Name/ Email</span>
                         </label>
                     </div>
                     <div className="loginForm">
@@ -64,7 +64,6 @@ const LoginPage = () => {
                     <button type="submit" className="loginButton">submit</button>
                 </form>
                 <div className="loginLinks">
-                    <span className="loginSignUp" onClick={toSignup}>First time? Sign up!</span>
                     <span className="loginForgotPass" onClick={forgotPassFunc}>Forgot password?</span>
                 </div>
             </div>

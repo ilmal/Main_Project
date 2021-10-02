@@ -13,7 +13,7 @@ const Header = () => {
 
     useEffect(() => {
         if (window.location.pathname === "/") {
-            setHideDemo(false)
+            setHideDemo(true)
             setTimeout(() => {
                 setHideDemo(true)
             }, 5000)
@@ -44,7 +44,6 @@ const Header = () => {
                         :
                         <>
                             <a href="/user/login">LOGIN</a>
-                            <a href="/user/signup">SIGN UP</a>
                         </>
                     }
                 </div>

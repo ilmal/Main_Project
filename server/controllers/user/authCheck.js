@@ -24,6 +24,14 @@ router.get("/", verifyToken, async (req, res) => {
         })
     }
 
+    res.send({
+        auth: true
+    })
+
+
+    // AUTH TURNED OFF FOR NOW
+
+    /*
     if (user.verified) {
         res.send({
             auth: true
@@ -34,6 +42,7 @@ router.get("/", verifyToken, async (req, res) => {
             payload: "not verified"
         })
     }
+    */
 
 })
 
