@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { animateScroll as scroll, scroller } from 'react-scroll'
+import { store } from "../index"
 
 const HomePage = () => {
   const list = ["Minecraft", "ARK", "Terraria", "Unturned", "Rust"];
@@ -68,6 +69,12 @@ const HomePage = () => {
       }
       setOffset(window.pageYOffset)
     }
+
+    // check for referals. If referal is found, add to cookie for later use
+    if (store.getState().querySelectors.ref) {
+      document.cookie = `ref=${store.getState().querySelectors.ref}`
+    }
+
   })
 
   const gameSelect = e => {

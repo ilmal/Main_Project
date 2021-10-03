@@ -67,7 +67,7 @@ const LoginPage = () => {
                     <span className="loginForgotPass" onClick={forgotPassFunc}>Forgot password?</span>
                 </div>
             </div>
-        </div >
+        </div>
     );
 }
 

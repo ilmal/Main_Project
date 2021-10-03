@@ -21,7 +21,8 @@ const initailState = {
         { name: "", value: "" }
     ],
     errMessage: false,
-    message: false
+    message: false,
+    querySelectors: false
 }
 
 const Reducer = (state = initailState, action) => {
@@ -78,6 +79,11 @@ const Reducer = (state = initailState, action) => {
             return {
                 ...state,
                 message: false
+            }
+        case "QUARY_SELECTOR":
+            return {
+                ...state,
+                querySelectors: action.payload
             }
         case "DUMP":
             return {

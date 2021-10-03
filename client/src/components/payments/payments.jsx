@@ -1,6 +1,7 @@
 // modules
 import axios from "axios"
 import { CardElement, CardNumberElement, CardExpiryElement, CardCvcElement, useElements, useStripe } from "@stripe/react-stripe-js"
+import { store } from "../../index"
 
 // images
 import amexIcon from "../../images/stripe/amexIcon.svg"
@@ -30,8 +31,16 @@ const CARD_OPTIONS = {
 export const OneTimePayment = (props) => {
     const elements = useElements()
     const stripe = useStripe()
+
     const handleSubmit = async (e) => {
         e.preventDefault()
+        console.log("useQuery: ", store.getState().querySelectors)
+
+        if (store.getState().querySelectors.id) {
+            console.log('%c%s', 'color: green', "WOOOORKING!!!!")
+            console.log(store.getState().querySelectors.id)
+        }
+
         const { error, paymentMethod } = await stripe.createPaymentMethod({
             type: "card",
             card: elements.getElement(CardNumberElement),
@@ -41,7 +50,7 @@ export const OneTimePayment = (props) => {
         })
 
         if (error) {
-            console.error(error)
+            console.error("Error from file payments.jsx: ", error)
             return
         }
         try {

@@ -1,4 +1,5 @@
 import axios from "axios"
+import { useLocation } from "react-router-dom"
 import { store } from "../../"
 
 let cookieValueUserID = null
@@ -243,4 +244,13 @@ export const updatePassMail = async (dispatch, email) => {
                 })
             }
         })
+}
+
+export const getQuaryParams = (dispatch) => {
+    const urlSearchParams = new URLSearchParams(document.location.search)
+    const params = Object.fromEntries(urlSearchParams.entries());
+    dispatch({
+        type: "QUARY_SELECTOR",
+        payload: params
+    })
 }

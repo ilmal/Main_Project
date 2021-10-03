@@ -13,7 +13,7 @@ router.post("/", async (req, res) => {
     if (!products || products === "null") {
         console.error("something went wrong with getting products (controllers/stripe/index.js)")
         res.send({
-            message: "something went wrong with database",
+            message: "something went wrong with the internal database",
             success: false
         })
         return
