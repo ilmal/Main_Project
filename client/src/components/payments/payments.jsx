@@ -31,15 +31,11 @@ const CARD_OPTIONS = {
 export const OneTimePayment = (props) => {
     const elements = useElements()
     const stripe = useStripe()
+    const ref = null
 
     const handleSubmit = async (e) => {
         e.preventDefault()
         console.log("useQuery: ", store.getState().querySelectors)
-
-        if (store.getState().querySelectors.id) {
-            console.log('%c%s', 'color: green', "WOOOORKING!!!!")
-            console.log(store.getState().querySelectors.id)
-        }
 
         const { error, paymentMethod } = await stripe.createPaymentMethod({
             type: "card",
@@ -60,7 +56,8 @@ export const OneTimePayment = (props) => {
                     game: "minecraft",
                     plan: props.values.plan
                 },
-                id
+                id,
+                ref: document.cookie.ref
             })
             // dispaying err if response is err
             if (!response.data.sucess) {

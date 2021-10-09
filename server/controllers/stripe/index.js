@@ -3,7 +3,7 @@ let request = require('request');
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY)
 const Products = require("../../models/user/config.modelProducts")
 const createUser = require("./createUser")
-
+const refHandler = require("./refHandler")
 
 router.post("/", async (req, res) => {
 
@@ -25,14 +25,25 @@ router.post("/", async (req, res) => {
     }
 
     // putting req data into variables
-    let { id, product } = req.body
+    let { id, product, ref } = req.body
+    let price = products[product.plan.toLowerCase()].get("price")
+
+    // ref handler (ref is for referal links)
+    let refReturn
+    if (ref) {
+        refReturn = refHandler.initialRefCheck(ref)
+    }
+
+    if (refReturn.referal_exist && refReturn.discount != null) {
+        price = price * (1 - (refReturn.discount / 100))
+    }
 
     // creating the payment
     // case of success, create user with details collected with card, send success data to client
     // case of err, return errmessage to client
     try {
         const payment = await stripe.paymentIntents.create({
-            amount: products[product.plan.toLowerCase()].get("price"),
+            amount: price,
             currency: "EUR",
             description: "U1Servers",
             payment_method: id,
