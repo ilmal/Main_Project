@@ -18,7 +18,7 @@ import { TopMessage } from "./components/topMessages/index"
 
 import rootReducer from "./redux/reducers"
 
-import { fetchUserData, checkUserAuth, createMcConfig, serverPodsInfo, serverSVCInfo, mcConfGetData, getQuaryParams } from "./redux/actions/index"
+import { fetchUserData, checkUserAuth, createMcConfig, serverPodsInfo, serverSVCInfo, mcConfGetData, getQuaryParams, getCookies } from "./redux/actions/index"
 
 export const store = createStore(
     rootReducer,
@@ -45,6 +45,8 @@ const MainComponent = () => {
             await store.dispatch(mcConfGetData)
             //console.log("6")
             await store.dispatch(getQuaryParams)
+            //console.log("7")
+            await store.dispatch(getCookies)
             console.log("data after fetch func: ", store.getState())
             setLoading(false)
         })();

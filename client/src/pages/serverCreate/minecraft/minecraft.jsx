@@ -7,7 +7,7 @@ import MinecraftLevels from "./minecraftLevels"
 const MinecraftCreate = () => {
 
     //const [isCardPressed, setisCardPressed] = useState("not pressed")
-    const [isCardPressed, setisCardPressed] = useState("normal")
+    const [isCardPressed, setisCardPressed] = useState("not pressed")
 
 
     // ----------- stripe -------------
@@ -49,7 +49,7 @@ const MinecraftCreate = () => {
         return (
             <div className="minecraftBody">
                 <span>Choose your Minecraft Server!</span>
-                <div className="testServerCard">
+                {/* <div className="testServerCard">
                     <div>
                         <div className="testHeader">
                             <span>Test server</span>
@@ -61,7 +61,7 @@ const MinecraftCreate = () => {
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> */}
                 <div className="container">
                     <div className="minecraftCards basic" onClick={() => setisCardPressed("basic")}>
                         <div className="titleContainer basicTitleContainer">

@@ -30,12 +30,12 @@ router.post("/", async (req, res) => {
 
     // ref handler (ref is for referal links)
     let refReturn
+    console.log("REF PRE FUNCTION: ", ref)
     if (ref) {
-        refReturn = refHandler.initialRefCheck(ref)
-    }
-
-    if (refReturn.referal_exist && refReturn.discount != null) {
-        price = price * (1 - (refReturn.discount / 100))
+        refReturn = await refHandler.initialRefCheck(ref)
+        if (refReturn.referal_exist && refReturn.discount != null) {
+            price = price * (1 - (refReturn.discount / 100))
+        }
     }
 
     // creating the payment
@@ -45,12 +45,13 @@ router.post("/", async (req, res) => {
         const payment = await stripe.paymentIntents.create({
             amount: price,
             currency: "EUR",
-            description: "U1Servers",
+            description: `Referal: ${ref}`,
             payment_method: id,
             confirm: true
         })
         console.log("Payment", payment)
         createUser(payment)
+        refHandler.paymentSuccessRefHandler(payment, ref)
         res.json({
             message: "Payment successful",
             success: true

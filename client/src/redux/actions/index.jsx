@@ -254,3 +254,20 @@ export const getQuaryParams = (dispatch) => {
         payload: params
     })
 }
+
+export const getCookies = (dispatch) => {
+    const cookieObject = {}
+    const cookieString = document.cookie
+    const cookieArray = cookieString.split(";")
+    cookieArray.forEach((element) => {
+        const elementArray = element.split("=")
+        if (elementArray[0].charAt(0) === " ") {
+            elementArray[0] = elementArray[0].slice(1)
+        }
+        cookieObject[elementArray[0]] = elementArray[1]
+    })
+    dispatch({
+        type: "SET_COOKIES",
+        payload: cookieObject
+    })
+}

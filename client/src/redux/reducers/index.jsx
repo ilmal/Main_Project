@@ -22,7 +22,8 @@ const initailState = {
     ],
     errMessage: false,
     message: false,
-    querySelectors: false
+    querySelectors: false,
+    cookies: false
 }
 
 const Reducer = (state = initailState, action) => {
@@ -84,6 +85,11 @@ const Reducer = (state = initailState, action) => {
             return {
                 ...state,
                 querySelectors: action.payload
+            }
+        case "SET_COOKIES":
+            return {
+                ...state,
+                cookies: action.payload
             }
         case "DUMP":
             return {

@@ -16,8 +16,8 @@ const referals = new mongoose.Schema({
         type: String
     },
     past_orders: {
-        type: Map,
-        of: String
+        type: Array,
+        of: Object
     }
 
 });

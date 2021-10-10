@@ -36,6 +36,7 @@ export const OneTimePayment = (props) => {
     const handleSubmit = async (e) => {
         e.preventDefault()
         console.log("useQuery: ", store.getState().querySelectors)
+        console.log("cookies: ", store.getState().cookies.ref)
 
         const { error, paymentMethod } = await stripe.createPaymentMethod({
             type: "card",
@@ -49,6 +50,7 @@ export const OneTimePayment = (props) => {
             console.error("Error from file payments.jsx: ", error)
             return
         }
+
         try {
             const { id } = paymentMethod
             const response = await axios.post("/stripe", {
@@ -57,7 +59,7 @@ export const OneTimePayment = (props) => {
                     plan: props.values.plan
                 },
                 id,
-                ref: document.cookie.ref
+                ref: store.getState().cookies.ref
             })
             // dispaying err if response is err
             if (!response.data.sucess) {
