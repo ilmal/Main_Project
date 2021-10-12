@@ -64,11 +64,19 @@ export const OneTimePayment = (props) => {
             // dispaying err if response is err
             if (!response.data.sucess) {
                 console.log('%c%s', 'color: red', "payment failed")
+                store.dispatch({
+                    type: "ERR_MESSAGE",
+                    payload: "Something went wron with the payment!"
+                })
                 return
             }
 
             // dispaying passForm if response is passFormful
             console.log('%c%s', 'color: green', "passFormful payment")
+            store.dispatch({
+                type: "MESSAGE",
+                payload: "Payment Successfull!"
+            })
             return
 
         } catch (error) {
