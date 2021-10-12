@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js"
 
@@ -7,7 +7,14 @@ import MinecraftLevels from "./minecraftLevels"
 const MinecraftCreate = () => {
 
     //const [isCardPressed, setisCardPressed] = useState("not pressed")
-    const [isCardPressed, setisCardPressed] = useState("not pressed")
+    const [isCardPressed, setisCardPressed] = useState(() => {
+        if (localStorage.getItem("isCardPressed") != undefined) return localStorage.getItem("isCardPressed")
+        return "not pressed"
+    })
+
+    useEffect(() => {
+        localStorage.setItem("isCardPressed", isCardPressed)
+    }, [isCardPressed])
 
 
     // ----------- stripe -------------

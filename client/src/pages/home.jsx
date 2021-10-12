@@ -80,7 +80,7 @@ const HomePage = () => {
   const gameSelect = e => {
     switch (e.target.id) {
       case "minecraftSelector":
-        console.log("Woooooo, let's play some minectaft")
+        localStorage.removeItem("isCardPressed")
         history.push("/server/minecraft");
         window.location.reload();
         break;

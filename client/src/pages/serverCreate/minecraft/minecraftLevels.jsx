@@ -91,6 +91,8 @@ const MinecraftLevels = (props) => {
 
     const handleClick = (origin) => {
         console.log(origin)
+        // setting localstorage to the selected item for reloading persistance
+        localStorage.setItem("isCardPressed", origin)
         setValues(levelValuesFunc(origin))
     }
 
