@@ -1,6 +1,7 @@
 // modules
 import { useState, useEffect } from "react"
 import { useHistory } from "react-router-dom";
+import axios from "axios";
 
 // redux
 import { store } from "../../index"
@@ -15,6 +16,8 @@ import { OneTimePayment } from "./payments"
 const ServerPlan = (props) => {
     // const [passForm, setpassForm] = useState("default")
     const [passForm, setpassForm] = useState("default")
+    const [initalPageLoad, setInitalPageLoad] = useState(true)
+    const [calcRefPrice, setCalcRefPrice] = useState(false)
 
     // redux
     const [userData, setUserData] = useState(store.getState())
@@ -37,6 +40,25 @@ const ServerPlan = (props) => {
             document.body.style.overflow = "scroll"
         }
     }, [passForm])
+
+    // checking if price should have discount
+    useEffect(async () => {
+        if (initalPageLoad) {
+            let discount
+            // if there is a ref in cookies, send to backend and get back discount in percent, then calculate new price with discount and parse into "calcRefPrice" state
+            if (store.getState().cookies.ref) {
+                discount = await axios.post("/stripe/getRefPrice", {
+                    ref: store.getState().cookies.ref
+                })
+                    .then(response => {
+                        return response.data
+                    })
+            }
+            console.log("REF PRICE CALCULATED: ", calcRefPrice)
+            setCalcRefPrice(parseInt(props.values.price) * (1 - (discount / 100)))
+            setInitalPageLoad(false)
+        }
+    })
 
     const paymentSelection = (value) => {
         switch (value) {

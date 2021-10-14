@@ -271,3 +271,4 @@ export const getCookies = (dispatch) => {
         payload: cookieObject
     })
 }
+

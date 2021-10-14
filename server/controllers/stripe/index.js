@@ -2,8 +2,10 @@ const router = require("express").Router()
 let request = require('request');
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY)
 const Products = require("../../models/user/config.modelProducts")
+const User = require("../../models/user/config.model")
 const createUser = require("./createUser")
 const refHandler = require("./refHandler")
+const mongoose = require("mongoose")
 
 router.post("/", async (req, res) => {
 
@@ -25,7 +27,7 @@ router.post("/", async (req, res) => {
     }
 
     // putting req data into variables
-    let { id, product, ref } = req.body
+    let { id, product, ref, userID } = req.body
     let price = products[product.plan.toLowerCase()].get("price")
 
     // ref handler (ref is for referal links)
@@ -52,6 +54,19 @@ router.post("/", async (req, res) => {
         console.log("Payment", payment)
         createUser(payment)
         refHandler.paymentSuccessRefHandler(payment, ref)
+
+        // adding payment details to the user database
+        const user = await User.findById(userID)
+        const userServerObj = {
+            plan: product.plan,
+            game: product.game,
+            payment_ref: ref,
+            payment_id: id,
+            date: new Date()
+        }
+        user.servers = userServerObj
+        user.save()
+
         res.json({
             message: "Payment successful",
             success: true
@@ -63,6 +78,15 @@ router.post("/", async (req, res) => {
             success: false
         })
     }
+})
+
+router.post("/getRefPrice", async (req, res) => {
+    const refHandlerReturn = await refHandler.initialRefCheck(req.body.ref)
+    console.log("refHandlerReturn.discount", refHandlerReturn)
+    if (refHandlerReturn.referal_exist) {
+        return res.send(refHandlerReturn.discount)
+    }
+    res.send(false)
 })
 
 module.exports = router;

@@ -28,8 +28,11 @@ const userSchema = new mongoose.Schema({
     },
     verified: {
         type: Boolean
+    },
+    servers: {
+        type: Map,
+        of: String
     }
-
 
 });
 

@@ -38,6 +38,13 @@ export const OneTimePayment = (props) => {
         console.log("useQuery: ", store.getState().querySelectors)
         console.log("cookies: ", store.getState().cookies.ref)
 
+        if (e.target.email.value = !store.getState.user.email) {
+            store.dispatch({
+                type: "ERR_MESSAGE",
+                payload: "The email address entered doesn't match the loged in user, make sure you use the same email"
+            })
+        }
+
         const { error, paymentMethod } = await stripe.createPaymentMethod({
             type: "card",
             card: elements.getElement(CardNumberElement),
@@ -59,14 +66,15 @@ export const OneTimePayment = (props) => {
                     plan: props.values.plan
                 },
                 id,
-                ref: store.getState().cookies.ref
+                ref: store.getState().cookies.ref,
+                userID: store.getState().cookies.userID
             })
             // dispaying err if response is err
             if (!response.data.sucess) {
                 console.log('%c%s', 'color: red', "payment failed")
                 store.dispatch({
                     type: "ERR_MESSAGE",
-                    payload: "Something went wron with the payment!"
+                    payload: "Something went wrong with the payment!"
                 })
                 return
             }
