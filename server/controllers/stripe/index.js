@@ -64,16 +64,17 @@ router.post("/", async (req, res) => {
             payment_id: id,
             date: new Date()
         }
-        user.servers = userServerObj
+        user.servers.push(userServerObj)
+        user.past_servers.push(userServerObj)
         user.save()
 
-        res.json({
+        res.send({
             message: "Payment successful",
             success: true
         })
     } catch (error) {
         console.log("Error", error)
-        res.json({
+        res.send({
             message: "Payment failed",
             success: false
         })

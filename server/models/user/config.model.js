@@ -30,8 +30,12 @@ const userSchema = new mongoose.Schema({
         type: Boolean
     },
     servers: {
-        type: Map,
-        of: String
+        type: Array,
+        of: Map
+    },
+    past_servers: {
+        type: Array,
+        of: Map
     }
 
 });

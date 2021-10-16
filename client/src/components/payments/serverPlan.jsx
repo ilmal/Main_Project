@@ -17,7 +17,8 @@ const ServerPlan = (props) => {
     // const [passForm, setpassForm] = useState("default")
     const [passForm, setpassForm] = useState("default")
     const [initalPageLoad, setInitalPageLoad] = useState(true)
-    const [calcRefPrice, setCalcRefPrice] = useState(false)
+    const [calcRefPrice, setCalcRefPrice] = useState(props.values.price)
+    const [discountPercentage, setDiscountPercentage] = useState(0)
 
     // redux
     const [userData, setUserData] = useState(store.getState())
@@ -43,8 +44,8 @@ const ServerPlan = (props) => {
 
     // checking if price should have discount
     useEffect(async () => {
+        let discount = 0
         if (initalPageLoad) {
-            let discount
             // if there is a ref in cookies, send to backend and get back discount in percent, then calculate new price with discount and parse into "calcRefPrice" state
             if (store.getState().cookies.ref) {
                 discount = await axios.post("/stripe/getRefPrice", {
@@ -55,10 +56,15 @@ const ServerPlan = (props) => {
                     })
             }
             console.log("REF PRICE CALCULATED: ", calcRefPrice)
+            setDiscountPercentage(discount)
             setCalcRefPrice(parseInt(props.values.price) * (1 - (discount / 100)))
             setInitalPageLoad(false)
         }
     })
+
+    useEffect(() => {
+        setInitalPageLoad(true)
+    }, [props.values])
 
     const paymentSelection = (value) => {
         switch (value) {
@@ -117,7 +123,13 @@ const ServerPlan = (props) => {
                 </div>
                 <div className={props.values.plan + " paymentInfoPriceContainer"}>
                     <span className="paymentInfoPlan">{props.values.plan}</span>
-                    <span className="paymentInfoPrice">{props.values.price}€</span>
+                    <span className="paymentInfoPrice">{calcRefPrice}€</span>
+                    {
+                        discountPercentage > 0 ?
+                            <div>
+                                <span className="paymentInfoPriceCalculationReferal">Discount from <span>{store.getState().cookies.ref.toUpperCase()}</span></span>
+                                <span className="paymentInfoPriceCalculationPrice">{props.values.price}€ - {discountPercentage}% <span className="fas fa-long-arrow-alt-right" /> {calcRefPrice}€</span>
+                            </div> : null}
                 </div>
             </div>
             <div className="paymentDataContainer">

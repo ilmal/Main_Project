@@ -38,7 +38,9 @@ export const OneTimePayment = (props) => {
         console.log("useQuery: ", store.getState().querySelectors)
         console.log("cookies: ", store.getState().cookies.ref)
 
-        if (e.target.email.value = !store.getState.user.email) {
+        console.log("EMAIL: ", e.target.email.value, store.getState().user.email)
+
+        if (e.target.email.value === !store.getState().user.email) {
             store.dispatch({
                 type: "ERR_MESSAGE",
                 payload: "The email address entered doesn't match the loged in user, make sure you use the same email"
@@ -55,6 +57,10 @@ export const OneTimePayment = (props) => {
 
         if (error) {
             console.error("Error from file payments.jsx: ", error)
+            store.dispatch({
+                type: "ERR_MESSAGE",
+                payload: error.message
+            })
             return
         }
 
@@ -70,7 +76,10 @@ export const OneTimePayment = (props) => {
                 userID: store.getState().cookies.userID
             })
             // dispaying err if response is err
-            if (!response.data.sucess) {
+
+            console.log("RESPONSEDATA: ", response.data.success)
+
+            if (!response.data.success) {
                 console.log('%c%s', 'color: red', "payment failed")
                 store.dispatch({
                     type: "ERR_MESSAGE",
