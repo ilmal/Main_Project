@@ -17,7 +17,9 @@ router.post("/", async (req, res) => {
         console.log("You are: ", user.name)
         res.send({
             name: user.name,
-            email: user.email
+            email: user.email,
+            past_servers: user.past_servers,
+            servers: user.servers
         })
     }
 })

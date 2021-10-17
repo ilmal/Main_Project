@@ -12,10 +12,14 @@ import StartStop from "./server/startStop";
 import PlayTimeComponent from "./server/playTime";
 import TimeUpdate from "./server/timeUpdate";
 
+//images
+import minecraftImage from "../../images/userHomeImages/minecraftServerLandingPage.jpg"
+
 
 const Server = () => {
   const [userData, updateUserData] = useState(store.getState());
   const [initialLoad, setInitialLoad] = useState(true)
+  const [showLandingPage, setShowLandingPage] = useState(true)
 
   const history = useHistory();
 
@@ -83,6 +87,91 @@ const Server = () => {
     StartStop(e.target.id, store)
   }
 
+  const positionCalculator = (returnArray) => {
+    let start, end
+
+    //calculating the grid placement
+    start = (4 * (returnArray.length + 1)) + 3
+    end = start - 3
+
+    const row = start.toString() + "/" + end.toString()
+    return ({
+      gridColumn: "3/7",
+      gridRow: row
+    })
+  }
+
+  const landingPageFunc = () => {
+    let returnArray = []
+
+    // logic for choosing image dependant on the game
+    const serverImageSelectorFunc = () => {
+      switch ("minecraft") {
+        case "minecraft":
+          return (
+            <img src={minecraftImage} alt="minecraft image" />
+          )
+        default:
+          break;
+      }
+    }
+
+    //template for the server block showing servers
+    const serverBlock = (returnArray, key, element) => {
+
+      const orderDate = new Date(element.date)
+      const endDate = orderDate.setDate(orderDate.getDate() + 30)
+      let timeLeft = (endDate - new Date()) / (1000 * 60 * 60 * 24)
+      timeLeft = timeLeft.toString().split(".")
+      timeLeft = timeLeft[0]
+      return (
+        <div key={key.toString()} className="userHomeServerBlockMainContainer" style={positionCalculator(returnArray)}>
+          <div className="userHomeServerBlockImageBack">
+            {serverImageSelectorFunc()}
+          </div>
+          <div className="userHomeServerBlockInfoContainer">
+            <span className="userHomeServerBlockInfoGameName">{element.game}</span>
+            <span className="userHomeServerBlockInfoGamePlan">{element.plan}</span>
+            <span className="userHomeServerBlockInfoTimeLeft">{timeLeft}</span>
+          </div>
+        </div>
+      )
+    }
+    // the text block shown at the end of the server list
+    const redirectTextBlock = (returnArray) => {
+      return (
+        <div style={positionCalculator(returnArray)}>
+          <span className="userHomeServerBlockSpecialText">Need a server? Head on over to the <span onClick={() => { history.push("/"); window.location.reload() }}> MAIN PAGE </span></span>
+        </div>
+      )
+    }
+
+    if (store.getState().user) store.getState().user.servers.forEach((element, index) => {
+      returnArray.push(serverBlock(returnArray, index, element))
+    })
+    returnArray.push(redirectTextBlock(returnArray))
+    return returnArray
+  }
+
+  // showing start page with server panel where user chooses server and or is redirected to buy server
+  if (showLandingPage) {
+    return (
+      <>
+        <span className="userHomeLandingPageHeader">Select your server</span>
+        {
+          landingPageFunc()
+        }
+
+
+        <div className="userHomeLandingPageMainContainer">
+
+        </div>
+      </>
+
+    )
+  }
+
+  // check for user auth, if case show page, else send to main page
   if (document.cookie.search("loginAuth") > -1) {
     return (
       <>
