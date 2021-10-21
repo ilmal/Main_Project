@@ -18,6 +18,7 @@ spec:
       containers:
       - name: back-end
         image: ilmal/947ng59234ngh56943n5g2n4735g29345g7n24395gn-backend:latest
+        # insert env variables here: https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/
         ports:
         - containerPort: 31001
 
