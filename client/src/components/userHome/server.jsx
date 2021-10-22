@@ -14,6 +14,7 @@ import TimeUpdate from "./server/timeUpdate";
 
 //images
 import minecraftImage from "../../images/userHomeImages/minecraftServerLandingPage.jpg"
+import { stringify } from "query-string";
 
 
 const Server = () => {
@@ -130,9 +131,12 @@ const Server = () => {
             {serverImageSelectorFunc()}
           </div>
           <div className="userHomeServerBlockInfoContainer">
-            <span className="userHomeServerBlockInfoGameName">{element.game}</span>
-            <span className="userHomeServerBlockInfoGamePlan">{element.plan}</span>
-            <span className="userHomeServerBlockInfoTimeLeft">{timeLeft}</span>
+            <div className="userHomeServerBlockInfoGameNameContainer">
+              <span className="userHomeServerBlockInfoGameName">{element.game.charAt(0).toUpperCase() + element.game.slice(1)}</span>
+            </div>
+            <div className="userHomeServerBlockInfoGameNameSeperationLine" />
+            <span className={"userHomeServerBlockInfoGamePlan" + " " + "userHomeServerBlockInfoGamePlan" + element.plan}>{element.plan}</span>
+            <span className="userHomeServerBlockInfoTimeLeft"> <p>Days left: </p>{timeLeft}</span>
           </div>
         </div>
       )

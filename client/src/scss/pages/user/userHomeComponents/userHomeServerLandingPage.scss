@@ -28,6 +28,12 @@
     display: grid;
     grid-template-columns: 40% 60%;
     grid-template-rows: 100%;
+    //animation
+    transition: all .3s ease;
+    &:hover{
+        filter: brightness(120%);
+        transform: scale(101.5%);
+    }
     .userHomeServerBlockImageBack{
         grid-column: 1/2;
         grid-row: 1/2;
@@ -40,7 +46,55 @@
         }
     }
     .userHomeServerBlockInfoContainer{
-        
+        display: grid;
+        grid-template-columns: 50% 50%;
+        grid-template-rows: 50% 50%;
+        align-items: center;
+        justify-items: center;
+        span{
+            color: rgba($color: #fff, $alpha: .7);
+            font-size: 2rem;
+        }
+        .userHomeServerBlockInfoGameNameContainer{
+            grid-column: 1/3;
+            grid-row: 1/2;
+            .userHomeServerBlockInfoGameName{
+
+            }
+        }
+        .userHomeServerBlockInfoGameNameSeperationLine{
+            grid-column: 1/3;
+            grid-row: 2/3;
+            justify-self: center;
+            height: 40%;
+            border-left: rgba($color: #fff, $alpha: .15) solid 1px;
+
+        }
+        .userHomeServerBlockInfoGamePlan{
+            grid-row: 2/3;
+            grid-column: 1/2;
+        }
+        .userHomeServerBlockInfoGamePlanBASIC{
+            color: rgba($color: $greenColor, $alpha: .7);
+        }
+        .userHomeServerBlockInfoGamePlanNORMAL{
+            color: rgba($color: $blueColor, $alpha: .7);
+        }
+        .userHomeServerBlockInfoGamePlanPREMIUM{
+            color: rgba($color: $pinkColor, $alpha: .7);
+        }
+        .userHomeServerBlockInfoTimeLeft{
+            grid-row: 2/3;
+            grid-column: 2/3;
+            display: flex;
+            flex-direction: row;
+            align-items: flex-end;
+            p{
+                font-size: 1rem;
+                margin-bottom: 0.3rem;
+                margin-right: 0.5rem;
+            }
+        }
     }
 }
 
