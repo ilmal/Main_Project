@@ -8,7 +8,6 @@ const refHandler = require("./refHandler")
 const mongoose = require("mongoose")
 
 router.post("/", async (req, res) => {
-
     // getting the products data
     const products = await Products.findOne({ game: "minecraft" })
     // throwing err in case of err with data extraction
@@ -40,6 +39,17 @@ router.post("/", async (req, res) => {
         }
     }
 
+    const createServerIDFunc = () => {
+        let result = "";
+        let characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+        for (let i = 0; i < 19; i++) {
+            result += characters.charAt(Math.floor(Math.random() *
+                characters.length));
+        }
+        result += "_" + userID
+        return result;
+    }
+
     // creating the payment
     // case of success, create user with details collected with card, send success data to client
     // case of err, return errmessage to client
@@ -56,8 +66,10 @@ router.post("/", async (req, res) => {
         refHandler.paymentSuccessRefHandler(payment, ref)
 
         // adding payment details to the user database
+        // loading user
         const user = await User.findById(userID)
         const userServerObj = {
+            server_id: createServerIDFunc(),
             plan: product.plan,
             game: product.game,
             payment_ref: ref,

@@ -120,13 +120,17 @@ const Server = () => {
     //template for the server block showing servers
     const serverBlock = (returnArray, key, element) => {
 
+      const handleCLick = () => {
+        setShowLandingPage(false)
+      }
+
       const orderDate = new Date(element.date)
       const endDate = orderDate.setDate(orderDate.getDate() + 30)
       let timeLeft = (endDate - new Date()) / (1000 * 60 * 60 * 24)
       timeLeft = timeLeft.toString().split(".")
       timeLeft = timeLeft[0]
       return (
-        <div key={key.toString()} className="userHomeServerBlockMainContainer" style={positionCalculator(returnArray)}>
+        <div key={key.toString()} className="userHomeServerBlockMainContainer" style={positionCalculator(returnArray)} onClick={handleCLick}>
           <div className="userHomeServerBlockImageBack">
             {serverImageSelectorFunc()}
           </div>
