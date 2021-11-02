@@ -7,22 +7,7 @@ const bodyParser = require("body-parser");
 const YAML = require('js-yaml');
 const fs = require("fs")
 
-router.post("/", async (req, res) => {
-
-  // loading user and cheking if user exist
-
-
-
-  // Checking if config is duplicate
-  const duplicateConf = await Config.findOne({ id: req.body.id })
-  console.log("sentID: ", req.body.id)
-  if (duplicateConf) {
-    console.error("err with the duplicate mc-conf")
-    res.send("err")
-  }
-
-
-
+const creatingUserConf = async (element, user) => {
 
   //getting yaml files
   const deploymentRaw = fs.readFileSync(__dirname + "/minecraftDeployment.yaml");
@@ -34,14 +19,11 @@ router.post("/", async (req, res) => {
   const pvc = YAML.load(pvcRaw);
   const service = YAML.load(serviceRaw);
 
-  /*-------------------
-  Getting a port number
-  -------------------*/
-
+  // getting port number
   const findPortNumber = async () => {
     for (let i = 30001; i < 31000; i++) {
       const findUser = await Config.findOne({ portNumber: i }).catch(err => {
-        console.log("ERROR1234: ", err)
+        console.log("Error getting portnumber at mcConf.create.findPortNumber():", err)
       })
       if (!findUser) {
         return i
@@ -49,47 +31,18 @@ router.post("/", async (req, res) => {
     }
   }
 
-  const realPortNumber = await Promise.resolve(findPortNumber())
-
-  /*------------------
-  changing yaml values
-  ------------------*/
-
-  //--- creating pvc yaml ---
-
-  //creating id for servers
-
-
   //inserting values
-  pvc.metadata.name = req.body.id
-
-  //--- creating deployment yaml ---
-
-  // getting user name
-  const user = await User.findOne({ _id: req.body.id })
-  if (!user) {
-    throw "no user found"
-  }
-  const userName = user.name
-
-  //inserting values
-
-  deployment.metadata.name = req.body.id
-  deployment.spec.selector.matchLabels.app = req.body.id
-  deployment.spec.template.metadata.labels.app = req.body.id
-  deployment.spec.template.spec.volumes[0].persistentVolumeClaim.claimName = req.body.id
-
-  deployment.spec.template.spec.containers[0].env[4].value = `${userName}Server`
-
-  //--- creating service yaml ---
-  //creating a acceptable service name
-  const serviceName = req.body.id.replace(/[0-9]/g, 'a')
-
-  //inserting values
-  service.metadata.name = serviceName
-  service.metadata.labels.app = req.body.id
-  service.spec.selector.app = req.body.id
-  service.spec.ports[0].nodePort = realPortNumber
+  pvc.metadata.name = element.server_id
+  deployment.metadata.name = element.server_id
+  deployment.spec.selector.matchLabels.app = element.server_id
+  deployment.spec.template.metadata.labels.app = element.server_id
+  deployment.spec.template.spec.volumes[0].persistentVolumeClaim.claimName = element.server_id
+  deployment.spec.template.spec.containers[0].env[4].value = `${user.name}Server`
+  // const serviceName = element.server_id.replace(/[0-9]/g, 'a')
+  service.metadata.name = element.server_id.split("_")[0]
+  service.metadata.labels.app = element.server_id
+  service.spec.selector.app = element.server_id
+  service.spec.ports[0].nodePort = await findPortNumber()
 
   //dumping yaml
   const deploymentStr = YAML.dump(deployment);
@@ -97,8 +50,8 @@ router.post("/", async (req, res) => {
   const serviceStr = YAML.dump(service);
 
   const mcConf = new Config({
-    id: req.body.id,
-    portNumber: realPortNumber,
+    id: element.server_id,
+    portNumber: await findPortNumber(),
     pvc: pvcStr,
     deployment: deploymentStr,
     service: serviceStr
@@ -114,6 +67,39 @@ router.post("/", async (req, res) => {
   });
 
   res.send("success")
+}
+
+router.post("/", async (req, res) => {
+
+  /*
+    what needs to be done:
+
+    the server id is saved to the user database. I need to extract the data from the user database at every login and check if the server id
+    has a server connected to it. If not, create server, else skip. 
+
+  
+  */
+
+  // loading user
+  const user = await User.findOne({ _id: req.body.id })
+  // cheking if user exist
+  if (!user) {
+    const errMessage = "no user found with ID: " + req.body.id
+    console.log(errMessage)
+    return res.send(errMessage)
+  }
+  user.servers.forEach(element => {
+    //checking if server is already created
+    const config = Config.findOne({ id: element.server_id })
+    if (config) {
+      const errMessage = "err with the duplicate mc-conf"
+      console.log(errMessage)
+      res.send(errMessage)
+      return
+    }
+    creatingUserConf(element, user)
+  });
+
 })
 
 
