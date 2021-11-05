@@ -9,15 +9,11 @@ const fs = require("fs")
 
 const creatingUserConf = async (element, user) => {
 
-  //getting yaml files
-  const deploymentRaw = fs.readFileSync(__dirname + "/minecraftDeployment.yaml");
-  const pvcRaw = fs.readFileSync(__dirname + "/minecraftPVC.yaml");
-  const serviceRaw = fs.readFileSync(__dirname + "/minecraftService.yaml");
 
-  //loading yaml
-  const deployment = YAML.load(deploymentRaw);
-  const pvc = YAML.load(pvcRaw);
-  const service = YAML.load(serviceRaw);
+  // //getting yaml files
+  // const deploymentRaw = fs.readFileSync(__dirname + "/minecraftDeployment.yaml");
+  // const pvcRaw = fs.readFileSync(__dirname + "/minecraftPVC.yaml");
+  // const serviceRaw = fs.readFileSync(__dirname + "/minecraftService.yaml");
 
   // getting port number
   const findPortNumber = async () => {
@@ -44,10 +40,11 @@ const creatingUserConf = async (element, user) => {
   service.spec.selector.app = element.server_id
   service.spec.ports[0].nodePort = await findPortNumber()
 
-  //dumping yaml
-  const deploymentStr = YAML.dump(deployment);
-  const pvcStr = YAML.dump(pvc);
-  const serviceStr = YAML.dump(service);
+  // //inserting values
+  // service.metadata.name = serviceName
+  // service.metadata.labels.app = req.body.id
+  // service.spec.selector.app = req.body.id
+  // service.spec.ports[0].nodePort = realPortNumber
 
   const mcConf = new Config({
     id: element.server_id,
@@ -57,14 +54,13 @@ const creatingUserConf = async (element, user) => {
     service: serviceStr
   })
 
-  await mcConf.save((err, doc) => {
-    if (!err) {
-      console.log("saving...")
-      console.log("saved!")
-    } else {
-      console.log("Error occured during record insertion: ", err);
-    }
-  });
+  // const mcConf = new Config({
+  //   id: req.body.id,
+  //   portNumber: realPortNumber,
+  //   pvc: pvcStr,
+  //   deployment: deploymentStr,
+  //   service: serviceStr
+  // })
 
   res.send("success")
 }
