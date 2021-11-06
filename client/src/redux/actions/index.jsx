@@ -102,7 +102,7 @@ export const checkUserAuth = async (dispatch) => {
         .then(response => {
             dispatch({
                 type: "AUTH_SUCCESS",
-                payload: response.data.auth
+                payload: response.data
             })
         })
 }

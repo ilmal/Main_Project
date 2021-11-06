@@ -48,6 +48,22 @@ const MainComponent = () => {
             //console.log("7")
             await store.dispatch(getCookies)
             console.log("data after fetch func: ", store.getState())
+
+            // check if loginReset is true, if case, resetting cookies
+            if (store.getState().resetLogin) {
+                const cookieKey = ["loginAuth", "userID"]
+                cookieKey.forEach(element => {
+                    document.cookie = `${element}=;path=/;expires=Thu, 01 Jan 1970T00:00:00Z;`
+                })
+                store.dispatch({
+                    type: "AUTH_SUCCESS",
+                    payload: {
+                        auth: store.getState().auth,
+                        resetLogin: false
+                    }
+                })
+            }
+
             setLoading(false)
         })();
     })

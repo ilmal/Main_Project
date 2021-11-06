@@ -28,7 +28,7 @@ router.post("/", async (req, res) => {
 
     // assign jwt token & cookies
     const token = jtw.sign({ _id: user._id }, process.env.TOKEN_SECRET, {
-        expiresIn: 3600
+        expiresIn: 36000
     })
     const domainWhitelist = [
         'http://192.168.1.247:3000',

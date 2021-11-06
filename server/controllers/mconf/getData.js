@@ -2,11 +2,11 @@ const router = require("express").Router()
 const YAML = require('js-yaml');
 const mcConf = require("../../models/minecraftConfig/config.model")
 
-router.post("/", getData = async (req, res) => {
-    // if email exists
+router.post("/", async (req, res) => {
+    // if conf exists
     const conf = await mcConf.findOne({ id: req.body.id })
     if (!conf) {
-        console.log("user does not exist3")
+        console.log("user does not exist (mcConf.getData())")
         return res.send("user does not exist, from getData")
     }
 

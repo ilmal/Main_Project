@@ -3,17 +3,26 @@ const router = express.Router();
 const Config = require("../../models/minecraftConfig/config.model")
 const User = require("../../models/user/config.model")
 const bodyParser = require("body-parser");
-
+var ObjectId = require('mongodb').ObjectID;
 const YAML = require('js-yaml');
 const fs = require("fs")
 
-const creatingUserConf = async (element, user) => {
+const creatingUserConf = async (elementMap, user) => {
+  // converting element map to obj
+  let element = Array.from(elementMap).reduce((element, [key, value]) => (
+    Object.assign(element, { [key]: value })
+  ), {});
 
 
   // //getting yaml files
-  // const deploymentRaw = fs.readFileSync(__dirname + "/minecraftDeployment.yaml");
-  // const pvcRaw = fs.readFileSync(__dirname + "/minecraftPVC.yaml");
-  // const serviceRaw = fs.readFileSync(__dirname + "/minecraftService.yaml");
+  const deploymentRaw = fs.readFileSync(__dirname + "/minecraftDeployment.yaml");
+  const pvcRaw = fs.readFileSync(__dirname + "/minecraftPVC.yaml");
+  const serviceRaw = fs.readFileSync(__dirname + "/minecraftService.yaml");
+
+  //loading yaml
+  const deployment = YAML.load(deploymentRaw);
+  const pvc = YAML.load(pvcRaw);
+  const service = YAML.load(serviceRaw);
 
   // getting port number
   const findPortNumber = async () => {
@@ -26,6 +35,8 @@ const creatingUserConf = async (element, user) => {
       }
     }
   }
+
+  console.log("server_id: ", element.server_id)
 
   //inserting values
   pvc.metadata.name = element.server_id
@@ -40,11 +51,10 @@ const creatingUserConf = async (element, user) => {
   service.spec.selector.app = element.server_id
   service.spec.ports[0].nodePort = await findPortNumber()
 
-  // //inserting values
-  // service.metadata.name = serviceName
-  // service.metadata.labels.app = req.body.id
-  // service.spec.selector.app = req.body.id
-  // service.spec.ports[0].nodePort = realPortNumber
+  //dumping yaml
+  const deploymentStr = YAML.dump(deployment);
+  const pvcStr = YAML.dump(pvc);
+  const serviceStr = YAML.dump(service);
 
   const mcConf = new Config({
     id: element.server_id,
@@ -54,15 +64,15 @@ const creatingUserConf = async (element, user) => {
     service: serviceStr
   })
 
-  // const mcConf = new Config({
-  //   id: req.body.id,
-  //   portNumber: realPortNumber,
-  //   pvc: pvcStr,
-  //   deployment: deploymentStr,
-  //   service: serviceStr
-  // })
+  await mcConf.save((err, doc) => {
+    if (!err) {
+      console.log("saving...")
+      console.log("saved!")
+    } else {
+      console.log("Error occured during record insertion: ", err);
+    }
+  });
 
-  res.send("success")
 }
 
 router.post("/", async (req, res) => {
@@ -76,26 +86,36 @@ router.post("/", async (req, res) => {
   
   */
 
+  // sending succes seems to work, tho, sending the err messages below doesn't work, troubleshoot!
+
+  // res.send("success")
+
   // loading user
-  const user = await User.findOne({ _id: req.body.id })
+  const user = await User.findOne({ _id: ObjectId(req.body.id) })
   // cheking if user exist
   if (!user) {
     const errMessage = "no user found with ID: " + req.body.id
     console.log(errMessage)
     return res.send(errMessage)
   }
-  user.servers.forEach(element => {
+  // checking if user has servers
+  if (user.servers.length === 0) {
+    const errMessage = "user doesnt have any servers"
+    console.log(errMessage)
+    return res.send(errMessage)
+  }
+  user.servers.forEach(async (element) => {
     //checking if server is already created
-    const config = Config.findOne({ id: element.server_id })
+    const config = await Config.findOne({ id: element.get("server_id") })
     if (config) {
-      const errMessage = "err with the duplicate mc-conf"
+      const errMessage = "mc-conf already exists"
       console.log(errMessage)
-      res.send(errMessage)
       return
     }
-    creatingUserConf(element, user)
+    console.log("no config")
+    await creatingUserConf(element, user)
   });
-
+  res.send("success")
 })
 
 

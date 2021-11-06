@@ -28,7 +28,8 @@ const loginAuth = (req, res, next) => {
         } catch (err) {
             console.log("invalid token")
             res.send({
-                auth: false
+                auth: false,
+                resetLogin: true
             })
         }
     }

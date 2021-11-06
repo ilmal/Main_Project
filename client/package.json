@@ -5,7 +5,7 @@
   "proxy": "http://192.168.1.247:31001/api",
   "scripts": {
     "start": "BROWSER=none HTTPS=true PORT=31000 react-scripts start",
-    "dev": "react-scripts --openssl-legacy-provider start",
+    "dev": "BROWSER=none HTTPS=true PORT=3000 react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

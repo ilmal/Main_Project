@@ -3,6 +3,7 @@ import { combineReducers } from "redux"
 const initailState = {
     user: "default",
     auth: null,
+    resetLogin: false,
     serverPods: "default",
     serverSVC: "default",
     serverTIME: {
@@ -36,7 +37,8 @@ const Reducer = (state = initailState, action) => {
         case "AUTH_SUCCESS":
             return {
                 ...state,
-                auth: action.payload
+                auth: action.payload.auth,
+                resetLogin: action.payload.resetLogin
             }
         case "LOGIN":
             document.cookie = `loginAuth=${action.payload.loginAuth};path=/`

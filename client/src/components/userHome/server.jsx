@@ -102,6 +102,10 @@ const Server = () => {
     })
   }
 
+  /*
+    -------------------------LANDING PAGE--------------------------------
+  */
+
   const landingPageFunc = () => {
     let returnArray = []
 
@@ -119,11 +123,9 @@ const Server = () => {
 
     //template for the server block showing servers
     const serverBlock = (returnArray, key, element) => {
-
       const handleCLick = () => {
         setShowLandingPage(false)
       }
-
       const orderDate = new Date(element.date)
       const endDate = orderDate.setDate(orderDate.getDate() + 30)
       let timeLeft = (endDate - new Date()) / (1000 * 60 * 60 * 24)
@@ -169,62 +171,55 @@ const Server = () => {
         {
           landingPageFunc()
         }
-
-
-        <div className="userHomeLandingPageMainContainer">
-
-        </div>
       </>
 
     )
   }
-
   // check for user auth, if case show page, else send to main page
-  if (document.cookie.search("loginAuth") > -1) {
-    return (
-      <>
-        <div className="userHomeServerName">
-          <span>{userData.env[4].value}</span>
-        </div>
-        <div className="userHomeSegment userHomeStatusOfServer">
-          {serverStatus()}
-          <div className="checkStatus fas fa-sync" onClick={refreshDataFunc} data-tip data-for="refreshInfo">
-            <span>Check Status</span>
-          </div>
-        </div>
-        <div className="userHomeSegment suerhomeStartStopServer">
-          <div className="innerDivStart" id="startServer" onClick={startStopFunc}>
-            <span className="userHomestart">Start</span>
-          </div>
-          <div className="innerDivStop" id="stopServer" onClick={startStopFunc}>
-            <span className="userHomestop">Stop</span>
-          </div>
-          <div id="random23894723">
-            <div className="userHomeLineBetweenStartStop" />
-          </div>
-        </div>
-        <div className="userHomeSegment userHomeIpAdress">
-          <p>Server IP:</p>
-          <span data-tip data-for="copyServerAddress" onClick={copyText}>{serverIP()}</span>
-        </div>
-
-        <ChangeServerConfig />
-        <LogsComponent />
-        <PlayTimeComponent />
-
-        <ReactTooltip id="copyServerAddress" delayShow={100}>
-          <p>Click to copy</p>
-        </ReactTooltip>
-        <ReactTooltip id="playtimeleft" place="top" delayShow={20}>
-          <p>play time remaining</p>
-        </ReactTooltip>
-      </>
-    );
-  } else {
+  if (!(document.cookie.search("loginAuth") > -1)) {
     console.log("User no auth")
     history.push("/");
     return null;
   }
+  return (
+    <>
+      <div className="userHomeServerName">
+        <span>{userData.env[4].value}</span>
+      </div>
+      <div className="userHomeSegment userHomeStatusOfServer">
+        {serverStatus()}
+        <div className="checkStatus fas fa-sync" onClick={refreshDataFunc} data-tip data-for="refreshInfo">
+          <span>Check Status</span>
+        </div>
+      </div>
+      <div className="userHomeSegment suerhomeStartStopServer">
+        <div className="innerDivStart" id="startServer" onClick={startStopFunc}>
+          <span className="userHomestart">Start</span>
+        </div>
+        <div className="innerDivStop" id="stopServer" onClick={startStopFunc}>
+          <span className="userHomestop">Stop</span>
+        </div>
+        <div id="random23894723">
+          <div className="userHomeLineBetweenStartStop" />
+        </div>
+      </div>
+      <div className="userHomeSegment userHomeIpAdress">
+        <p>Server IP:</p>
+        <span data-tip data-for="copyServerAddress" onClick={copyText}>{serverIP()}</span>
+      </div>
+
+      <ChangeServerConfig />
+      <LogsComponent />
+      <PlayTimeComponent />
+
+      <ReactTooltip id="copyServerAddress" delayShow={100}>
+        <p>Click to copy</p>
+      </ReactTooltip>
+      <ReactTooltip id="playtimeleft" place="top" delayShow={20}>
+        <p>play time remaining</p>
+      </ReactTooltip>
+    </>
+  );
 };
 
 export default Server;
