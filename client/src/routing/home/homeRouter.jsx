@@ -1,6 +1,4 @@
 import React from "react"
-import { useSelector, useDispatch } from "react-redux"
-import { getEmailAction } from "../../redux/actions"
 
 import {
     BrowserRouter as Router,

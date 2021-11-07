@@ -1,11 +1,11 @@
-import { fetchUserData, serverPodsInfo, serverSVCInfo, mcConfGetData } from "../../../redux/actions"
+import { fetchUserData, serverPodsInfo, serverSVCInfo, serverInfo } from "../../../redux/actions"
 import TimeUpdate from "./timeUpdate"
 
 const refreshData = (e, store, userData) => {
     store.dispatch(fetchUserData)
     store.dispatch(serverPodsInfo)
     store.dispatch(serverSVCInfo)
-    store.dispatch(mcConfGetData)
+    store.dispatch(serverInfo)
 
     TimeUpdate(false, store, userData)
 

@@ -1,5 +1,3 @@
-import { combineReducers } from "redux"
-
 const initailState = {
     user: "default",
     auth: null,
@@ -11,16 +9,8 @@ const initailState = {
         timeLeft: 0,
         serverShutDown: false
     },
-    env: [
-        { name: "", value: "" },
-        { name: "", value: "" },
-        { name: "", value: "" },
-        { name: "", value: "" },
-        { name: "", value: "" },
-        { name: "", value: "" },
-        { name: "", value: "" },
-        { name: "", value: "" }
-    ],
+    serverInfo: {},
+    userHomeData: null,
     errMessage: false,
     message: false,
     querySelectors: false,
@@ -43,6 +33,7 @@ const Reducer = (state = initailState, action) => {
         case "LOGIN":
             document.cookie = `loginAuth=${action.payload.loginAuth};path=/`
             document.cookie = `userID=${action.payload.userID};path=/`
+            break;
         case "SERVER_PODS_DATA":
             return {
                 ...state,
@@ -58,10 +49,15 @@ const Reducer = (state = initailState, action) => {
                 ...state,
                 serverTIME: action.payload
             }
-        case "MC_CONF_GET_DATA":
+        case "SERVER_INFO":
             return {
                 ...state,
-                env: action.payload.env
+                serverInfo: action.payload
+            }
+        case "USER_HOME_DATA":
+            return {
+                ...state,
+                userHomeData: action.payload
             }
         case "ERR_MESSAGE":
             return {
@@ -92,10 +88,6 @@ const Reducer = (state = initailState, action) => {
             return {
                 ...state,
                 cookies: action.payload
-            }
-        case "DUMP":
-            return {
-                ...state,
             }
         default:
             return {

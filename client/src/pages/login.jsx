@@ -18,17 +18,12 @@ const LoginPage = () => {
             history.push("/user/home");
             window.location.reload();
         }
-    }, [])
+    }, [history])
 
     const sendData = async (data) => {
         console.log("name: ", data.target.name.value, "pass: ", data.target.password.value)
         data.preventDefault()
         login(data.target.name.value, data.target.password.value, store.dispatch)
-    }
-
-    const toSignup = () => {
-        history.push("/user/signup");
-        window.location.reload();
     }
 
     const forgotPassFunc = () => {

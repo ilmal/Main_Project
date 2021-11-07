@@ -8,7 +8,7 @@ const MinecraftCreate = () => {
 
     //const [isCardPressed, setisCardPressed] = useState("not pressed")
     const [isCardPressed, setisCardPressed] = useState(() => {
-        if (localStorage.getItem("isCardPressed") != undefined) return localStorage.getItem("isCardPressed")
+        if (localStorage.getItem("isCardPressed")) return localStorage.getItem("isCardPressed")
         return "not pressed"
     })
 
@@ -49,7 +49,7 @@ const MinecraftCreate = () => {
                         <MinecraftLevels level="premium" />
                     </Elements>)
             default:
-                window.location.reload();
+                //window.location.reload();
                 break;
         }
     } else {

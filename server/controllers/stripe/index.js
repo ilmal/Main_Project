@@ -41,12 +41,12 @@ router.post("/", async (req, res) => {
 
     const createServerIDFunc = () => {
         let result = "";
-        let characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+        let characters = 'abcdefghijklmnopqrstuvwxyz';
         for (let i = 0; i < 19; i++) {
             result += characters.charAt(Math.floor(Math.random() *
                 characters.length));
         }
-        result += "_" + userID
+        result += "-" + userID
         return result;
     }
 

@@ -1,17 +1,19 @@
 import { useState, useEffect } from "react"
-import { useStore } from "react-redux"
+import { store } from "../../..";
 import ReactTooltip from 'react-tooltip';
 
 import refreshData from "./refreshData"
 
 const LogsComponent = () => {
-    const store = useStore()
     const [userData, setUserData] = useState(store.getState())
     const [logsExpand, setLogsExpand] = useState(false)
 
-    store.subscribe(() => {
-        setUserData(store.getState());
-    });
+    useEffect(() => {
+        const unsubscribe = store.subscribe(() => {
+            setUserData(store.getState());
+        });
+        if (store.getState().userHomeData.sideMenuTab !== "server") unsubscribe()
+    })
 
     useEffect(() => {
         // logic for logs interaction

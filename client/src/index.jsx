@@ -18,7 +18,7 @@ import { TopMessage } from "./components/topMessages/index"
 
 import rootReducer from "./redux/reducers"
 
-import { fetchUserData, checkUserAuth, createMcConfig, serverPodsInfo, serverSVCInfo, mcConfGetData, getQuaryParams, getCookies } from "./redux/actions/index"
+import { fetchUserData, checkUserAuth, createMcConfig, serverPodsInfo, serverSVCInfo, serverInfo, getQuaryParams, getCookies } from "./redux/actions/index"
 
 export const store = createStore(
     rootReducer,
@@ -32,21 +32,16 @@ const MainComponent = () => {
 
     React.useEffect(() => {
         (async function () {
-            await store.dispatch(fetchUserData)
-            //console.log("1")
             await store.dispatch(checkUserAuth)
-            //console.log("2")
-            await store.dispatch(createMcConfig)
-            //console.log("3")
-            await store.dispatch(serverPodsInfo)
-            //console.log("4")
-            await store.dispatch(serverSVCInfo)
-            //console.log("5")
-            await store.dispatch(mcConfGetData)
-            //console.log("6")
             await store.dispatch(getQuaryParams)
-            //console.log("7")
             await store.dispatch(getCookies)
+            if (store.getState().cookies.userID !== "") {
+                await store.dispatch(fetchUserData)
+                await store.dispatch(createMcConfig)
+                await store.dispatch(serverPodsInfo)
+                await store.dispatch(serverSVCInfo)
+                await store.dispatch(serverInfo)
+            }
             console.log("data after fetch func: ", store.getState())
 
             // check if loginReset is true, if case, resetting cookies

@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react"
+import { store } from "../../.."
 import { useSelector } from "react-redux"
 import axios from "axios"
 
-const ChangeServerConfig = () => {
+const ChangeServerConfig = (props) => {
     // stateful settings
     const state = useSelector(state => state)
     const [change, setChange] = useState(false)
@@ -15,16 +16,16 @@ const ChangeServerConfig = () => {
     }
 
     useEffect(() => {
-        if (state.env[6].value != null) {
-            setWhitelist(state.env[6].value.split(","))
+        if (store.getState().serverInfo[props.serverIndex].data[6].value != null) {
+            setWhitelist(store.getState().serverInfo[props.serverIndex].data[6].value.split(","))
         }
-        if (state.env[7].value != null) {
-            setOpslist(state.env[7].value.split(","))
+        if (store.getState().serverInfo[props.serverIndex].data[7].value != null) {
+            setOpslist(store.getState().serverInfo[props.serverIndex].data[7].value.split(","))
         }
     }, [state])
 
     //data for Difficulty and Versions
-    const versions = [state.env[3].value, "latest", "1.16.4", "1.16.3", "1.16.2", "1.16", "1.15.2", "1.15.1",
+    const versions = [store.getState().serverInfo[props.serverIndex].data[3].value, "latest", "1.16.4", "1.16.3", "1.16.2", "1.16", "1.15.2", "1.15.1",
         "1.15", "1.14.4", "1.14.3", "1.14.2", "1.14.1", "1.14", "1.13.2", "1.13.1", "1.13",
         "1.12.2", "1.12.1", "1.12"]
 
@@ -33,7 +34,7 @@ const ChangeServerConfig = () => {
         return <option value={d} key={i}>{d}</option>
     })
 
-    const difficulties = [state.env[5].value, "hard", "normal", "easy", "peaceful"]
+    const difficulties = [store.getState().serverInfo[props.serverIndex].data[5].value, "hard", "normal", "easy", "peaceful"]
 
     const difficultiesBoiler = difficulties.map((d) => {
         i++
@@ -137,14 +138,8 @@ const ChangeServerConfig = () => {
         const whitelistString = whitelist.join(",")
         const opslistString = opslist.join(",")
 
-        // sending data to backend
-        const cookieValue = document.cookie
-            .split('; ')
-            .find(row => row.startsWith('userID='))
-            .split('=')[1];
-
-        await axios.post(`${process.env.REACT_APP_BACKENDPROXY}/mcConf/updateData`, {
-            id: cookieValue,
+        await axios.post(`/mcConf/updateData`, {
+            id: store.getState().serverInfo[props.serverIndex].server_id,
             serverName: e.target.serverName.value,
             serverVersion: e.target.serverVersion.value,
             serverDifficulty: e.target.serverDifficulty.value,
@@ -167,15 +162,15 @@ const ChangeServerConfig = () => {
             <div className={configSize}>
                 <div className="userHomeChangeServerName userHomeChangeDefaults">
                     <p>Server Name: </p>
-                    <span>{state.env[4].value}</span>
+                    <span>{store.getState().serverInfo[props.serverIndex].data[4].value}</span>
                 </div>
                 <div className="userHomeChangeVersion userHomeChangeDefaults">
                     <p>Version: </p>
-                    <span>{state.env[3].value}</span>
+                    <span>{store.getState().serverInfo[props.serverIndex].data[3].value}</span>
                 </div>
                 <div className="userHomeChangeDifficulty userHomeChangeDefaults">
                     <p>Difficulty: </p>
-                    <span>{state.env[5].value}</span>
+                    <span>{store.getState().serverInfo[props.serverIndex].data[5].value}</span>
                 </div>
                 <div className="userHomeChangeWhitelist userHomeChangeDefaults">
                     <p>whitelist: </p>

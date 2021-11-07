@@ -2,7 +2,6 @@ const express = require("express");
 const router = express.Router();
 const Config = require("../../models/minecraftConfig/config.model")
 const User = require("../../models/user/config.model")
-const bodyParser = require("body-parser");
 var ObjectId = require('mongodb').ObjectID;
 const YAML = require('js-yaml');
 const fs = require("fs")
@@ -46,7 +45,7 @@ const creatingUserConf = async (elementMap, user) => {
   deployment.spec.template.spec.volumes[0].persistentVolumeClaim.claimName = element.server_id
   deployment.spec.template.spec.containers[0].env[4].value = `${user.name}Server`
   // const serviceName = element.server_id.replace(/[0-9]/g, 'a')
-  service.metadata.name = element.server_id.split("_")[0]
+  service.metadata.name = element.server_id.split("-")[0]
   service.metadata.labels.app = element.server_id
   service.spec.selector.app = element.server_id
   service.spec.ports[0].nodePort = await findPortNumber()
@@ -91,6 +90,7 @@ router.post("/", async (req, res) => {
   // res.send("success")
 
   // loading user
+  if (!req.body.id) return res.send("user id is null (at server mcConf.create())")
   const user = await User.findOne({ _id: ObjectId(req.body.id) })
   // cheking if user exist
   if (!user) {

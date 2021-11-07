@@ -1,5 +1,4 @@
 import axios from "axios"
-import { useLocation } from "react-router-dom"
 import { store } from "../../"
 
 let cookieValueUserID = null
@@ -18,9 +17,15 @@ if (document.cookie && document.cookie.search("loginAuth") > -1) {
         .split('=')[1];
 }
 
+// ------------------------------------------------------------------- THIS BELOW IS CURRENTLY NEEDING FIXING --------------------------------
+
+let currentServerID = 0
+if (store.getState().serverInfo[store.getState().userHomeData.serverIndex].server_id) currentServerID = store.getState().serverInfo[store.getState().userHomeData.serverIndex].server_id
+
+
 //setting ip_address to nothing if else isn't specified
 let ip_address = ""
-if (process.env.REACT_APP_BACKENDPROXY != undefined) {
+if (process.env.REACT_APP_BACKENDPROXY !== undefined) {
     ip_address = process.env.REACT_APP_BACKENDPROXY
 }
 
@@ -39,7 +44,7 @@ export const fetchUserData = async (dispatch) => {
 export const login = (name, pass, dispatch) => {
     axios.post(`${ip_address}/user/login`, {
         withCredentials: true,
-        name: name,
+        name: name.toLowerCase(),
         password: pass
     }).then(async (response) => {
         if (response.data.message === "Success!") {
@@ -67,8 +72,8 @@ export const signup = async (name, email, password, dispatch) => {
     console.log("sending req to signup")
     axios.post(`${ip_address}/user/insert`, {
         data: {
-            name,
-            email,
+            name: name.toLowerCase(),
+            email: email.toLowerCase(),
             password
         }
     })
@@ -118,39 +123,33 @@ export const createMcConfig = async (dispatch) => {
         id: cookieValueUserID
     })
         .then(res => {
-            dispatch({
-                type: "DUMP"
-            })
+            console.log("createMcConf Server response: ", res)
         })
 }
 
-export const StartServer = async (dispatch) => {
+export const StartServer = async () => {
     await axios.post(`${ip_address}/server`, {
-        id: cookieValueUserID,
+        id: currentServerID,
         action: "start"
     })
         .then(res => {
-            dispatch({
-                type: "DUMP"
-            })
+            console.log("StartServer Server response: ", res)
         })
 }
 
-export const StopServer = async (dispatch) => {
+export const StopServer = async () => {
     await axios.post(`${ip_address}/server`, {
-        id: cookieValueUserID,
+        id: currentServerID,
         action: "stop"
     })
         .then(res => {
-            dispatch({
-                type: "DUMP"
-            })
+            console.log("StopServer Server response: ", res)
         })
 }
 
 export const serverPodsInfo = async () => {
     await axios.post(`${ip_address}/k8s/pods`, {
-        id: cookieValueUserID
+        id: currentServerID
     })
         .then(res => {
             store.dispatch({
@@ -162,7 +161,7 @@ export const serverPodsInfo = async () => {
 
 export const serverSVCInfo = async (dispatch) => {
     await axios.post(`${ip_address}/k8s/svc`, {
-        id: cookieValueUserID
+        id: currentServerID
     })
         .then(res => {
             dispatch({
@@ -174,7 +173,7 @@ export const serverSVCInfo = async (dispatch) => {
 
 export const serverTimeInfo = async (dispatch, reset, timeOfReset) => {
     await axios.post(`${ip_address}/k8s/time`, {
-        id: cookieValueUserID,
+        id: currentServerID,
         reset,
         timeOfReset
     })
@@ -190,13 +189,14 @@ export const serverTimeInfo = async (dispatch, reset, timeOfReset) => {
         })
 }
 
-export const mcConfGetData = async (dispatch) => {
+export const serverInfo = async (dispatch) => {
     await axios.post(`${ip_address}/mcConf/getData`, {
         id: cookieValueUserID
     })
         .then(res => {
+            console.log("SERVER_INFO DATA: ", res.data)
             dispatch({
-                type: "MC_CONF_GET_DATA",
+                type: "SERVER_INFO",
                 payload: res.data
             })
         })

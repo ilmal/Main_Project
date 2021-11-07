@@ -119,12 +119,12 @@ router.post("/pods", async (req, res) => {
                     queuing: false
                 }
             }
-            res.send({
+            return res.send({
                 status: "server not running",
                 logs: "server not running"
             }).end()
         }
-        res.send({
+        return res.send({
             status: "server not running",
             logs: "server not running"
         }).end()
@@ -186,6 +186,8 @@ router.post("/time", async (req, res) => {
     await request(config).then(response => {
         const data = JSON.parse(response)
 
+        console.log("REQ.BODY.ID: ", req.body.id)
+
         // getting the pods
         for (let i = 0; i < data.items.length; i++) {
             const element = data.items[i];
@@ -217,28 +219,27 @@ router.post("/time", async (req, res) => {
                 // check if the current time is more recent than the newTimeStamp, if case: the time has expired
                 if (currentTime > newTimeStamp) {
                     console.log("THE TIME HAS EXPIRED!!!!!!")
-                    res.send({
+                    return res.send({
                         timeOfReset: null,
                         timeLeft: 0,
                         serverShutDown: true
                     })
                 } else {
-                    res.send({
+                    return res.send({
 
                         timeOfReset: timeStamp,
                         timeLeft: timeLeft,
                         serverShutDown: false
                     })
                 }
-                return
             }
             console.log("server not found (/k8s/time)")
-            res.send({
+            return res.send({
                 "err": "server not running"
             })
         }
         console.log("no servers runninng (/k8s/time)")
-        res.send({
+        return res.send({
             "err": "no servers running"
         })
     })

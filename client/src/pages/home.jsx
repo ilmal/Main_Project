@@ -4,22 +4,14 @@ import { animateScroll as scroll, scroller } from 'react-scroll'
 import { store } from "../index"
 
 const HomePage = () => {
-  const list = ["Minecraft", "ARK", "Terraria", "Unturned", "Rust"];
-
   const [loadAnimation, changeloadAnimation] = useState(false)
   const [i, changei] = useState(-1)
   const [gamesAnimation, changeGamesAnimation] = useState(true)
   const [offset, setOffset] = useState(0)
 
-  const history = useHistory();
+  const list = ["Minecraft", "ARK", "Terraria", "Unturned", "Rust"];
 
-  const changeGame = () => {
-    if (i >= list.length - 1) {
-      changei(0)
-    } else {
-      changei(i + 1)
-    }
-  };
+  const history = useHistory();
 
   const changeColorArrowDown = (e) => {
     if (e) {
@@ -37,6 +29,13 @@ const HomePage = () => {
 
 
   useEffect(() => {
+    const changeGame = () => {
+      if (i >= list.length - 1) {
+        changei(0)
+      } else {
+        changei(i + 1)
+      }
+    };
     setTimeout(() => {
       changeloadAnimation(true)
     }, 50);
@@ -47,7 +46,6 @@ const HomePage = () => {
     setTimeout(changeGame, 3000);
 
     window.onscroll = () => {
-      // console.log("offset: ", offset, "window.pageYOffset", window.pageYOffset)
       if (window.pageYOffset < 0) {
         return
       }
@@ -75,7 +73,7 @@ const HomePage = () => {
       document.cookie = `ref=${store.getState().querySelectors.ref}`
     }
 
-  })
+  }, [gamesAnimation, offset, i])
 
   const gameSelect = e => {
     switch (e.target.id) {

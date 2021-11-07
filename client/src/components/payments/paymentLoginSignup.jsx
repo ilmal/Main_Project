@@ -1,13 +1,13 @@
 // modules
-import { useState, useEffect } from "react"
+import { useState } from "react"
 
 // redux
 import { store } from "../../index"
-import { signup, login, resendConfirmationMail } from "../../redux/actions/index"
+import { signup, login } from "../../redux/actions/index"
 
 
 
-export default () => {
+const usePaymentLoginSignupFunc = () => {
 
     const [showSignup, setShowSignup] = useState(true)
     // const [verifySignup, setVerifySignup] = useState(true)
@@ -34,7 +34,7 @@ export default () => {
             // if the request is from the signup page
 
             // making sure the passwords match
-            if (e.target.pass1.value != e.target.pass2.value) {
+            if (e.target.pass1.value !== e.target.pass2.value) {
                 console.error("password do not match! Err at /payments/paymentLoginSignup.jsx")
                 return store.dispatch({
                     type: "ERR_MESSAGE",
@@ -119,3 +119,4 @@ export default () => {
     return loginComponent();
 }
 
+export default usePaymentLoginSignupFunc

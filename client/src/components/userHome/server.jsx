@@ -14,19 +14,15 @@ import TimeUpdate from "./server/timeUpdate";
 
 //images
 import minecraftImage from "../../images/userHomeImages/minecraftServerLandingPage.jpg"
-import { stringify } from "query-string";
 
 
 const Server = () => {
-  const [userData, updateUserData] = useState(store.getState());
+  const [userData, setUserData] = useState(store.getState());
   const [initialLoad, setInitialLoad] = useState(true)
   const [showLandingPage, setShowLandingPage] = useState(true)
+  const [serverIndex, setServerIndex] = useState(0)
 
   const history = useHistory();
-
-  store.subscribe(() => {
-    updateUserData(store.getState());
-  });
 
   useEffect(() => {
     // refresh logs if status isn't "server not running"
@@ -50,6 +46,20 @@ const Server = () => {
     }
   }, [initialLoad])
 
+  useEffect(() => {
+
+    // changing layout to fit server and layout
+    if (store.getState().userHomeData.showServerLandingPage) {
+      document.getElementById("random03242jcmvmj0v23cm4").style.gridTemplateRows = "auto"
+    } else {
+      document.getElementById("random03242jcmvmj0v23cm4").style.gridTemplateRows = "auto repeat(7, 11% 3%)"
+    }
+
+    const unsubscribe = store.subscribe(() => {
+      setUserData(store.getState());
+    });
+    if (store.getState().userHomeData.sideMenuTab !== "server") unsubscribe()
+  })
 
 
   const serverStatus = (e) => {
@@ -123,8 +133,17 @@ const Server = () => {
 
     //template for the server block showing servers
     const serverBlock = (returnArray, key, element) => {
-      const handleCLick = () => {
+      const handleCLick = (e) => {
         setShowLandingPage(false)
+        console.log("E.TARGET.ID: ", e)
+        store.dispatch({
+          type: "USER_HOME_DATA",
+          payload: {
+            ...store.getState().userHomeData,
+            serverIndex: e,
+            showServerLandingPage: false
+          }
+        })
       }
       const orderDate = new Date(element.date)
       const endDate = orderDate.setDate(orderDate.getDate() + 30)
@@ -132,11 +151,11 @@ const Server = () => {
       timeLeft = timeLeft.toString().split(".")
       timeLeft = timeLeft[0]
       return (
-        <div key={key.toString()} className="userHomeServerBlockMainContainer" style={positionCalculator(returnArray)} onClick={handleCLick}>
+        <div key={key.toString()} className="userHomeServerBlockMainContainer" style={positionCalculator(returnArray)} onClick={() => handleCLick(key)}>
           <div className="userHomeServerBlockImageBack">
             {serverImageSelectorFunc()}
           </div>
-          <div className="userHomeServerBlockInfoContainer">
+          <div className="userHomeServerBlockInfoContainer" id={key}>
             <div className="userHomeServerBlockInfoGameNameContainer">
               <span className="userHomeServerBlockInfoGameName">{element.game.charAt(0).toUpperCase() + element.game.slice(1)}</span>
             </div>
@@ -164,7 +183,7 @@ const Server = () => {
   }
 
   // showing start page with server panel where user chooses server and or is redirected to buy server
-  if (showLandingPage) {
+  if (store.getState().userHomeData.showServerLandingPage) {
     return (
       <>
         <span className="userHomeLandingPageHeader">Select your server</span>
@@ -172,7 +191,6 @@ const Server = () => {
           landingPageFunc()
         }
       </>
-
     )
   }
   // check for user auth, if case show page, else send to main page
@@ -184,7 +202,7 @@ const Server = () => {
   return (
     <>
       <div className="userHomeServerName">
-        <span>{userData.env[4].value}</span>
+        <span>{store.getState().serverInfo[store.getState().userHomeData.serverIndex].data[4].value}</span>
       </div>
       <div className="userHomeSegment userHomeStatusOfServer">
         {serverStatus()}
@@ -208,9 +226,8 @@ const Server = () => {
         <span data-tip data-for="copyServerAddress" onClick={copyText}>{serverIP()}</span>
       </div>
 
-      <ChangeServerConfig />
+      <ChangeServerConfig serverIndex={serverIndex} />
       <LogsComponent />
-      <PlayTimeComponent />
 
       <ReactTooltip id="copyServerAddress" delayShow={100}>
         <p>Click to copy</p>
