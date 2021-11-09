@@ -19,8 +19,14 @@ if (document.cookie && document.cookie.search("loginAuth") > -1) {
 
 // ------------------------------------------------------------------- THIS BELOW IS CURRENTLY NEEDING FIXING --------------------------------
 
-let currentServerID = 0
-if (store.getState().serverInfo[store.getState().userHomeData.serverIndex].server_id) currentServerID = store.getState().serverInfo[store.getState().userHomeData.serverIndex].server_id
+let currentServerIndex = 0
+if (document.cookie && document.cookie.search("selectedServer") > -1) {
+    currentServerIndex = document.cookie
+        .split('; ')
+        .find(row => row.startsWith('selectedServer='))
+        .split('=')[1];
+}
+// if (store.getState().serverInfo[store.getState().userHomeData.serverIndex].server_id) currentServerID = store.getState().serverInfo[store.getState().userHomeData.serverIndex].server_id
 
 
 //setting ip_address to nothing if else isn't specified
@@ -129,7 +135,7 @@ export const createMcConfig = async (dispatch) => {
 
 export const StartServer = async () => {
     await axios.post(`${ip_address}/server`, {
-        id: currentServerID,
+        id: store.getState().user.servers[currentServerIndex].server_id,
         action: "start"
     })
         .then(res => {
@@ -139,7 +145,7 @@ export const StartServer = async () => {
 
 export const StopServer = async () => {
     await axios.post(`${ip_address}/server`, {
-        id: currentServerID,
+        id: store.getState().user.servers[currentServerIndex].server_id,
         action: "stop"
     })
         .then(res => {
@@ -149,7 +155,7 @@ export const StopServer = async () => {
 
 export const serverPodsInfo = async () => {
     await axios.post(`${ip_address}/k8s/pods`, {
-        id: currentServerID
+        id: store.getState().user.servers[currentServerIndex].server_id
     })
         .then(res => {
             store.dispatch({
@@ -161,7 +167,7 @@ export const serverPodsInfo = async () => {
 
 export const serverSVCInfo = async (dispatch) => {
     await axios.post(`${ip_address}/k8s/svc`, {
-        id: currentServerID
+        id: store.getState().user.servers[currentServerIndex].server_id
     })
         .then(res => {
             dispatch({
@@ -173,7 +179,7 @@ export const serverSVCInfo = async (dispatch) => {
 
 export const serverTimeInfo = async (dispatch, reset, timeOfReset) => {
     await axios.post(`${ip_address}/k8s/time`, {
-        id: currentServerID,
+        id: store.getState().user.servers[currentServerIndex].server_id,
         reset,
         timeOfReset
     })

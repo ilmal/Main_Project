@@ -21,7 +21,6 @@ router.post("/", async (req, res) => {
 
     if (user.servers.length === 0) res.send("user doesn't have any servers")
     await user.servers.forEach(async (element, index) => {
-        console.log("hello!: ", element.get("server_id"))
         // loading conf
         const conf = await mcConf.findOne({ id: element.get("server_id") })
         // checking if conf exists
@@ -42,7 +41,6 @@ router.post("/", async (req, res) => {
         responseData.push(finalData)
         if (index === (user.servers.length - 1)) {
             // sending response data to frontend, containing server_id, and server data
-            console.log("DATA FROM GET DATA FUNC: ", responseData)
             res.send(responseData)
         }
     })

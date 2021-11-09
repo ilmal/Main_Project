@@ -34,6 +34,8 @@ const logs = async (name) => {
         // join the array back into a single string
         var newtext = filterdLines.join('\n');
         return newtext
+    }).catch(err => {
+        console.log("CUSTOM_ERR at k8sApi.logs(): ", err)
     })
 }
 
@@ -122,12 +124,14 @@ router.post("/pods", async (req, res) => {
             return res.send({
                 status: "server not running",
                 logs: "server not running"
-            }).end()
+            })
         }
         return res.send({
             status: "server not running",
             logs: "server not running"
-        }).end()
+        })
+    }).catch(err => {
+        console.log("CUSTOM_ERR at k8sApi.post(/pods): ", err)
     })
 
     if (podStatus) {
@@ -141,7 +145,7 @@ router.post("/pods", async (req, res) => {
         res.send({
             status: podStatus.status,
             logs: logsData,
-        }).end()
+        })
     }
 })
 
@@ -151,29 +155,21 @@ router.post("/svc", (req, res) => {
         'url': `${process.env.K8S_DEFAULT_API}/api/v1/namespaces/mc-servers/services`,
     }
 
-    request(config, (err, response) => {
-        try {
-            const data = JSON.parse(response.body)
-            for (let i = 0; i < data.items.length; i++) {
-                const element = data.items[i];
-                console.log(element.metadata.labels.app)
-                if (element.metadata.labels.app.includes(req.body.id)) {
-                    console.log(element.spec.ports[0].nodePort)
-                    res.send({
-                        port: element.spec.ports[0].nodePort
-                    })
-                    res.end()
-                    throw "server SVC found, exit function"
-                }
+    request(config).then(response => {
+        const data = JSON.parse(response)
+        const svcFound = data.items.forEach((element) => {
+            if (element.metadata.labels.app.includes(req.body.id)) {
+                return true
             }
-            res.send({
-                status: "server not running"
-            })
-            res.end()
-            throw "Server SVC is not running!"
-        } catch (error) {
-            //console.log(error)
-        }
+        })
+        if (svcFound) return res.send({
+            port: element.spec.ports[0].nodePort
+        })
+        return res.send({
+            status: "server not running"
+        })
+    }).catch(err => {
+        console.log("CUSTOM_ERR at k8sApi.post(/svc): ", err)
     })
 })
 
@@ -186,7 +182,7 @@ router.post("/time", async (req, res) => {
     await request(config).then(response => {
         const data = JSON.parse(response)
 
-        console.log("REQ.BODY.ID: ", req.body.id)
+        // console.log("REQ.BODY.ID: ", req.body.id)
 
         // getting the pods
         for (let i = 0; i < data.items.length; i++) {

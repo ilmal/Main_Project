@@ -31,8 +31,8 @@ const Server = () => {
 
         // updating logs
         store.dispatch(serverPodsInfo)
-        // updating plsytime left needs: timeReset, store, userData
-        TimeUpdate(false, store, userData)
+        // // updating plsytime left needs: timeReset, store, userData
+        // TimeUpdate(false, store, userData)
       }, 5000);
       return () => clearInterval(interval);
     }
@@ -41,7 +41,7 @@ const Server = () => {
   useEffect(() => {
     if (initialLoad) {
       store.dispatch(serverPodsInfo)
-      TimeUpdate(false, store, userData)
+      // TimeUpdate(false, store, userData)
       setInitialLoad(false)
     }
   }, [initialLoad])
@@ -57,6 +57,7 @@ const Server = () => {
 
     const unsubscribe = store.subscribe(() => {
       setUserData(store.getState());
+      document.cookie = `selectedServer=${store.getState().userHomeData.serverIndex}`
     });
     if (store.getState().userHomeData.sideMenuTab !== "server") unsubscribe()
   })

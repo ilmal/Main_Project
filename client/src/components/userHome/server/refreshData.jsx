@@ -7,7 +7,7 @@ const refreshData = (e, store, userData) => {
     store.dispatch(serverSVCInfo)
     store.dispatch(serverInfo)
 
-    TimeUpdate(false, store, userData)
+    // TimeUpdate(false, store, userData)
 
     // spin animation
     const elements = document.getElementsByClassName(e.target.className)
