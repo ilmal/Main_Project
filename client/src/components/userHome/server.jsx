@@ -49,10 +49,14 @@ const Server = () => {
   useEffect(() => {
 
     // changing layout to fit server and layout
+    const layoutElement = document.getElementById("random03242jcmvmj0v23cm4")
     if (store.getState().userHomeData.showServerLandingPage) {
-      document.getElementById("random03242jcmvmj0v23cm4").style.gridTemplateRows = "auto"
+      layoutElement.style.gridTemplateRows = "auto"
+      console.log("layout: auto")
     } else {
-      document.getElementById("random03242jcmvmj0v23cm4").style.gridTemplateRows = "auto repeat(7, 11% 3%)"
+      layoutElement.style.gridTemplateRows = " auto repeat(7, 11% 3%)"
+      layoutElement.style.maxHeight = "110vh"
+      console.log("layout: auto repeat(7, 11% 3%)")
     }
 
     const unsubscribe = store.subscribe(() => {

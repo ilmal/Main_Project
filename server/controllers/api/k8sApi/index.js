@@ -155,16 +155,20 @@ router.post("/svc", (req, res) => {
         'url': `${process.env.K8S_DEFAULT_API}/api/v1/namespaces/mc-servers/services`,
     }
 
+    console.log("SVC: ", req.body.id)
+
     request(config).then(response => {
         const data = JSON.parse(response)
-        const svcFound = data.items.forEach((element) => {
+        // must be a for loop in order to return
+        for (let i = 0; i < data.items.length; i++) {
+            const element = data.items[i];
             if (element.metadata.labels.app.includes(req.body.id)) {
-                return true
+                console.log("SERVER FOUND (SVC)")
+                return res.send({
+                    port: element.spec.ports[0].nodePort
+                })
             }
-        })
-        if (svcFound) return res.send({
-            port: element.spec.ports[0].nodePort
-        })
+        }
         return res.send({
             status: "server not running"
         })
