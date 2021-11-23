@@ -16,16 +16,16 @@ const ChangeServerConfig = (props) => {
     }
 
     useEffect(() => {
-        if (store.getState().serverInfo[props.serverIndex].data[6].value != null) {
-            setWhitelist(store.getState().serverInfo[props.serverIndex].data[6].value.split(","))
+        if (store.getState().serverInfo[store.getState().userHomeData.serverIndex].data[6].value != null) {
+            setWhitelist(store.getState().serverInfo[store.getState().userHomeData.serverIndex].data[6].value.split(","))
         }
-        if (store.getState().serverInfo[props.serverIndex].data[7].value != null) {
-            setOpslist(store.getState().serverInfo[props.serverIndex].data[7].value.split(","))
+        if (store.getState().serverInfo[store.getState().userHomeData.serverIndex].data[7].value != null) {
+            setOpslist(store.getState().serverInfo[store.getState().userHomeData.serverIndex].data[7].value.split(","))
         }
     }, [state])
 
     //data for Difficulty and Versions
-    const versions = [store.getState().serverInfo[props.serverIndex].data[3].value, "latest", "1.16.4", "1.16.3", "1.16.2", "1.16", "1.15.2", "1.15.1",
+    const versions = [store.getState().serverInfo[store.getState().userHomeData.serverIndex].data[3].value, "latest", "1.16.4", "1.16.3", "1.16.2", "1.16", "1.15.2", "1.15.1",
         "1.15", "1.14.4", "1.14.3", "1.14.2", "1.14.1", "1.14", "1.13.2", "1.13.1", "1.13",
         "1.12.2", "1.12.1", "1.12"]
 
@@ -34,7 +34,7 @@ const ChangeServerConfig = (props) => {
         return <option value={d} key={i}>{d}</option>
     })
 
-    const difficulties = [store.getState().serverInfo[props.serverIndex].data[5].value, "hard", "normal", "easy", "peaceful"]
+    const difficulties = [store.getState().serverInfo[store.getState().userHomeData.serverIndex].data[5].value, "hard", "normal", "easy", "peaceful"]
 
     const difficultiesBoiler = difficulties.map((d) => {
         i++
@@ -139,7 +139,7 @@ const ChangeServerConfig = (props) => {
         const opslistString = opslist.join(",")
 
         await axios.post(`/mcConf/updateData`, {
-            id: store.getState().serverInfo[props.serverIndex].server_id,
+            id: store.getState().serverInfo[store.getState().userHomeData.serverIndex].server_id,
             serverName: e.target.serverName.value,
             serverVersion: e.target.serverVersion.value,
             serverDifficulty: e.target.serverDifficulty.value,
@@ -162,15 +162,15 @@ const ChangeServerConfig = (props) => {
             <div className={configSize}>
                 <div className="userHomeChangeServerName userHomeChangeDefaults">
                     <p>Server Name: </p>
-                    <span>{store.getState().serverInfo[props.serverIndex].data[4].value}</span>
+                    <span>{store.getState().serverInfo[store.getState().userHomeData.serverIndex].data[4].value}</span>
                 </div>
                 <div className="userHomeChangeVersion userHomeChangeDefaults">
                     <p>Version: </p>
-                    <span>{store.getState().serverInfo[props.serverIndex].data[3].value}</span>
+                    <span>{store.getState().serverInfo[store.getState().userHomeData.serverIndex].data[3].value}</span>
                 </div>
                 <div className="userHomeChangeDifficulty userHomeChangeDefaults">
                     <p>Difficulty: </p>
-                    <span>{store.getState().serverInfo[props.serverIndex].data[5].value}</span>
+                    <span>{store.getState().serverInfo[store.getState().userHomeData.serverIndex].data[5].value}</span>
                 </div>
                 <div className="userHomeChangeWhitelist userHomeChangeDefaults">
                     <p>whitelist: </p>

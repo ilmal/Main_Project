@@ -28,14 +28,12 @@ export const store = createStore(
 const MainComponent = () => {
     const [loading, setLoading] = useState(true)
 
-    console.log(".env: ", process.env.REACT_APP_BACKENDPROXY)
-
     React.useEffect(() => {
         (async function () {
             await store.dispatch(checkUserAuth)
             await store.dispatch(getQuaryParams)
             await store.dispatch(getCookies)
-            if (store.getState().cookies.userID !== "") {
+            if (store.getState().cookies.userID !== undefined) {
                 await store.dispatch(fetchUserData)
                 await store.dispatch(createMcConfig)
                 await store.dispatch(serverPodsInfo)
