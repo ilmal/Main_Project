@@ -3,6 +3,7 @@ import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js"
 
 import MinecraftLevels from "./minecraftLevels"
+import { store } from "../../..";
 
 const MinecraftCreate = () => {
 
@@ -75,13 +76,13 @@ const MinecraftCreate = () => {
                             <span>BASIC</span>
                         </div>
                         <div className="priceContainer">
-                            <span>$?? <span className="priceMonth">/ month</span></span>
+                            <span>€{store.getState().productInfo.basic.price} <span className="priceMonth">/ month</span></span>
                         </div>
                         <div className="specsContainer">
                             <span className="cpuSpec">CPU</span>
                             <span className="memSpec">MEMORY</span>
-                            <span className="cpuSpecValue">? cores</span>
-                            <span className="memSpecValue">?gb</span>
+                            <span className="cpuSpecValue">{store.getState().productInfo.basic.cpu} cores</span>
+                            <span className="memSpecValue">{store.getState().productInfo.basic.mem}gb</span>
                         </div>
                         <div className="seperationline" />
                         <div className="description">
@@ -93,31 +94,38 @@ const MinecraftCreate = () => {
                             <span>NORMAL</span>
                         </div>
                         <div className="priceContainer">
-                            <span>$?? <span className="priceMonth">/ month</span></span>
+                            <span>${store.getState().productInfo.normal.price} <span className="priceMonth">/ month</span></span>
                         </div>
                         <div className="specsContainer">
                             <span className="cpuSpec">CPU</span>
                             <span className="memSpec">MEMORY</span>
-                            <span className="cpuSpecValue">? cores</span>
-                            <span className="memSpecValue">?gb</span>
+                            <span className="cpuSpecValue">{store.getState().productInfo.normal.cpu} cores</span>
+                            <span className="memSpecValue">{store.getState().productInfo.normal.mem}gb</span>
                         </div>
                         <div className="seperationline" />
                         <div className="description">
                             <span>This is the server made for a larger group of friends, works great for 6 players</span>
                         </div>
                     </div>
-                    <div className="minecraftCards premium" onClick={() => setisCardPressed("premium")}>
+                    <div className="minecraftCards premium serverLandingPageCardSoldOutTemplate" onClick={() => setisCardPressed("premium")}>
+                        <div className="serverLandingPageCardSoldOutDiv" style={{ display: "none" }}>
+                            <div className="serverLandingPageCardSoldOutBlurDiv" />
+                            <div className="serverLandingPageCardSoldOutMiddleDiv">
+                                <span>HELLO!</span>
+                            </div>
+                            <div className="serverLandingPageCardSoldOutBlurDiv" />
+                        </div>
                         <div className="titleContainer premiumTitleContainer">
                             <span>PREMIUM</span>
                         </div>
                         <div className="priceContainer">
-                            <span>$?? <span className="priceMonth">/ month</span></span>
+                            <span>${store.getState().productInfo.premium.price} <span className="priceMonth">/ month</span></span>
                         </div>
                         <div className="specsContainer">
                             <span className="cpuSpec">CPU</span>
                             <span className="memSpec">MEMORY</span>
-                            <span className="cpuSpecValue">? cores</span>
-                            <span className="memSpecValue">?gb</span>
+                            <span className="cpuSpecValue">{store.getState().productInfo.premium.cores} cores</span>
+                            <span className="memSpecValue">{store.getState().productInfo.premium.mem}gb</span>
                         </div>
                         <div className="seperationline" />
                         <div className="description">

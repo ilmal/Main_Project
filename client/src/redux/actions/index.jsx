@@ -38,7 +38,7 @@ if (process.env.REACT_APP_BACKENDPROXY !== undefined) {
 }
 
 export const fetchUserData = async (dispatch) => {
-    if (store.getState().cookies.userID === undefined) return console.log("USER NOT LOGGED IN at fetchUserData")
+    if (store.getState().cookies.userID === undefined || store.getState().cookies.userID === "") return console.log("USER NOT LOGGED IN at fetchUserData")
     await axios.post(`${ip_address}/user`, {
         id: cookieValueUserID,
     })
@@ -128,7 +128,7 @@ export const authSucess = (dispatch) => {
 }
 
 export const createMcConfig = async (dispatch) => {
-    if (store.getState().cookies.userID === undefined) return console.log("USER NOT LOGGED IN at createMcConfig")
+    if (store.getState().cookies.userID === undefined || store.getState().cookies.userID === "") return console.log("USER NOT LOGGED IN at createMcConfig")
     await axios.post(`${ip_address}/mcConf/create`, {
         id: cookieValueUserID
     })
@@ -160,7 +160,7 @@ export const StopServer = async () => {
 }
 
 export const serverPodsInfo = async () => {
-    if (store.getState().cookies.userID === undefined) return console.log("USER NOT LOGGED IN at server pods info")
+    if (store.getState().cookies.userID === undefined || store.getState().cookies.userID === "") return console.log("USER NOT LOGGED IN at server pods info")
     updateCurrentServerIndex()
     // console.log("serverPodsInfo call: ", store.getState().user.servers[currentServerIndex].server_id, " - ", currentServerIndex)
     await axios.post(`${ip_address}/k8s/pods`, {
@@ -176,7 +176,7 @@ export const serverPodsInfo = async () => {
 }
 
 export const serverSVCInfo = async (dispatch) => {
-    if (store.getState().cookies.userID === undefined) return console.log("USER NOT LOGGED IN at serverSVCinfo")
+    if (store.getState().cookies.userID === undefined || store.getState().cookies.userID === "") return console.log("USER NOT LOGGED IN at serverSVCinfo")
     updateCurrentServerIndex()
     await axios.post(`${ip_address}/k8s/svc`, {
         id: store.getState().user.servers[currentServerIndex].server_id
@@ -190,7 +190,7 @@ export const serverSVCInfo = async (dispatch) => {
 }
 
 export const serverTimeInfo = async (dispatch, reset, timeOfReset) => {
-    if (store.getState().cookies.userID === undefined) return console.log("USER NOT LOGGED IN  at serverTimeInfo")
+    if (store.getState().cookies.userID === undefined || store.getState().cookies.userID === "") return console.log("USER NOT LOGGED IN  at serverTimeInfo")
     updateCurrentServerIndex()
     await axios.post(`${ip_address}/k8s/time`, {
         id: store.getState().user.servers[currentServerIndex].server_id,
@@ -210,7 +210,7 @@ export const serverTimeInfo = async (dispatch, reset, timeOfReset) => {
 }
 
 export const serverInfo = async (dispatch) => {
-    if (store.getState().cookies.userID === undefined) return console.log("USER NOT LOGGED IN AT SERVER INFO")
+    if (store.getState().cookies.userID === undefined || store.getState().cookies.userID === "") return console.log("USER NOT LOGGED IN AT SERVER INFO")
     await axios.post(`${ip_address}/mcConf/getData`, {
         id: cookieValueUserID
     })
@@ -296,5 +296,18 @@ export const getCookies = (dispatch) => {
         type: "SET_COOKIES",
         payload: cookieObject
     })
+}
+
+export const productInfo = async (dispatch) => {
+    await axios.post(`${ip_address}/productInfo`, {
+        game: "minecraft",
+        plan: "normal"
+    })
+        .then(response => {
+            dispatch({
+                type: "PRODUCT_INFO",
+                payload: response.data
+            })
+        })
 }
 
