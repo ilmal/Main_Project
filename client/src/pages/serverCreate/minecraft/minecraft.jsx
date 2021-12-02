@@ -26,6 +26,59 @@ const MinecraftCreate = () => {
 
     //---------------------------------
 
+    const landingPageFunc = () => {
+        // element for sold out layout. To use, add this func at the start of the element
+        // also add the className "serverLandingPageCardSoldOutTemplate" to the parent element
+
+        // in future make this automatic, add value in db then extract value and based on that
+        // update the parent ele class and insert this func to the element (future work)
+        const isSoldOut = (selectedTeir) => {
+            if (selectedTeir === "PREMIUM") {
+                console.log("CLASSNAME: ", document.getElementsByClassName(selectedTeir.toLowerCase()))
+                return (
+                    <div className="serverLandingPageCardSoldOutDiv">
+                        <div className="serverLandingPageCardSoldOutBlurDivTop" />
+                        <div className="serverLandingPageCardSoldOutMiddleDiv">
+                            <div className="serverLandingPageCardSoldOutMiddleDivInner">
+                                <span>Sorry,</span>
+                                <span>this server is currently out of stock.</span>
+                            </div>
+                        </div>
+                        <div className="serverLandingPageCardSoldOutBlurDivBottom" />
+                    </div>
+                )
+            }
+            return null
+        }
+
+
+        const element_array = []
+        Object.keys(store.getState().productInfo).forEach(element => {
+            element_array.push(
+                <div className={(isSoldOut(element.toUpperCase()) !== null) ? "minecraftCards" + " " + element + " " + "serverLandingPageCardSoldOutTemplate" : "minecraftCards" + " " + element} onClick={() => setisCardPressed(element)}>
+                    {isSoldOut(element.toUpperCase())}
+                    <div className={"titleContainer" + " " + `${element.toLowerCase()}TitleContainer`}>
+                        <span>{element.toUpperCase()}</span>
+                    </div>
+                    <div className="priceContainer">
+                        <span>€{store.getState().productInfo[element].price} <span className="priceMonth">/ month</span></span>
+                    </div>
+                    <div className="specsContainer">
+                        <span className="cpuSpec">CPU</span>
+                        <span className="memSpec">MEMORY</span>
+                        <span className="cpuSpecValue">{store.getState().productInfo[element].cpu} cores</span>
+                        <span className="memSpecValue">{store.getState().productInfo[element].mem}gb</span>
+                    </div>
+                    <div className="seperationline" />
+                    <div className="description"> {/* NEED TO CHANGE THIS TO THE BD AND EXTRACT DATA FROM THERE*/}
+                        <span>The basic server is the perfect option for a small group of friends, works great for 3 players</span>
+                    </div>
+                </div>
+            )
+        })
+        return element_array
+    }
+
     if (isCardPressed !== "not pressed") {
         switch (isCardPressed) {
             case "test":
@@ -57,81 +110,8 @@ const MinecraftCreate = () => {
         return (
             <div className="minecraftBody">
                 <span>Choose your Minecraft Server!</span>
-                {/* <div className="testServerCard">
-                    <div>
-                        <div className="testHeader">
-                            <span>Test server</span>
-                        </div>
-                        <div className="container">
-                            <div>
-                                <span>Early access!</span>
-                                <button onClick={() => setisCardPressed("test")}>Get the server</button>
-                            </div>
-                        </div>
-                    </div>
-                </div> */}
                 <div className="container">
-                    <div className="minecraftCards basic" onClick={() => setisCardPressed("basic")}>
-                        <div className="titleContainer basicTitleContainer">
-                            <span>BASIC</span>
-                        </div>
-                        <div className="priceContainer">
-                            <span>€{store.getState().productInfo.basic.price} <span className="priceMonth">/ month</span></span>
-                        </div>
-                        <div className="specsContainer">
-                            <span className="cpuSpec">CPU</span>
-                            <span className="memSpec">MEMORY</span>
-                            <span className="cpuSpecValue">{store.getState().productInfo.basic.cpu} cores</span>
-                            <span className="memSpecValue">{store.getState().productInfo.basic.mem}gb</span>
-                        </div>
-                        <div className="seperationline" />
-                        <div className="description">
-                            <span>The basic server is the perfect option for a small group of friends, works great for 3 players</span>
-                        </div>
-                    </div>
-                    <div className="minecraftCards normal" onClick={() => setisCardPressed("normal")}>
-                        <div className="titleContainer normalTitleContainer">
-                            <span>NORMAL</span>
-                        </div>
-                        <div className="priceContainer">
-                            <span>${store.getState().productInfo.normal.price} <span className="priceMonth">/ month</span></span>
-                        </div>
-                        <div className="specsContainer">
-                            <span className="cpuSpec">CPU</span>
-                            <span className="memSpec">MEMORY</span>
-                            <span className="cpuSpecValue">{store.getState().productInfo.normal.cpu} cores</span>
-                            <span className="memSpecValue">{store.getState().productInfo.normal.mem}gb</span>
-                        </div>
-                        <div className="seperationline" />
-                        <div className="description">
-                            <span>This is the server made for a larger group of friends, works great for 6 players</span>
-                        </div>
-                    </div>
-                    <div className="minecraftCards premium serverLandingPageCardSoldOutTemplate" onClick={() => setisCardPressed("premium")}>
-                        <div className="serverLandingPageCardSoldOutDiv" style={{ display: "none" }}>
-                            <div className="serverLandingPageCardSoldOutBlurDiv" />
-                            <div className="serverLandingPageCardSoldOutMiddleDiv">
-                                <span>HELLO!</span>
-                            </div>
-                            <div className="serverLandingPageCardSoldOutBlurDiv" />
-                        </div>
-                        <div className="titleContainer premiumTitleContainer">
-                            <span>PREMIUM</span>
-                        </div>
-                        <div className="priceContainer">
-                            <span>${store.getState().productInfo.premium.price} <span className="priceMonth">/ month</span></span>
-                        </div>
-                        <div className="specsContainer">
-                            <span className="cpuSpec">CPU</span>
-                            <span className="memSpec">MEMORY</span>
-                            <span className="cpuSpecValue">{store.getState().productInfo.premium.cores} cores</span>
-                            <span className="memSpecValue">{store.getState().productInfo.premium.mem}gb</span>
-                        </div>
-                        <div className="seperationline" />
-                        <div className="description">
-                            <span>This is the server made for a large group of players, works great for 10 players</span>
-                        </div>
-                    </div>
+                    {landingPageFunc()}
                 </div>
             </div>
         )

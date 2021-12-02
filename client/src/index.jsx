@@ -33,13 +33,13 @@ const MainComponent = () => {
             await store.dispatch(checkUserAuth)
             await store.dispatch(getQuaryParams)
             await store.dispatch(getCookies)
+            await store.dispatch(productInfo)
             if (store.getState().cookies.userID !== undefined && store.getState().cookies.userID !== "") {
                 await store.dispatch(fetchUserData)
                 await store.dispatch(createMcConfig)
                 await store.dispatch(serverPodsInfo)
                 await store.dispatch(serverSVCInfo)
                 await store.dispatch(serverInfo)
-                await store.dispatch(productInfo)
             }
             console.log("data after fetch func: ", store.getState())
 
