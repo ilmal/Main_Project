@@ -234,6 +234,27 @@ export const confirmation = async () => { // function never called, see code /co
 export const changePass = async () => { // function never called, see code /components/changePass/index.jsx, reason is history() method. Fix when time.
 }
 
+export const changePassUserHomeOptions = async (id, oldPassword, newPassword) => {
+    await axios.post(`${ip_address}/user/changepass`, {
+        id,
+        oldPassword,
+        newPassword
+    })
+        .then(res => {
+            if (res.data.type === "success") {
+                store.dispatch({
+                    type: "MESSAGE",
+                    payload: res.data.payload
+                })
+            } else if (res.data.type === "err") {
+                store.dispatch({
+                    type: "ERR_MESSAGE",
+                    payload: res.data.payload
+                })
+            }
+        })
+}
+
 export const resendConfirmationMail = async (dispatch) => {
     await axios.post(`${ip_address}/user/resendconfirmationmail`, {
         id: cookieValueUserID
