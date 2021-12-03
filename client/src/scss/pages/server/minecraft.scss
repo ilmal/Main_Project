@@ -565,7 +565,6 @@
             }
             .changeLevelBasic{
                 @include changeLevelDefaults;
-                grid-column: 1/2;
                 background-color: rgba($color: $greenColor,  $alpha: .35);
                 &:hover{
                     background-color: rgba($color: $greenColor,  $alpha: .50);
@@ -576,7 +575,6 @@
             }
             .changeLevelNormal{
                 @include changeLevelDefaults;
-                grid-column: 3/4;
                 background-color: rgba($color: $blueColor,  $alpha: .35);
                 &:hover{
                     background-color: rgba($color: $blueColor,  $alpha: .50);
@@ -587,7 +585,6 @@
             }
             .changeLevelPremium{
                 @include changeLevelDefaults;
-                grid-column: 5/6;
                 background-color: rgba($color: $pinkColor,  $alpha: .35);
                 &:hover{
                     background-color: rgba($color: $pinkColor,  $alpha: .50);

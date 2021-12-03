@@ -17,8 +17,8 @@ router.post("/", async (req, res) => {
         },
         premium: {
             price: products.premium.get("price") / 100,
-            // mem: products.premium.get("memoryLim").replace("Gi", ""),
-            // cpu: products.premium.get("cpuLim") / 1000
+            mem: products.premium.get("memoryLim").replace("Gi", ""),
+            cpu: products.premium.get("cpuLim") / 1000
         }
     })
 })
