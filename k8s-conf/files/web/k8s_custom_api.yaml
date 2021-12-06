@@ -2,16 +2,10 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   namespace: web
-  name: mccontroller-deployment
+  name: mccontroller
   labels:
     app: mccontroller
 spec:
-  replicas: 1
-  strategy:
-    type: RollingUpdate
-    rollingUpdate:
-      maxSurge: 25%
-      maxUnavailable: 25%
   selector:
     matchLabels:
       app: mccontroller
@@ -31,17 +25,17 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: mc-controller-service
+  name: mccontroller-nodeport
   namespace: web
+  labels:
+    app: mccontroller-nodeport
 spec:
-  type: NodePort
   selector:
     app: mccontroller
+  type: NodePort
   ports:
-      # By default and for convenience, the `targetPort` is set to the same value as the `port` field.
-    - port: 4000
-      targetPort: 4000
-      # Optional field
-      # By default and for convenience, the Kubernetes control plane will allocate a port from a range (default: 30000-32767)
-      nodePort: 31005
+  - nodePort: 31005
+    port: 31005
+    targetPort: 4000
+    protocol: TCP
 

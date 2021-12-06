@@ -1,0 +1,78 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: DmCxWQxLOgNlhbRcxgF-60a9406819d38d6813a61d3b
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: DmCxWQxLOgNlhbRcxgF-60a9406819d38d6813a61d3b
+  template:
+    metadata:
+      labels:
+        app: DmCxWQxLOgNlhbRcxgF-60a9406819d38d6813a61d3b
+    spec:
+      volumes:
+        - name: minecraft-pv-storage
+          persistentVolumeClaim:
+             claimName: custom_claim_name
+      containers:
+      - image: itzg/minecraft-server
+        name: minecraft-server
+        resources:
+          requests:
+            memory: "2Gi"
+            cpu: "1000m"
+          limits:
+            memory: "2Gi"
+            cpu: "1000m"
+        env:
+        - name: TYPE
+          value: "VANILLA"
+
+        - name: EULA
+          value: "TRUE"
+
+        - name: MAX_PLAYERS
+          value: "5"
+
+        - name: VERSION
+          value: latest
+
+        - name: SERVER_NAME
+          value: "testServer"
+
+        - name: DIFFICULTY 
+          value: normal
+
+        - name:  WHITELIST
+          value: ""
+
+        - name: OPS
+          value: ""
+
+        - name: OVERRIDE_SERVER_PROPERTIES
+          value: "true"
+
+        - name: OVERRIDE_WHITELIST
+          value: "true"
+
+        - name: OVERRIDE_OPS
+          value: "true"
+
+        - name: MEMORY
+          value: "2g"
+
+        - name: ENABLE_AUTOPAUSE
+          value: "TRUE"
+        
+        - name: AUTOPAUSE_TIMEOUT_EST
+          value: "360"
+          
+        ports:
+        - containerPort: 25565
+          name: minecraft
+          protocol: TCP
+        volumeMounts:
+          - mountPath: "/data"
+            name: minecraft-pv-storage

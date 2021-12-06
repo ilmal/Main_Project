@@ -1,0 +1,73 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: 603ba47b83a938d4abae59dd
+  namespace: mc-servers
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: 603ba47b83a938d4abae59dd
+  template:
+    metadata:
+      labels:
+        app: 603ba47b83a938d4abae59dd
+    spec:
+      volumes:
+        - name: minecraft-pv-storage
+          persistentVolumeClaim:
+             claimName: 607aa9e5f18679607bb4acf8
+      containers:
+      - image: itzg/minecraft-server
+        name: minecraft-server
+        resources:
+          requests:
+            memory: "20Gi"
+            cpu: "11000m"
+          limits:
+            memory: "20Gi"
+            cpu: "11000m"
+        env:
+        - name: MEMORY
+          value: "2g"
+
+        - name: ENABLE_AUTOPAUSE
+          value: "TRUE"
+        
+        - name: AUTOPAUSE_TIMEOUT_EST
+          value: "60"
+
+        - name: TYPE
+          value: "VANILLA"
+
+        - name: EULA
+          value: "TRUE"
+
+        - name: MAX_PLAYERS
+          value: "5"
+
+        - name: VERSION
+          value: latest
+
+        - name: SERVER_NAME
+          value: null
+
+        - name: DIFFICULTY 
+          value: normal
+
+        - name:  WHITELIST
+          value: null
+
+        - name: OPS
+          value: null
+
+        - name: OVERRIDE_SERVER_PROPERTIES
+          value: "true"
+
+        ports:
+        - containerPort: 25565
+          name: minecraft
+          protocol: TCP
+        volumeMounts:
+          - mountPath: "/data"
+            name: minecraft-pv-storage
