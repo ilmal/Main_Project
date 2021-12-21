@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: testnodeportservice
+  namespace: mc-servers
+  labels:
+    app: testnodeportservice
+spec:
+  selector:
+    app: 603ba47b83a938d4abae59dd
+  type: NodePort
+  ports:
+  - nodePort: 30005
+    port: 25565
+    targetPort: 25565
+    protocol: TCP
