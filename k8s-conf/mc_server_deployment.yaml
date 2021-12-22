@@ -1,21 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: DmCxWQxLOgNlhbRcxgF-60a9406819d38d6813a61d3b
+  name: sdfsdfsdfsdsdf-60a9406819d38d6813a61d3b
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: DmCxWQxLOgNlhbRcxgF-60a9406819d38d6813a61d3b
+      app: sdfsdfsdfsdsdf-60a9406819d38d6813a61d3b
   template:
     metadata:
       labels:
-        app: DmCxWQxLOgNlhbRcxgF-60a9406819d38d6813a61d3b
+        app: sdfsdfsdfsdsdf-60a9406819d38d6813a61d3b
     spec:
       volumes:
         - name: minecraft-pv-storage
           persistentVolumeClaim:
-             claimName: custom_claim_name
+             claimName: testpvc
       containers:
       - image: itzg/minecraft-server
         name: minecraft-server
@@ -37,7 +37,7 @@ spec:
           value: "5"
 
         - name: VERSION
-          value: latest
+          value: "1.17"
 
         - name: SERVER_NAME
           value: "testServer"

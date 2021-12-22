@@ -1,11 +1,7 @@
-apiVersion: apps/v1
 kind: Deployment
+apiVersion: apps/v1
 metadata:
   name: nfs-client-provisioner
-  labels:
-    app: nfs-client-provisioner
-  # replace with namespace where provisioner is deployed
-  namespace: nfs
 spec:
   replicas: 1
   strategy:
@@ -18,10 +14,20 @@ spec:
       labels:
         app: nfs-client-provisioner
     spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: "workerType"
+                operator: In
+                values:
+                - master
+
       serviceAccountName: nfs-client-provisioner
       containers:
         - name: nfs-client-provisioner
-          image: k8s.gcr.io/sig-storage/nfs-subdir-external-provisioner:v4.0.2
+          image: quay.io/external_storage/nfs-client-provisioner:latest
           volumeMounts:
             - name: nfs-client-root
               mountPath: /persistentvolumes
@@ -31,9 +37,9 @@ spec:
             - name: NFS_SERVER
               value: 192.168.3.122
             - name: NFS_PATH
-              value: /mnt/k8s_storage/kubedata
+              value: /srv/nfs/kubedata
       volumes:
         - name: nfs-client-root
           nfs:
-            server: 192.168.3.122
-            path: /mnt/k8s_storage/kubedata
+            server: 192.168.3.122 
+            path: /srv/nfs/kubedata

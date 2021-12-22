@@ -2,6 +2,6 @@ apiVersion: storage.k8s.io/v1
 kind: StorageClass
 metadata:
   name: mongosc
-provisioner: cluster.local/nfs-subdir-external-provisioner
+provisioner: nfs-dynamic-storage
 parameters:
   archiveOnDelete: "false"
