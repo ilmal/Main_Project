@@ -6,11 +6,11 @@ destination_path = None
 
 
 def reqFileFound(target_path, destination_path):
-    import backup
     print("FILE FOUND: ")
     print("Installing packages")
     os.system("pip install -r requirements.txt")
     print("Package install complete, executing code!")
+    import backup # need import here so that packages are installed before called
     backup.main(target_path, destination_path)
 
 
