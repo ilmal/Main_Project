@@ -1,11 +1,11 @@
 import os
-import backup
 import sys
 
 path = None
 
 
 def reqFileFound(path):
+    import backup
     print("FILE FOUND: ")
     print("Installing packages")
     os.system("pip install -r requirements.txt")
