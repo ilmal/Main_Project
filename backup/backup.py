@@ -11,7 +11,11 @@ destination_folder = "/home/nils/backup-k8s/"
 
 mongo_pod_name = "mongo-0"
 
+<<<<<<< HEAD
 zipfile_output_name = "k8s-backupdata-" + datetime.now().strftime("%Y-%m-%d_%H_%M_%S")
+=======
+zipfile_output_name = "k8s-backupdata-" + datetime.now().strftime("%Y-%m-%d_%H_%M_%S") + ".zip"
+>>>>>>> 9a89074cf83d7b4dbd7cc4dce8444357a9e14dd0
 
 list_of_nodes = [
     "192.168.3.38",
@@ -107,7 +111,11 @@ def main(tf_setup, df_setup):  # tf=target_folder; df=destination_folder;
     if df_setup == None:
         df_setup = destination_folder
     
+<<<<<<< HEAD
     # checkIfFileClear(df_setup)
+=======
+    # checkIfFileClear()
+>>>>>>> 9a89074cf83d7b4dbd7cc4dce8444357a9e14dd0
     # centralizeServerFiles(tf_setup, df_setup)
     # getMongoDump(mongo_pod_name, df_setup)
     # compressToZip(df_setup, zipfile_output_name)
