@@ -2,9 +2,12 @@ const express = require("express");
 const router = express.Router();
 const Config = require("../../models/minecraftConfig/config.model")
 const User = require("../../models/user/config.model")
+const UserProducts = require("../../models/user/config.modelProducts")
 var ObjectId = require('mongodb').ObjectID;
 const YAML = require('js-yaml');
 const fs = require("fs")
+
+const errPath = "controllers.mcConf.create.js"
 
 const creatingUserConf = async (elementMap, user) => {
   // converting element map to obj
@@ -35,8 +38,6 @@ const creatingUserConf = async (elementMap, user) => {
     }
   }
 
-  console.log("server_id: ", element.server_id)
-
   //inserting values
   pvc.metadata.name = element.server_id
   deployment.metadata.name = element.server_id
@@ -49,6 +50,52 @@ const creatingUserConf = async (elementMap, user) => {
   service.metadata.labels.app = element.server_id
   service.spec.selector.app = element.server_id
   service.spec.ports[0].nodePort = await findPortNumber()
+
+  //inserting values dependant on the type/ teir of server
+
+  const serverTier = await UserProducts.findOne({ game: "minecraft" })
+  if (!serverTier) console.log("ERR FINDING SERVER TEIR AT: ", errPath)
+
+  const userPlanLowerCase = element.plan.toLowerCase()
+
+  console.log("userPlanLowerCase: ", serverTier.get(userPlanLowerCase).get("memoryReq"))
+
+  if (userPlanLowerCase === "premuim") {
+    return console.log("ERR WITH SELECTED SERVER = PREMIUM => NOT SUPPORTED: ", errPath)
+  }
+
+  const memoryReq = serverTier.get(userPlanLowerCase).get("memoryReq")
+  const cpuReq = serverTier.get(userPlanLowerCase).get("cpuReq")
+  const memoryLim = serverTier.get(userPlanLowerCase).get("memoryLim")
+  const cpuLim = serverTier.get(userPlanLowerCase).get("cpuLim")
+
+
+  // switch (user.plan) {
+  //   case "BASIC":
+  //     memoryReq = "1Gi"
+  //     cpuReq = "500"
+  //     memoryLim = "1Gi"
+  //     cpuLim = "1000"
+  //     break;
+  //   case "NORMAL":
+  //     memoryReq = "2Gi"
+  //     cpuReq = "1000"
+  //     memoryLim = "2Gi"
+  //     cpuLim = "2000"
+  //     break;
+  //   case "PREMIUM":
+  //     console.log("ERR WITH SELECTED SERVER = PREMIUM => NOT SUPPORTED: ", errPath)
+  //     break;
+  //   default:
+  //     console.log("ERR WITH INSERTING VALUES FOR SERVER TEIR AT: ", errPath)
+  //     break;
+  // }
+
+  deployment.spec.template.spec.containers[0].resources.requests.memory = memoryReq // docker limit
+  deployment.spec.template.spec.containers[0].resources.requests.cpu = cpuReq       // docker limit
+  deployment.spec.template.spec.containers[0].resources.limits.memory = memoryLim   // docker limit
+  deployment.spec.template.spec.containers[0].resources.limits.cpu = cpuLim         // docker limit
+  deployment.spec.template.spec.containers[0].env[11].value = memoryReq             // minecraft limit
 
   //dumping yaml
   const deploymentStr = YAML.dump(deployment);
@@ -109,7 +156,7 @@ router.post("/", async (req, res) => {
     const config = await Config.findOne({ id: element.get("server_id") })
     if (config) {
       const errMessage = "mc-conf already exists"
-      console.log(errMessage)
+      // console.log(errMessage)
       return
     }
     console.log("no config")

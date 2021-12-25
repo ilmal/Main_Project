@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react"
 import axios from "axios"
 import { store } from "../../../index"
+import { changePassUserHomeOptions } from "../../../redux/actions"
 
 const ChangeUserPass = () => {
     const [change, setChange] = useState(false)
@@ -47,26 +48,7 @@ const ChangeUserPass = () => {
             return
         }
 
-
-        await axios.post(`${process.env.REACT_APP_BACKENDPROXY}/user/changepass`, {
-            id: cookieValue,
-            oldPassword: e.target.oldPassword.value,
-            newPassword: e.target.newPassword1.value
-        }).then(response => {
-
-            if (response.data.type === "success") {
-                store.dispatch({
-                    type: "MESSAGE",
-                    payload: response.data.payload
-                })
-                setChange(prev => !prev)
-            } else if (response.data.type === "err") {
-                store.dispatch({
-                    type: "ERR_MESSAGE",
-                    payload: response.data.payload
-                })
-            }
-        })
+        await changePassUserHomeOptions(cookieValue, e.target.oldPassword.value, e.target.newPassword1.value)
     }
 
     const passDefault = () => {

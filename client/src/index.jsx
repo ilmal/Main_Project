@@ -18,7 +18,7 @@ import { TopMessage } from "./components/topMessages/index"
 
 import rootReducer from "./redux/reducers"
 
-import { fetchUserData, checkUserAuth, createMcConfig, serverPodsInfo, serverSVCInfo, serverInfo, getQuaryParams, getCookies } from "./redux/actions/index"
+import { fetchUserData, checkUserAuth, createMcConfig, serverPodsInfo, serverSVCInfo, serverInfo, getQuaryParams, getCookies, productInfo } from "./redux/actions/index"
 
 export const store = createStore(
     rootReducer,
@@ -28,14 +28,13 @@ export const store = createStore(
 const MainComponent = () => {
     const [loading, setLoading] = useState(true)
 
-    console.log(".env: ", process.env.REACT_APP_BACKENDPROXY)
-
     React.useEffect(() => {
         (async function () {
             await store.dispatch(checkUserAuth)
             await store.dispatch(getQuaryParams)
             await store.dispatch(getCookies)
-            if (store.getState().cookies.userID !== "") {
+            await store.dispatch(productInfo)
+            if (store.getState().cookies.userID !== undefined && store.getState().cookies.userID !== "") {
                 await store.dispatch(fetchUserData)
                 await store.dispatch(createMcConfig)
                 await store.dispatch(serverPodsInfo)

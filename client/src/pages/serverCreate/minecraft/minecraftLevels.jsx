@@ -2,32 +2,31 @@ import { useHistory } from "react-router-dom";
 import { useSelector } from "react-redux"
 import React, { useState } from 'react'
 import ServerPlan from "../../../components/payments/serverPlan";
+import { store } from "../../..";
 
 
 
 // getting different data deplending on what server type selected
 const levelValuesFunc = (propsLevel) => {
     console.log("propsLevel: ", propsLevel)
+
+    const defaultValues = {
+        "plan": propsLevel.toUpperCase(),
+        "color": "$greenColor",
+        "price": store.getState().productInfo[propsLevel].price,
+        "cpu": store.getState().productInfo[propsLevel].cpu,
+        "mem": store.getState().productInfo[propsLevel].mem,
+        "storage": "Unlimited",
+        "players": "4",
+        "plugins": "Unavailable",
+        "mods": "Unavailable"
+    }
+
     switch (propsLevel) {
-        case "test":
-            return ({
-                "plan": "TEST",
-                "color": "blue",
-                "price": "15",
-                "cpu": "1",
-                "mem": "2",
-                "storage": "Unlimited",
-                "players": "4",
-                "plugins": "Unavailable",
-                "mods": "Unavailable"
-            })
         case "basic":
             return {
-                "plan": "BASIC",
+                ...defaultValues,
                 "color": "$greenColor",
-                "price": "15",
-                "cpu": "2",
-                "mem": "2",
                 "storage": "Unlimited",
                 "players": "4",
                 "plugins": "Unavailable",
@@ -35,11 +34,8 @@ const levelValuesFunc = (propsLevel) => {
             }
         case "normal":
             return {
-                "plan": "NORMAL",
+                ...defaultValues,
                 "color": "$blueColor",
-                "price": "20",
-                "cpu": "3",
-                "mem": "4",
                 "storage": "Unlimited",
                 "players": "8",
                 "plugins": "Unavailable",
@@ -47,11 +43,8 @@ const levelValuesFunc = (propsLevel) => {
             }
         case "premium":
             return {
-                "plan": "PREMIUM",
+                ...defaultValues,
                 "color": "$pinkolor",
-                "price": "25",
-                "cpu": "4",
-                "mem": "8",
                 "storage": "Unlimited",
                 "players": "12",
                 "plugins": "Unavailable",
@@ -60,15 +53,7 @@ const levelValuesFunc = (propsLevel) => {
 
         default:
             return {
-                "plan": "BASIC",
-                "color": "$greenColor",
-                "price": "10",
-                "cpu": "2",
-                "mem": "2",
-                "storage": "Unlimited",
-                "players": "10",
-                "plugins": "Unavailable",
-                "mods": "Unavailable"
+                ...defaultValues
             }
     }
 }
@@ -130,6 +115,53 @@ const MinecraftLevels = (props) => {
         }
     }
 
+    const changeLevelFunc = () => {
+
+        const return_array = []
+        let counter = 0
+        Object.keys(store.getState().productInfo).forEach((e, idx) => {
+
+            if (e.toUpperCase() === "") {
+                return
+            }
+            // formula = n + (n + 1)
+            const style = {
+                gridColumn: `${2 * counter + 1}/${2 * counter + 2}`
+            }
+            counter++
+
+            return_array.push(
+                <div className={"changeLevel" + e.charAt(0).toUpperCase() + e.slice(1)} style={style} onClick={() => handleClick(e)}>
+                    <div className="changeLevelinnerContainer">
+                        <span>{e.toUpperCase()}</span>
+                    </div>
+                </div>
+            )
+        })
+        return return_array
+
+        /*
+        
+                            <div className="changeLevelBasic" onClick={() => handleClick("basic")}>
+                        <div className="changeLevelinnerContainer">
+                            <span>BASIC</span>
+                        </div>
+                    </div>
+                    <div className="changeLevelNormal" onClick={() => handleClick("normal")}>
+                        <div className="changeLevelinnerContainer">
+                            <span>NORMAL</span>
+                        </div>
+                    </div>
+                    <div className="changeLevelPremium" onClick={() => handleClick("premium")}>
+                        <div className="changeLevelinnerContainer">
+                            <span>PREMIUM</span>
+                        </div>
+                    </div>
+        
+        
+        */
+    }
+
     return (
         <div className="minecraftBasicBody">
             <div className="overviewBody">
@@ -188,21 +220,7 @@ const MinecraftLevels = (props) => {
                         <span>Compare plans</span>
                     </div>
                     <div className="changeLevelSeperator" />
-                    <div className="changeLevelBasic" onClick={() => handleClick("basic")}>
-                        <div className="changeLevelinnerContainer">
-                            <span>BASIC</span>
-                        </div>
-                    </div>
-                    <div className="changeLevelNormal" onClick={() => handleClick("normal")}>
-                        <div className="changeLevelinnerContainer">
-                            <span>NORMAL</span>
-                        </div>
-                    </div>
-                    <div className="changeLevelPremium" onClick={() => handleClick("premium")}>
-                        <div className="changeLevelinnerContainer">
-                            <span>PREMIUM</span>
-                        </div>
-                    </div>
+                    {changeLevelFunc()}
                 </div>
             </div>
             <div className="paymentBody">

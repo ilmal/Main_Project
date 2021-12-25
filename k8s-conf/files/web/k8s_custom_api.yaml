@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: web
+  name: mccontroller
+  labels:
+    app: mccontroller
+spec:
+  selector:
+    matchLabels:
+      app: mccontroller
+  template:
+    metadata:
+      labels:
+        app: mccontroller
+    spec:
+      containers:
+      - name: mccontroller
+        image: ilmal/09n754y60959360m53v8754ymn9305n76_mc-k8s-controller:latest
+        ports:
+        - containerPort: 4000
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: mccontroller-nodeport
+  namespace: web
+  labels:
+    app: mccontroller-nodeport
+spec:
+  selector:
+    app: mccontroller
+  type: NodePort
+  ports:
+  - nodePort: 31005
+    port: 31005
+    targetPort: 4000
+    protocol: TCP
+

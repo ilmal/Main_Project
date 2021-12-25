@@ -45,7 +45,7 @@ router.post("/", async (req, res) => {
     })
 
     console.log("Message sent!")
-    return ({
+    res.send({
         type: "message",
         payload: responseMessage
     })

@@ -7,6 +7,11 @@ metadata:
     app: front-end
 spec:
   replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
   selector:
     matchLabels:
       app: front-end
@@ -20,6 +25,8 @@ spec:
         image: ilmal/08ng5749f92j58f74f283705fj2034f587204-frontend:latest
         ports:
         - containerPort: 31000
+      nodeSelector:
+        type: "web"
 
 ---
 

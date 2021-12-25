@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: back-end
+  namespace: web
+  labels:
+    app: back-end
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: back-end
+  template:
+    metadata:
+      labels:
+        app: back-end
+    spec:
+      containers:
+      - name: back-end
+        image: ilmal/947ng59234ngh56943n5g2n4735g29345g7n24395gn-backend:latest
+        ports:
+        - containerPort: 31001
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend
+  namespace: web
+  labels:
+    app: backend
+spec:
+  selector:
+    app: back-end
+  type: NodePort
+  ports:
+  - nodePort: 31001
+    port: 31001
+    targetPort: 31001
+    protocol: TCP
+

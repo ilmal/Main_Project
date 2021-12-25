@@ -5,7 +5,7 @@ import { useHistory } from "react-router-dom";
 import ReactTooltip from 'react-tooltip';
 
 import { store } from "../../index";
-import { serverPodsInfo } from "../../redux/actions"
+import { serverPodsInfo, serverDataRefresh } from "../../redux/actions"
 
 import refreshData from "./server/refreshData";
 import StartStop from "./server/startStop";
@@ -20,7 +20,6 @@ const Server = () => {
   const [userData, setUserData] = useState(store.getState());
   const [initialLoad, setInitialLoad] = useState(true)
   const [showLandingPage, setShowLandingPage] = useState(true)
-  const [serverIndex, setServerIndex] = useState(0)
 
   const history = useHistory();
 
@@ -49,22 +48,26 @@ const Server = () => {
   useEffect(() => {
 
     // changing layout to fit server and layout
+    const layoutElement = document.getElementById("random03242jcmvmj0v23cm4")
     if (store.getState().userHomeData.showServerLandingPage) {
-      document.getElementById("random03242jcmvmj0v23cm4").style.gridTemplateRows = "auto"
+      layoutElement.style.gridTemplateRows = "auto"
+      // console.log("layout: auto")
     } else {
-      document.getElementById("random03242jcmvmj0v23cm4").style.gridTemplateRows = "auto repeat(7, 11% 3%)"
+      layoutElement.style.gridTemplateRows = " auto repeat(7, 11% 3%)"
+      layoutElement.style.maxHeight = "110vh"
+      // console.log("layout: auto repeat(7, 11% 3%)")
     }
-
-    const unsubscribe = store.subscribe(() => {
-      setUserData(store.getState());
-      document.cookie = `selectedServer=${store.getState().userHomeData.serverIndex}`
-    });
-    if (store.getState().userHomeData.sideMenuTab !== "server") unsubscribe()
+    // if (store.getState().userHomeData.sideMenuSelectedTab === "server") {
+    //   store.subscribe(() => {
+    //     console.log("UPDATING")
+    //     setUserData(store.getState());
+    //   });
+    // }
   })
 
 
   const serverStatus = (e) => {
-    switch (userData.serverPods.status) {
+    switch (store.getState().serverPods.status) {
       case "True":
         return <div className="runningDiv defaultDiv"><p className="running">Running</p></div>
       case "False":
@@ -80,8 +83,8 @@ const Server = () => {
     }
   }
   const serverIP = () => {
-    if (userData.serverPods.status !== "server not running") {
-      return <span>mc.servers.u1.se:{userData.serverSVC.port}</span>
+    if (store.getState().serverPods.status !== "server not running") {
+      return <span>mc.servers.u1.se:{store.getState().serverSVC.port}</span>
     } else {
       return <span>----</span>
     }
@@ -92,7 +95,7 @@ const Server = () => {
   }
 
   const refreshDataFunc = (e) => {
-    refreshData(e, store, userData)
+    refreshData(e, store, store.getState())
   }
 
   const startStopFunc = (e) => {
@@ -134,9 +137,12 @@ const Server = () => {
 
     //template for the server block showing servers
     const serverBlock = (returnArray, key, element) => {
-      const handleCLick = (e) => {
+      const handleCLick = async (e) => {
         setShowLandingPage(false)
         console.log("E.TARGET.ID: ", e)
+        document.cookie = `selectedServer=${e}`
+        // refresh server data to the new server index
+        await store.dispatch(serverDataRefresh)
         store.dispatch({
           type: "USER_HOME_DATA",
           payload: {
@@ -170,7 +176,7 @@ const Server = () => {
     // the text block shown at the end of the server list
     const redirectTextBlock = (returnArray) => {
       return (
-        <div style={positionCalculator(returnArray)}>
+        <div key="redirectTextBlockKey" style={positionCalculator(returnArray)}>
           <span className="userHomeServerBlockSpecialText">Need a server? Head on over to the <span onClick={() => { history.push("/"); window.location.reload() }}> MAIN PAGE </span></span>
         </div>
       )
@@ -227,7 +233,7 @@ const Server = () => {
         <span data-tip data-for="copyServerAddress" onClick={copyText}>{serverIP()}</span>
       </div>
 
-      <ChangeServerConfig serverIndex={serverIndex} />
+      <ChangeServerConfig serverIndex={store.getState().userHomeData.serverIndex} />
       <LogsComponent />
 
       <ReactTooltip id="copyServerAddress" delayShow={100}>

@@ -1,0 +1,120 @@
+/home/nils/k8s/main_Project/backup/setup.py: 1: import: not found
+/home/nils/k8s/main_Project/backup/setup.py: 2: import: not found
+/home/nils/k8s/main_Project/backup/setup.py: 4: target_path: not found
+/home/nils/k8s/main_Project/backup/setup.py: 5: destination_path: not found
+/home/nils/k8s/main_Project/backup/setup.py: 8: Syntax error: "(" unexpected
+/home/nils/k8s/main_Project/backup/setup.py: 1: import: not found
+/home/nils/k8s/main_Project/backup/setup.py: 2: import: not found
+/home/nils/k8s/main_Project/backup/setup.py: 4: target_path: not found
+/home/nils/k8s/main_Project/backup/setup.py: 5: destination_path: not found
+/home/nils/k8s/main_Project/backup/setup.py: 8: Syntax error: "(" unexpected
+Requirement already satisfied: schedule==1.1.0 in /home/nils/.local/lib/python3.8/site-packages (from -r requirements.txt (line 1)) (1.1.0)
+Requirement already satisfied: schedule==1.1.0 in /home/nils/.local/lib/python3.8/site-packages (from -r requirements.txt (line 1)) (1.1.0)
+mkdir: cannot create directory ‘/home/nils/backup-k8s/’: File exists
+Unable to use a TTY - input is not a terminal or the right kind of file
+E1222 23:08:02.269356  971924 v2.go:105] read /dev/stdin: bad file descriptor
+running script in container
+2021-12-22T22:08:02.409+0000	writing admin.system.users to dump/admin/system.users.bson
+2021-12-22T22:08:02.410+0000	done dumping admin.system.users (1 document)
+2021-12-22T22:08:02.411+0000	writing admin.system.version to dump/admin/system.version.bson
+2021-12-22T22:08:02.411+0000	done dumping admin.system.version (2 documents)
+2021-12-22T22:08:02.412+0000	writing config.tenantMigrationRecipients to dump/config/tenantMigrationRecipients.bson
+2021-12-22T22:08:02.412+0000	writing config.external_validation_keys to dump/config/external_validation_keys.bson
+2021-12-22T22:08:02.413+0000	writing test.im part of the test!!! to dump/test/im+part+of+the+test%21%21%21.bson
+2021-12-22T22:08:02.413+0000	done dumping config.tenantMigrationRecipients (0 documents)
+2021-12-22T22:08:02.413+0000	done dumping config.external_validation_keys (0 documents)
+2021-12-22T22:08:02.413+0000	writing config.tenantMigrationDonors to dump/config/tenantMigrationDonors.bson
+2021-12-22T22:08:02.413+0000	done dumping test.im part of the test!!! (1 document)
+2021-12-22T22:08:02.414+0000	done dumping config.tenantMigrationDonors (0 documents)
+dumpfile created
+exiting container
+tar: Removing leading `/' from member names
+mkdir: cannot create directory ‘/home/nils/backup-k8s/’: File exists
+Unable to use a TTY - input is not a terminal or the right kind of file
+E1222 23:09:01.759668  972711 v2.go:105] read /dev/stdin: bad file descriptor
+running script in container
+2021-12-22T22:09:01.910+0000	writing admin.system.users to dump/admin/system.users.bson
+2021-12-22T22:09:01.911+0000	done dumping admin.system.users (1 document)
+2021-12-22T22:09:01.911+0000	writing admin.system.version to dump/admin/system.version.bson
+2021-12-22T22:09:01.912+0000	done dumping admin.system.version (2 documents)
+2021-12-22T22:09:01.913+0000	writing test.im part of the test!!! to dump/test/im+part+of+the+test%21%21%21.bson
+2021-12-22T22:09:01.914+0000	writing config.tenantMigrationDonors to dump/config/tenantMigrationDonors.bson
+2021-12-22T22:09:01.914+0000	writing config.external_validation_keys to dump/config/external_validation_keys.bson
+2021-12-22T22:09:01.914+0000	done dumping test.im part of the test!!! (1 document)
+2021-12-22T22:09:01.914+0000	writing config.tenantMigrationRecipients to dump/config/tenantMigrationRecipients.bson
+2021-12-22T22:09:01.914+0000	done dumping config.tenantMigrationDonors (0 documents)
+2021-12-22T22:09:01.915+0000	done dumping config.external_validation_keys (0 documents)
+2021-12-22T22:09:01.915+0000	done dumping config.tenantMigrationRecipients (0 documents)
+dumpfile created
+exiting container
+tar: Removing leading `/' from member names
+FILE FOUND: 
+Installing packages
+Package install complete, executing code!
+cheking if destination folder is clear
+destination folder not clear, deleting files
+target_folder:  /mnt/k8s_storage/kubedata/
+destination_folder:  /home/nils/backup-k8s/
+file mc-servers-zumdrustaedsdwmnlyk-60a9406819d38d6813a61d3b-pvc-96208813-9478-459e-b695-6f04ea6ecbc2 copied
+file mc-servers-mwgwzndwclbcpvdvhqt-60a9406819d38d6813a61d3b-pvc-94d371b4-11b7-47cd-be5c-f4ecb18c053b copied
+file mc-servers-testpvc-pvc-972ebda6-83d7-4d4b-a5e4-6597a7d8bc2d copied
+uploading file to container
+file uploaded
+script executed
+dump file copied to destination folder
+starting zip process
+writing server-files
+writing mongofiles
+writing complete, exiting zip
+sending data to node:  192.168.3.38
+data sent!
+sending data to node:  192.168.3.222
+data sent!
+sending data to node:  192.168.3.229
+data sent!
+sending data to node:  192.168.3.37
+data sent!
+from node: 192.168.3.38 are these files:
+['k8s-backupdata-2021-12-22_21_42_49_.zip', 'k8s-backupdata-2021-12-22_22_01_22_.zip', 'k8s-backupdata-2021-12-22_22_19_02.zip', 'k8s-backupdata-2021-12-22_22_19_57.zip', 'k8s-backupdata-2021-12-22_22_23_26.zip', 'k8s-backupdata-2021-12-22_22_27_26.zip', 'k8s-backupdata-2021-12-22_22_27_50.zip', 'k8s-backupdata-2021-12-22_22_28_28.zip', 'k8s-backupdata-2021-12-22_22_31_04.zip', 'k8s-backupdata-2021-12-22_22_31_29.zip', 'k8s-backupdata-2021-12-22_22_32_03.zip', 'k8s-backupdata-2021-12-22_22_33_01.zip', 'k8s-backupdata-2021-12-22_22_45_35.zip', 'k8s-backupdata-2021-12-22_22_52_46.zip', 'k8s-backupdata-2021-12-22_22_56_51.zip', 'k8s-backupdata-2021-12-22_23_07_09.zip', '']
+from node: 192.168.3.222 are these files:
+['k8s-backupdata-2021-12-22_21_34_56_.zip', 'k8s-backupdata-2021-12-22_21_40_58_.zip', 'k8s-backupdata-2021-12-22_21_42_49_.zip', 'k8s-backupdata-2021-12-22_22_01_22_.zip', 'k8s-backupdata-2021-12-22_22_19_02.zip', 'k8s-backupdata-2021-12-22_22_19_57.zip', 'k8s-backupdata-2021-12-22_22_23_26.zip', 'k8s-backupdata-2021-12-22_22_27_26.zip', 'k8s-backupdata-2021-12-22_22_27_50.zip', 'k8s-backupdata-2021-12-22_22_28_28.zip', 'k8s-backupdata-2021-12-22_22_31_04.zip', 'k8s-backupdata-2021-12-22_22_31_29.zip', 'k8s-backupdata-2021-12-22_22_32_03.zip', 'k8s-backupdata-2021-12-22_22_33_01.zip', 'k8s-backupdata-2021-12-22_22_45_35.zip', 'k8s-backupdata-2021-12-22_22_52_46.zip', 'k8s-backupdata-2021-12-22_22_56_51.zip', 'k8s-backupdata-2021-12-22_23_07_09.zip', '']
+from node: 192.168.3.229 are these files:
+['k8s-backupdata-2021-12-22_21_40_58_.zip', 'k8s-backupdata-2021-12-22_21_42_49_.zip', 'k8s-backupdata-2021-12-22_22_01_22_.zip', 'k8s-backupdata-2021-12-22_22_19_02.zip', 'k8s-backupdata-2021-12-22_22_19_57.zip', 'k8s-backupdata-2021-12-22_22_23_26.zip', 'k8s-backupdata-2021-12-22_22_27_26.zip', 'k8s-backupdata-2021-12-22_22_27_50.zip', 'k8s-backupdata-2021-12-22_22_28_28.zip', 'k8s-backupdata-2021-12-22_22_31_04.zip', 'k8s-backupdata-2021-12-22_22_31_29.zip', 'k8s-backupdata-2021-12-22_22_32_03.zip', 'k8s-backupdata-2021-12-22_22_33_01.zip', 'k8s-backupdata-2021-12-22_22_45_35.zip', 'k8s-backupdata-2021-12-22_22_52_46.zip', 'k8s-backupdata-2021-12-22_22_56_51.zip', 'k8s-backupdata-2021-12-22_23_07_09.zip', '']
+from node: 192.168.3.37 are these files:
+['k8s-backupdata-2021-12-22_21_42_49_.zip', 'k8s-backupdata-2021-12-22_22_01_22_.zip', 'k8s-backupdata-2021-12-22_22_19_02.zip', 'k8s-backupdata-2021-12-22_22_23_26.zip', 'k8s-backupdata-2021-12-22_22_27_26.zip', 'k8s-backupdata-2021-12-22_22_27_50.zip', 'k8s-backupdata-2021-12-22_22_28_28.zip', 'k8s-backupdata-2021-12-22_22_31_04.zip', 'k8s-backupdata-2021-12-22_22_31_29.zip', 'k8s-backupdata-2021-12-22_22_32_03.zip', 'k8s-backupdata-2021-12-22_22_33_01.zip', 'k8s-backupdata-2021-12-22_22_45_35.zip', 'k8s-backupdata-2021-12-22_22_52_46.zip', 'k8s-backupdata-2021-12-22_22_56_51.zip', 'k8s-backupdata-2021-12-22_23_07_09.zip', '']
+DATA:  ['192.168.3.38: success', '192.168.3.222: success', '192.168.3.229: success', '192.168.3.37: success']
+preparing to send data to phone
+MESSAGE:  192.168.3.38: success 192.168.3.222: success 192.168.3.229: success 192.168.3.37: success
+{'id': '01FQJ2ZWJMQJSH057AVPE119A4', 'to': ['46700456563'], 'from': '447520652019', 'canceled': False, 'body': "['192.168.3.38: success', '192.168.3.222: success', '192.168.3.229: success', '192.168.3.37: success']", 'type': 'mt_text', 'created_at': '2021-12-22T22:08:07.252Z', 'modified_at': '2021-12-22T22:08:07.252Z', 'delivery_report': 'none', 'expire_at': '2021-12-25T22:08:07.252Z', 'flash_message': False}
+data sent to phone
+cheking if destination folder is clear
+destination folder not clear, deleting files
+target_folder:  /mnt/k8s_storage/kubedata/
+destination_folder:  /home/nils/backup-k8s/
+file mc-servers-zumdrustaedsdwmnlyk-60a9406819d38d6813a61d3b-pvc-96208813-9478-459e-b695-6f04ea6ecbc2 copied
+file mc-servers-mwgwzndwclbcpvdvhqt-60a9406819d38d6813a61d3b-pvc-94d371b4-11b7-47cd-be5c-f4ecb18c053b copied
+file mc-servers-testpvc-pvc-972ebda6-83d7-4d4b-a5e4-6597a7d8bc2d copied
+uploading file to container
+file uploaded
+script executed
+dump file copied to destination folder
+starting zip process
+writing server-files
+writing mongofiles
+writing complete, exiting zip
+sending data to node:  192.168.3.38
+data sent!
+sending data to node:  192.168.3.222
+data sent!
+sending data to node:  192.168.3.229
+data sent!
+sending data to node:  192.168.3.37
+data sent!
+from node: 192.168.3.38 are these files:
+['k8s-backupdata-2021-12-22_21_42_49_.zip', 'k8s-backupdata-2021-12-22_22_01_22_.zip', 'k8s-backupdata-2021-12-22_22_19_02.zip', 'k8s-backupdata-2021-12-22_22_19_57.zip', 'k8s-backupdata-2021-12-22_22_23_26.zip', 'k8s-backupdata-2021-12-22_22_27_26.zip', 'k8s-backupdata-2021-12-22_22_27_50.zip', 'k8s-backupdata-2021-12-22_22_28_28.zip', 'k8s-backupdata-2021-12-22_22_31_04.zip', 'k8s-backupdata-2021-12-22_22_31_29.zip', 'k8s-backupdata-2021-12-22_22_32_03.zip', 'k8s-backupdata-2021-12-22_22_33_01.zip', 'k8s-backupdata-2021-12-22_22_45_35.zip', 'k8s-backupdata-2021-12-22_22_52_46.zip', 'k8s-backupdata-2021-12-22_22_56_51.zip', 'k8s-backupdata-2021-12-22_23_07_09.zip', '']
+from node: 192.168.3.222 are these files:
+['k8s-backupdata-2021-12-22_21_34_56_.zip', 'k8s-backupdata-2021-12-22_21_40_58_.zip', 'k8s-backupdata-2021-12-22_21_42_49_.zip', 'k8s-backupdata-2021-12-22_22_01_22_.zip', 'k8s-backupdata-2021-12-22_22_19_02.zip', 'k8s-backupdata-2021-12-22_22_19_57.zip', 'k8s-backupdata-2021-12-22_22_23_26.zip', 'k8s-backupdata-2021-12-22_22_27_26.zip', 'k8s-backupdata-2021-12-22_22_27_50.zip', 'k8s-backupdata-2021-12-22_22_28_28.zip', 'k8s-backupdata-2021-12-22_22_31_04.zip', 'k8s-backupdata-2021-12-22_22_31_29.zip', 'k8s-backupdata-2021-12-22_22_32_03.zip', 'k8s-backupdata-2021-12-22_22_33_01.zip', 'k8s-backupdata-2021-12-22_22_45_35.zip', 'k8s-backupdata-2021-12-22_22_52_46.zip', 'k8s-backupdata-2021-12-22_22_56_51.zip', 'k8s-backupdata-2021-12-22_23_07_09.zip', '']
+from node: 192.168.3.229 are these files:
+['k8s-backupdata-2021-12-22_21_40_58_.zip', 'k8s-backupdata-2021-12-22_21_42_49_.zip', 'k8s-backupdata-2021-12-22_22_01_22_.zip', 'k8s-backupdata-2021-12-22_22_19_02.zip', 'k8s-backupdata-2021-12-22_22_19_57.zip', 'k8s-backupdata-2021-12-22_22_23_26.zip', 'k8s-backupdata-2021-12-22_22_27_26.zip', 'k8s-backupdata-2021-12-22_22_27_50.zip', 'k8s-backupdata-2021-12-22_22_28_28.zip', 'k8s-backupdata-2021-12-22_22_31_04.zip', 'k8s-backupdata-2021-12-22_22_31_29.zip', 'k8s-backupdata-2021-12-22_22_32_03.zip', 'k8s-backupdata-2021-12-22_22_33_01.zip', 'k8s-backupdata-2021-12-22_22_45_35.zip', 'k8s-backupdata-2021-12-22_22_52_46.zip', 'k8s-backupdata-2021-12-22_22_56_51.zip', 'k8s-backupdata-2021-12-22_23_07_09.zip', '']
+from node: 192.168.3.37 are these files:
+Requirement already satisfied: schedule==1.1.0 in /home/nils/.local/lib/python3.8/site-packages (from -r requirements.txt (line 1)) (1.1.0)

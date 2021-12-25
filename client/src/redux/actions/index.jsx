@@ -20,11 +20,13 @@ if (document.cookie && document.cookie.search("loginAuth") > -1) {
 // ------------------------------------------------------------------- THIS BELOW IS CURRENTLY NEEDING FIXING --------------------------------
 
 let currentServerIndex = 0
-if (document.cookie && document.cookie.search("selectedServer") > -1) {
-    currentServerIndex = document.cookie
-        .split('; ')
-        .find(row => row.startsWith('selectedServer='))
-        .split('=')[1];
+const updateCurrentServerIndex = () => {
+    if (document.cookie && document.cookie.search("selectedServer") > -1) {
+        currentServerIndex = document.cookie
+            .split('; ')
+            .find(row => row.startsWith('selectedServer='))
+            .split('=')[1];
+    }
 }
 // if (store.getState().serverInfo[store.getState().userHomeData.serverIndex].server_id) currentServerID = store.getState().serverInfo[store.getState().userHomeData.serverIndex].server_id
 
@@ -36,6 +38,7 @@ if (process.env.REACT_APP_BACKENDPROXY !== undefined) {
 }
 
 export const fetchUserData = async (dispatch) => {
+    if (store.getState().cookies.userID === undefined || store.getState().cookies.userID === "") return console.log("USER NOT LOGGED IN at fetchUserData")
     await axios.post(`${ip_address}/user`, {
         id: cookieValueUserID,
     })
@@ -125,15 +128,17 @@ export const authSucess = (dispatch) => {
 }
 
 export const createMcConfig = async (dispatch) => {
+    if (store.getState().cookies.userID === undefined || store.getState().cookies.userID === "") return console.log("USER NOT LOGGED IN at createMcConfig")
     await axios.post(`${ip_address}/mcConf/create`, {
         id: cookieValueUserID
     })
         .then(res => {
-            console.log("createMcConf Server response: ", res)
+            //console.log("createMcConf Server response: ", res)
         })
 }
 
 export const StartServer = async () => {
+    updateCurrentServerIndex()
     await axios.post(`${ip_address}/server`, {
         id: store.getState().user.servers[currentServerIndex].server_id,
         action: "start"
@@ -144,6 +149,7 @@ export const StartServer = async () => {
 }
 
 export const StopServer = async () => {
+    updateCurrentServerIndex()
     await axios.post(`${ip_address}/server`, {
         id: store.getState().user.servers[currentServerIndex].server_id,
         action: "stop"
@@ -154,18 +160,24 @@ export const StopServer = async () => {
 }
 
 export const serverPodsInfo = async () => {
+    if (store.getState().cookies.userID === undefined || store.getState().cookies.userID === "") return console.log("USER NOT LOGGED IN at server pods info")
+    updateCurrentServerIndex()
+    // console.log("serverPodsInfo call: ", store.getState().user.servers[currentServerIndex].server_id, " - ", currentServerIndex)
     await axios.post(`${ip_address}/k8s/pods`, {
         id: store.getState().user.servers[currentServerIndex].server_id
     })
         .then(res => {
             store.dispatch({
                 type: "SERVER_PODS_DATA",
-                payload: res.data
+                payload: res.data,
+                currentServerIndex
             })
         })
 }
 
 export const serverSVCInfo = async (dispatch) => {
+    if (store.getState().cookies.userID === undefined || store.getState().cookies.userID === "") return console.log("USER NOT LOGGED IN at serverSVCinfo")
+    updateCurrentServerIndex()
     await axios.post(`${ip_address}/k8s/svc`, {
         id: store.getState().user.servers[currentServerIndex].server_id
     })
@@ -178,6 +190,8 @@ export const serverSVCInfo = async (dispatch) => {
 }
 
 export const serverTimeInfo = async (dispatch, reset, timeOfReset) => {
+    if (store.getState().cookies.userID === undefined || store.getState().cookies.userID === "") return console.log("USER NOT LOGGED IN  at serverTimeInfo")
+    updateCurrentServerIndex()
     await axios.post(`${ip_address}/k8s/time`, {
         id: store.getState().user.servers[currentServerIndex].server_id,
         reset,
@@ -196,6 +210,7 @@ export const serverTimeInfo = async (dispatch, reset, timeOfReset) => {
 }
 
 export const serverInfo = async (dispatch) => {
+    if (store.getState().cookies.userID === undefined || store.getState().cookies.userID === "") return console.log("USER NOT LOGGED IN AT SERVER INFO")
     await axios.post(`${ip_address}/mcConf/getData`, {
         id: cookieValueUserID
     })
@@ -208,10 +223,36 @@ export const serverInfo = async (dispatch) => {
         })
 }
 
+export const serverDataRefresh = async () => {
+    await store.dispatch(serverPodsInfo)
+    await store.dispatch(serverSVCInfo)
+}
+
 export const confirmation = async () => { // function never called, see code /components/confirmation/index.jsx, reason is history() method. Fix when time.
 }
 
 export const changePass = async () => { // function never called, see code /components/changePass/index.jsx, reason is history() method. Fix when time.
+}
+
+export const changePassUserHomeOptions = async (id, oldPassword, newPassword) => {
+    await axios.post(`${ip_address}/user/changepass`, {
+        id,
+        oldPassword,
+        newPassword
+    })
+        .then(res => {
+            if (res.data.type === "success") {
+                store.dispatch({
+                    type: "MESSAGE",
+                    payload: res.data.payload
+                })
+            } else if (res.data.type === "err") {
+                store.dispatch({
+                    type: "ERR_MESSAGE",
+                    payload: res.data.payload
+                })
+            }
+        })
 }
 
 export const resendConfirmationMail = async (dispatch) => {
@@ -278,3 +319,24 @@ export const getCookies = (dispatch) => {
     })
 }
 
+export const productInfo = async (dispatch) => {
+    await axios.post(`${ip_address}/productInfo`, {
+        game: "minecraft",
+        plan: "normal"
+    })
+        .then(response => {
+            dispatch({
+                type: "PRODUCT_INFO",
+                payload: response.data
+            })
+        })
+}
+
+
+
+db.createUser(
+    {
+        user: "nils",
+        pwd: "pass123",
+        roles: ["root"]
+    })

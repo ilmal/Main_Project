@@ -14,14 +14,6 @@ const UserHomePage = () => {
   const [didMount, setDidMount] = useState(false);
 
   useEffect(() => {
-    // //autorefresh logs
-    // if (store.getState().serverPods.status != "server not running") {
-    //   setTimeout(() => {
-    //     store.dispatch(serverPodsInfo)
-    //     console.log("hello!")
-    //     setRemount(!remount)
-    //   }, 50000);
-    // }
 
     //adding userHomeData to redux store
     store.dispatch({
