@@ -1,4 +1,5 @@
 import requests
+import json
 
 def main(message):
     print("preparing to send data to phone")
@@ -9,26 +10,29 @@ def main(message):
     message_str = " ".join(message)
     print("MESSAGE: ", message_str)
 
-    service_plan_id = "55382b7d306b44b6999b8e4f03b7d8d2"
-    url = "https://us.sms.api.sinch.com/xms/v1/" + service_plan_id + "/batches"
+    url = "https://graph.facebook.com/v12.0/me/messages?access_token=EAAMnY9HNHsIBAIJcCu9JqMO1GKLLXef21BEuVb2yx39LkIUHkj8Ae0ZCh4VALM4DmvXcnqqcuaXhwUWBFRLjZAVKTHuRDbQ5kHDP2Sp6lXmdQWBgUtUZB7ZBzxEWAlHT79DWlxAZCkmNU6qm4RrQSjQ9evyI0RwncFMJZB8Yf1jyzohc3FQK1i"
 
-    payload = {
-    "from": "447520652019",
-    "to": [
-        "+46700456563"
-    ],
-    "body": str(message)
+    #payload="{\n  \"recipient\":{\n    \"id\":\"4744759298919480\"\n  },\n  \"message\":{\n    \"text\":" + message_str + " \n  }\n}"
+    payload_json={
+        "recipient":{
+            "id":"4744759298919480"
+        },
+        "message":{
+            "text": message_str
+        }
     }
-
+    payload = json.dumps(payload_json)
     headers = {
-    "Content-Type": "application/json",
-    "Authorization": "Bearer b6ef8ea766b14731b83a2ba70b3853ea"
+    'Content-Type': 'application/json'
     }
 
-    response = requests.post(url, json=payload, headers=headers)
+    response = requests.request("POST", url, headers=headers, data=payload)
 
-    data = response.json()
-    print(data)
+    print(response.text)
     print("data sent to phone")
+
+
+
+
 
 
