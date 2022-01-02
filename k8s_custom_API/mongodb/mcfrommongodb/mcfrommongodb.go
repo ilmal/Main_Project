@@ -25,6 +25,8 @@ func McFromMongoDB(minecraftCommand string, mongoID string) {
 	client, err := mongo.NewClient(options.Client().
 		ApplyURI("mongodb://nils:pass123@192.168.3.122:31007/?authSource=admin&appname=MongoDB&connect=direct&readPreference=primary"))
 
+	println("connecting to mongodb")
+
 	// creating context
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()
@@ -33,6 +35,8 @@ func McFromMongoDB(minecraftCommand string, mongoID string) {
 		log.Fatal(err)
 	}
 	defer client.Disconnect(ctx)
+
+	println("connected to db")
 
 	// printing out from collections
 	minecraftConfig := client.Database("minecraftConfig")
@@ -46,6 +50,9 @@ func McFromMongoDB(minecraftCommand string, mongoID string) {
 	if err != nil {
 		log.Fatal(err)
 	}
+
+	println("mongo schema found, passing values...")
+
 	// redefining variables
 	var (
 		pvc        = result.Pvc

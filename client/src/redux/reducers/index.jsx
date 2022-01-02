@@ -1,8 +1,7 @@
-import { combineReducers } from "redux"
-
 const initailState = {
     user: "default",
     auth: null,
+    resetLogin: false,
     serverPods: "default",
     serverSVC: "default",
     serverTIME: {
@@ -10,18 +9,13 @@ const initailState = {
         timeLeft: 0,
         serverShutDown: false
     },
-    env: [
-        { name: "", value: "" },
-        { name: "", value: "" },
-        { name: "", value: "" },
-        { name: "", value: "" },
-        { name: "", value: "" },
-        { name: "", value: "" },
-        { name: "", value: "" },
-        { name: "", value: "" }
-    ],
+    serverInfo: {},
+    userHomeData: null,
     errMessage: false,
-    message: false
+    message: false,
+    querySelectors: false,
+    cookies: false,
+    productInfo: null
 }
 
 const Reducer = (state = initailState, action) => {
@@ -34,11 +28,13 @@ const Reducer = (state = initailState, action) => {
         case "AUTH_SUCCESS":
             return {
                 ...state,
-                auth: action.payload
+                auth: action.payload.auth,
+                resetLogin: action.payload.resetLogin
             }
         case "LOGIN":
             document.cookie = `loginAuth=${action.payload.loginAuth};path=/`
             document.cookie = `userID=${action.payload.userID};path=/`
+            break;
         case "SERVER_PODS_DATA":
             return {
                 ...state,
@@ -54,10 +50,15 @@ const Reducer = (state = initailState, action) => {
                 ...state,
                 serverTIME: action.payload
             }
-        case "MC_CONF_GET_DATA":
+        case "SERVER_INFO":
             return {
                 ...state,
-                env: action.payload.env
+                serverInfo: action.payload
+            }
+        case "USER_HOME_DATA":
+            return {
+                ...state,
+                userHomeData: action.payload
             }
         case "ERR_MESSAGE":
             return {
@@ -79,9 +80,20 @@ const Reducer = (state = initailState, action) => {
                 ...state,
                 message: false
             }
-        case "DUMP":
+        case "QUARY_SELECTOR":
             return {
                 ...state,
+                querySelectors: action.payload
+            }
+        case "SET_COOKIES":
+            return {
+                ...state,
+                cookies: action.payload
+            }
+        case "PRODUCT_INFO":
+            return {
+                ...state,
+                productInfo: action.payload
             }
         default:
             return {

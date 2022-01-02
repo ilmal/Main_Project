@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: swim-calc
+  namespace: swimcalc
+  labels:
+    app: swim-calc
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: swim-calc
+  template:
+    metadata:
+      labels:
+        app: swim-calc
+    spec:
+      containers:
+      - name: swim-calc
+        image: ilmal/79y47fqy43f7ryf349r4jm7yf5943-swimcalc:latest
+        ports:
+        - containerPort: 30100
+      nodeSelector:
+        type: web
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: swimcalc
+  namespace: swimcalc
+  labels:
+    app: swimcalc
+spec:
+  selector:
+    app: swim-calc
+  type: NodePort
+  ports:
+  - nodePort: 30100
+    port: 30100
+    targetPort: 30100
+    protocol: TCP
+

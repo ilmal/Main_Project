@@ -2,6 +2,8 @@
 
 import os
 
+# Edit for the package.json file to change the backend proxy
+
 file_to_edit = "package.json"
 
 os.system("echo opening file")
@@ -25,6 +27,8 @@ fin = open(file_to_edit, "rt")
 print(fin.read())
 
 fin.close()
+
+# edit the stripe key from dev to live
 
 file_to_edit = "src/pages/serverCreate/minecraft/minecraft.jsx"
 

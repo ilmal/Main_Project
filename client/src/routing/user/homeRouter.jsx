@@ -37,15 +37,15 @@
 //         </dir>
 //     );
 // }
- 
+
 // export default UserHome;
 
 import UserHomePage from "../../pages/userHome"
 
-const UserHomeRouter = ()=>{
+const UserHomeRouter = () => {
     return (
-        <UserHomePage/>
+        <UserHomePage />
     )
 }
 
-export default UserHomePage
+export default UserHomeRouter

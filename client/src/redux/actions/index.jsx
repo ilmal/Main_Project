@@ -17,13 +17,28 @@ if (document.cookie && document.cookie.search("loginAuth") > -1) {
         .split('=')[1];
 }
 
+// ------------------------------------------------------------------- THIS BELOW IS CURRENTLY NEEDING FIXING --------------------------------
+
+let currentServerIndex = 0
+const updateCurrentServerIndex = () => {
+    if (document.cookie && document.cookie.search("selectedServer") > -1) {
+        currentServerIndex = document.cookie
+            .split('; ')
+            .find(row => row.startsWith('selectedServer='))
+            .split('=')[1];
+    }
+}
+// if (store.getState().serverInfo[store.getState().userHomeData.serverIndex].server_id) currentServerID = store.getState().serverInfo[store.getState().userHomeData.serverIndex].server_id
+
+
 //setting ip_address to nothing if else isn't specified
 let ip_address = ""
-if (process.env.REACT_APP_BACKENDPROXY != undefined) {
+if (process.env.REACT_APP_BACKENDPROXY !== undefined) {
     ip_address = process.env.REACT_APP_BACKENDPROXY
 }
 
 export const fetchUserData = async (dispatch) => {
+    if (store.getState().cookies.userID === undefined || store.getState().cookies.userID === "") return console.log("USER NOT LOGGED IN at fetchUserData")
     await axios.post(`${ip_address}/user`, {
         id: cookieValueUserID,
     })
@@ -38,7 +53,7 @@ export const fetchUserData = async (dispatch) => {
 export const login = (name, pass, dispatch) => {
     axios.post(`${ip_address}/user/login`, {
         withCredentials: true,
-        name: name,
+        name: name.toLowerCase(),
         password: pass
     }).then(async (response) => {
         if (response.data.message === "Success!") {
@@ -63,14 +78,16 @@ export const login = (name, pass, dispatch) => {
 }
 
 export const signup = async (name, email, password, dispatch) => {
+    console.log("sending req to signup")
     axios.post(`${ip_address}/user/insert`, {
         data: {
-            name,
-            email,
+            name: name.toLowerCase(),
+            email: email.toLowerCase(),
             password
         }
     })
         .then(async (response) => {
+            console.log("response from signup")
             if (response.data === "User created") {
                 login(name, password, dispatch)
                 dispatch({
@@ -99,7 +116,7 @@ export const checkUserAuth = async (dispatch) => {
         .then(response => {
             dispatch({
                 type: "AUTH_SUCCESS",
-                payload: response.data.auth
+                payload: response.data
             })
         })
 }
@@ -111,55 +128,58 @@ export const authSucess = (dispatch) => {
 }
 
 export const createMcConfig = async (dispatch) => {
+    if (store.getState().cookies.userID === undefined || store.getState().cookies.userID === "") return console.log("USER NOT LOGGED IN at createMcConfig")
     await axios.post(`${ip_address}/mcConf/create`, {
         id: cookieValueUserID
     })
         .then(res => {
-            dispatch({
-                type: "DUMP"
-            })
+            //console.log("createMcConf Server response: ", res)
         })
 }
 
-export const StartServer = async (dispatch) => {
+export const StartServer = async () => {
+    updateCurrentServerIndex()
     await axios.post(`${ip_address}/server`, {
-        id: cookieValueUserID,
+        id: store.getState().user.servers[currentServerIndex].server_id,
         action: "start"
     })
         .then(res => {
-            dispatch({
-                type: "DUMP"
-            })
+            console.log("StartServer Server response: ", res)
         })
 }
 
-export const StopServer = async (dispatch) => {
+export const StopServer = async () => {
+    updateCurrentServerIndex()
     await axios.post(`${ip_address}/server`, {
-        id: cookieValueUserID,
+        id: store.getState().user.servers[currentServerIndex].server_id,
         action: "stop"
     })
         .then(res => {
-            dispatch({
-                type: "DUMP"
-            })
+            console.log("StopServer Server response: ", res)
         })
 }
 
 export const serverPodsInfo = async () => {
+    if (store.getState().cookies.userID === undefined || store.getState().cookies.userID === "") return console.log("USER NOT LOGGED IN at server pods info")
+    updateCurrentServerIndex()
+    // console.log("serverPodsInfo call: ", store.getState().user.servers[currentServerIndex].server_id, " - ", currentServerIndex)
     await axios.post(`${ip_address}/k8s/pods`, {
-        id: cookieValueUserID
+        id: store.getState().user.servers[currentServerIndex].server_id
     })
         .then(res => {
             store.dispatch({
                 type: "SERVER_PODS_DATA",
-                payload: res.data
+                payload: res.data,
+                currentServerIndex
             })
         })
 }
 
 export const serverSVCInfo = async (dispatch) => {
+    if (store.getState().cookies.userID === undefined || store.getState().cookies.userID === "") return console.log("USER NOT LOGGED IN at serverSVCinfo")
+    updateCurrentServerIndex()
     await axios.post(`${ip_address}/k8s/svc`, {
-        id: cookieValueUserID
+        id: store.getState().user.servers[currentServerIndex].server_id
     })
         .then(res => {
             dispatch({
@@ -170,8 +190,10 @@ export const serverSVCInfo = async (dispatch) => {
 }
 
 export const serverTimeInfo = async (dispatch, reset, timeOfReset) => {
+    if (store.getState().cookies.userID === undefined || store.getState().cookies.userID === "") return console.log("USER NOT LOGGED IN  at serverTimeInfo")
+    updateCurrentServerIndex()
     await axios.post(`${ip_address}/k8s/time`, {
-        id: cookieValueUserID,
+        id: store.getState().user.servers[currentServerIndex].server_id,
         reset,
         timeOfReset
     })
@@ -187,22 +209,50 @@ export const serverTimeInfo = async (dispatch, reset, timeOfReset) => {
         })
 }
 
-export const mcConfGetData = async (dispatch) => {
+export const serverInfo = async (dispatch) => {
+    if (store.getState().cookies.userID === undefined || store.getState().cookies.userID === "") return console.log("USER NOT LOGGED IN AT SERVER INFO")
     await axios.post(`${ip_address}/mcConf/getData`, {
         id: cookieValueUserID
     })
         .then(res => {
+            console.log("SERVER_INFO DATA: ", res.data)
             dispatch({
-                type: "MC_CONF_GET_DATA",
+                type: "SERVER_INFO",
                 payload: res.data
             })
         })
+}
+
+export const serverDataRefresh = async () => {
+    await store.dispatch(serverPodsInfo)
+    await store.dispatch(serverSVCInfo)
 }
 
 export const confirmation = async () => { // function never called, see code /components/confirmation/index.jsx, reason is history() method. Fix when time.
 }
 
 export const changePass = async () => { // function never called, see code /components/changePass/index.jsx, reason is history() method. Fix when time.
+}
+
+export const changePassUserHomeOptions = async (id, oldPassword, newPassword) => {
+    await axios.post(`${ip_address}/user/changepass`, {
+        id,
+        oldPassword,
+        newPassword
+    })
+        .then(res => {
+            if (res.data.type === "success") {
+                store.dispatch({
+                    type: "MESSAGE",
+                    payload: res.data.payload
+                })
+            } else if (res.data.type === "err") {
+                store.dispatch({
+                    type: "ERR_MESSAGE",
+                    payload: res.data.payload
+                })
+            }
+        })
 }
 
 export const resendConfirmationMail = async (dispatch) => {
@@ -242,3 +292,51 @@ export const updatePassMail = async (dispatch, email) => {
             }
         })
 }
+
+export const getQuaryParams = (dispatch) => {
+    const urlSearchParams = new URLSearchParams(document.location.search)
+    const params = Object.fromEntries(urlSearchParams.entries());
+    dispatch({
+        type: "QUARY_SELECTOR",
+        payload: params
+    })
+}
+
+export const getCookies = (dispatch) => {
+    const cookieObject = {}
+    const cookieString = document.cookie
+    const cookieArray = cookieString.split(";")
+    cookieArray.forEach((element) => {
+        const elementArray = element.split("=")
+        if (elementArray[0].charAt(0) === " ") {
+            elementArray[0] = elementArray[0].slice(1)
+        }
+        cookieObject[elementArray[0]] = elementArray[1]
+    })
+    dispatch({
+        type: "SET_COOKIES",
+        payload: cookieObject
+    })
+}
+
+export const productInfo = async (dispatch) => {
+    await axios.post(`${ip_address}/productInfo`, {
+        game: "minecraft",
+        plan: "normal"
+    })
+        .then(response => {
+            dispatch({
+                type: "PRODUCT_INFO",
+                payload: response.data
+            })
+        })
+}
+
+
+
+// db.createUser(
+//     {
+//         user: "nils",
+//         pwd: "pass123",
+//         roles: ["root"]
+//     })

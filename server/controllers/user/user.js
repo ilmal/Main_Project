@@ -3,13 +3,16 @@ var ObjectId = require('mongodb').ObjectID;
 
 const User = require("../../models/user/config.model")
 
-const Products = require("../../models/user/config.modelProducts")
-
 router.post("/", async (req, res) => {
-    const oid = ObjectId(req.body.id)
 
+    if (!req.body.id) return res.send("no user id (at server user.user)")
+    console.log("req.body.id: ", req.body.id)
+    const oid = ObjectId(req.body.id)
+    console.log("OID: ", oid)
     // if email exists
-    const user = await User.findOne({ _id: oid })
+    const user = await User.findOne({
+        _id: ObjectId(req.body.id)
+    })
     if (!user || user === "null") {
         console.log("user does not exist (/user/user.js)")
         res.send("This user doesn't exist")
@@ -17,7 +20,9 @@ router.post("/", async (req, res) => {
         console.log("You are: ", user.name)
         res.send({
             name: user.name,
-            email: user.email
+            email: user.email,
+            past_servers: user.past_servers,
+            servers: user.servers
         })
     }
 })

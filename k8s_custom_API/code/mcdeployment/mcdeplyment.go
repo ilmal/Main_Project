@@ -35,7 +35,6 @@ func McDeleteDeployment(mongoID string) {
 	}
 
 	// Setting up client
-
 	client, err := dynamic.NewForConfig(config)
 	if err != nil {
 		panic(err)

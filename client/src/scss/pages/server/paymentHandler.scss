@@ -1,0 +1,98 @@
+.paymentHandlerMainContainer{
+    position: fixed;
+    left: 0;
+    top: 10%;
+    width: 100%;
+    height: 65vh;
+    display: flex;
+    justify-content: center;
+    .paymentHandlerInnerContainer{
+        width: 50%;
+        background-color: $backgroundColor;
+        height: 100%;
+        border-radius: 10px;
+        display: grid;
+        grid-template-columns: 22% 56% 22%;
+        grid-template-rows: 25% 10% 55% 10%;
+        .paymentHandlerHeader{
+            grid-column: 2/3;
+            grid-row: 1/2;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            span{
+                color: rgba($color: $blueColor, $alpha: .7);
+                font-size: 2rem;
+            }
+        }
+        .paymentHandlerHeaderDivider{
+            grid-column: 2/3;
+            grid-row: 2/3;
+            width: 25%;
+            height: 50%;
+            justify-self: center;
+            align-self: start;
+            margin-top: -1rem;
+            border-top: 1px solid rgba($color: #fff, $alpha: .3);
+        }
+        .paymentHandlerCreatePassContainer{
+            grid-row: 3/4;
+            grid-column: 2/3;
+            display: grid;
+            grid-template-columns: 100%;
+            grid-template-rows: 20% 40% 40%;
+            .paymentHandlerCreatePassHeader{
+                grid-column: 1/2;
+                grid-row: 1/2;
+                color: rgba($color: #fff, $alpha: .7);
+                font-size: 1.6rem;
+            }
+            .paymentHandlerPassContainer{
+                display: flex;
+                flex-direction: column;
+                justify-content: space-around;
+                @mixin paymentHandlerInputDefaults{
+                    grid-column: 1/2;
+                    span{
+                        font-size: 1.3rem;
+                    }
+                }
+                .paymentHandlerInput1{
+                    @include inputDefaults($blueColor, 70%, 1.3rem, 150%);
+                    @include paymentHandlerInputDefaults();
+                    grid-row: 2/3;
+                }
+                .paymentHandlerInput2{
+                    @include inputDefaults($blueColor, 70%, 1.3rem, 150%);
+                    @include paymentHandlerInputDefaults();
+                    grid-row: 3/4;
+                }
+            }
+            button{
+                justify-self: start;
+                align-self: center;
+                width: 70%;
+                height: 45%;
+                border: none;
+                outline: none;
+                border-radius: 10px;
+                background-color: rgba($color: $blueColor, $alpha: .3);
+                color: rgba($color: $blueColor, $alpha: .7);
+                font-size: 1.3rem;
+                transition: all .5s ease;
+                &:hover{
+                    transform: scale(100.5%);
+                    background-color: rgba($color: $blueColor, $alpha: .4);
+                    color: rgba($color: $blueColor, $alpha: .9);
+                }
+            }
+            .paymentHandlerCreatePassToLogin{
+                color: rgba($color: #fff, $alpha: .7);
+                transition: all ease .5s;
+                &:hover{
+                    color:rgba($color: $blueColor, $alpha: .7);
+                }
+            }
+        }
+    }
+}

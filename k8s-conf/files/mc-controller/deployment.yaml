@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: mc-controller
+  name: mccontroller-deployment
+  labels:
+    app: mccontroller
+spec:
+  selector:
+    matchLabels:
+      app: mccontroller
+  template:
+    metadata:
+      labels:
+        app: mccontroller
+    spec:
+      containers:
+      - name: mccontroller
+        image: ilmal/09n754y60959360m53v8754ymn9305n76_mc-k8s-controller:latest
+        ports:
+        - containerPort: 4000

@@ -2,110 +2,166 @@ const express = require("express");
 const router = express.Router();
 const Config = require("../../models/minecraftConfig/config.model")
 const User = require("../../models/user/config.model")
-const bodyParser = require("body-parser");
-
+const UserProducts = require("../../models/user/config.modelProducts")
+var ObjectId = require('mongodb').ObjectID;
 const YAML = require('js-yaml');
 const fs = require("fs")
 
-router.post("/", async (req, res) => {
+const errPath = "controllers.mcConf.create.js"
 
-  try {
-    // Checking if config is duplicate
-    const duplicateConf = await Config.findOne({ id: req.body.id })
-    console.log("sentID: ", req.body.id)
-    if (duplicateConf) {
-      throw "config is duplicate"
-    }
-    //getting yaml files
-    const deploymentRaw = fs.readFileSync(__dirname + "/minecraftDeployment.yaml");
-    const pvcRaw = fs.readFileSync(__dirname + "/minecraftPVC.yaml");
-    const serviceRaw = fs.readFileSync(__dirname + "/minecraftService.yaml");
+const creatingUserConf = async (elementMap, user) => {
+  // converting element map to obj
+  let element = Array.from(elementMap).reduce((element, [key, value]) => (
+    Object.assign(element, { [key]: value })
+  ), {});
 
-    //loading yaml
-    const deployment = YAML.load(deploymentRaw);
-    const pvc = YAML.load(pvcRaw);
-    const service = YAML.load(serviceRaw);
 
-    /*-------------------
-    Getting a port number
-    -------------------*/
+  // //getting yaml files
+  const deploymentRaw = fs.readFileSync(__dirname + "/minecraftDeployment.yaml");
+  const pvcRaw = fs.readFileSync(__dirname + "/minecraftPVC.yaml");
+  const serviceRaw = fs.readFileSync(__dirname + "/minecraftService.yaml");
 
-    const findPortNumber = async () => {
-      for (let i = 30001; i < 31000; i++) {
-        const findUser = await Config.findOne({ portNumber: i }).catch(err => {
-          console.log("ERROR1234: ", err)
-        })
-        if (!findUser) {
-          return i
-        }
+  //loading yaml
+  const deployment = YAML.load(deploymentRaw);
+  const pvc = YAML.load(pvcRaw);
+  const service = YAML.load(serviceRaw);
+
+  // getting port number
+  const findPortNumber = async () => {
+    for (let i = 30001; i < 31000; i++) {
+      const findUser = await Config.findOne({ portNumber: i }).catch(err => {
+        console.log("Error getting portnumber at mcConf.create.findPortNumber():", err)
+      })
+      if (!findUser) {
+        return i
       }
     }
-
-    const realPortNumber = await Promise.resolve(findPortNumber())
-
-    /*------------------
-    changing yaml values
-    ------------------*/
-
-    //--- creating pvc yaml ---
-
-    //inserting values
-    pvc.metadata.name = req.body.id
-
-    //--- creating deployment yaml ---
-
-    // getting user name
-    const user = await User.findOne({ _id: req.body.id })
-    if (!user) {
-      throw "no user found"
-    }
-    const userName = user.name
-
-    //inserting values
-
-    deployment.metadata.name = req.body.id
-    deployment.spec.selector.matchLabels.app = req.body.id
-    deployment.spec.template.metadata.labels.app = req.body.id
-    deployment.spec.template.spec.volumes[0].persistentVolumeClaim.claimName = req.body.id
-
-    deployment.spec.template.spec.containers[0].env[4].value = `${userName}Server`
-
-    //--- creating service yaml ---
-    //creating a acceptable service name
-    const serviceName = req.body.id.replace(/[0-9]/g, 'a')
-
-    //inserting values
-    service.metadata.name = serviceName
-    service.metadata.labels.app = req.body.id
-    service.spec.selector.app = req.body.id
-    service.spec.ports[0].nodePort = realPortNumber
-
-    //dumping yaml
-    const deploymentStr = YAML.dump(deployment);
-    const pvcStr = YAML.dump(pvc);
-    const serviceStr = YAML.dump(service);
-
-    const mcConf = new Config({
-      id: req.body.id,
-      portNumber: realPortNumber,
-      pvc: pvcStr,
-      deployment: deploymentStr,
-      service: serviceStr
-    })
-
-    await mcConf.save((err, doc) => {
-      if (!err) {
-        console.log("saving...")
-        console.log("saved!")
-      } else {
-        console.log("Error occured during record insertion: ", err);
-      }
-    });
-
-  } catch (err) {
-    console.log(err);
   }
 
+  //inserting values
+  pvc.metadata.name = element.server_id
+  deployment.metadata.name = element.server_id
+  deployment.spec.selector.matchLabels.app = element.server_id
+  deployment.spec.template.metadata.labels.app = element.server_id
+  deployment.spec.template.spec.volumes[0].persistentVolumeClaim.claimName = element.server_id
+  deployment.spec.template.spec.containers[0].env[4].value = `${user.name}Server`
+  // const serviceName = element.server_id.replace(/[0-9]/g, 'a')
+  service.metadata.name = element.server_id.split("-")[0]
+  service.metadata.labels.app = element.server_id
+  service.spec.selector.app = element.server_id
+  service.spec.ports[0].nodePort = await findPortNumber()
+
+  //inserting values dependant on the type/ teir of server
+
+  const serverTier = await UserProducts.findOne({ game: "minecraft" })
+  if (!serverTier) console.log("ERR FINDING SERVER TEIR AT: ", errPath)
+
+  const userPlanLowerCase = element.plan.toLowerCase()
+
+  console.log("userPlanLowerCase: ", serverTier.get(userPlanLowerCase).get("memoryReq"))
+
+  if (userPlanLowerCase === "premuim") {
+    return console.log("ERR WITH SELECTED SERVER = PREMIUM => NOT SUPPORTED: ", errPath)
+  }
+
+  const memoryReq = serverTier.get(userPlanLowerCase).get("memoryReq")
+  const cpuReq = serverTier.get(userPlanLowerCase).get("cpuReq")
+  const memoryLim = serverTier.get(userPlanLowerCase).get("memoryLim")
+  const cpuLim = serverTier.get(userPlanLowerCase).get("cpuLim")
+
+
+  // switch (user.plan) {
+  //   case "BASIC":
+  //     memoryReq = "1Gi"
+  //     cpuReq = "500"
+  //     memoryLim = "1Gi"
+  //     cpuLim = "1000"
+  //     break;
+  //   case "NORMAL":
+  //     memoryReq = "2Gi"
+  //     cpuReq = "1000"
+  //     memoryLim = "2Gi"
+  //     cpuLim = "2000"
+  //     break;
+  //   case "PREMIUM":
+  //     console.log("ERR WITH SELECTED SERVER = PREMIUM => NOT SUPPORTED: ", errPath)
+  //     break;
+  //   default:
+  //     console.log("ERR WITH INSERTING VALUES FOR SERVER TEIR AT: ", errPath)
+  //     break;
+  // }
+
+  deployment.spec.template.spec.containers[0].resources.requests.memory = memoryReq // docker limit
+  deployment.spec.template.spec.containers[0].resources.requests.cpu = cpuReq       // docker limit
+  deployment.spec.template.spec.containers[0].resources.limits.memory = memoryLim   // docker limit
+  deployment.spec.template.spec.containers[0].resources.limits.cpu = cpuLim         // docker limit
+  deployment.spec.template.spec.containers[0].env[11].value = memoryReq             // minecraft limit
+
+  //dumping yaml
+  const deploymentStr = YAML.dump(deployment);
+  const pvcStr = YAML.dump(pvc);
+  const serviceStr = YAML.dump(service);
+
+  const mcConf = new Config({
+    id: element.server_id,
+    portNumber: await findPortNumber(),
+    pvc: pvcStr,
+    deployment: deploymentStr,
+    service: serviceStr
+  })
+
+  await mcConf.save((err, doc) => {
+    if (!err) {
+      console.log("saving...")
+      console.log("saved!")
+    } else {
+      console.log("Error occured during record insertion: ", err);
+    }
+  });
+
+}
+
+router.post("/", async (req, res) => {
+
+  /*
+    what needs to be done:
+
+    the server id is saved to the user database. I need to extract the data from the user database at every login and check if the server id
+    has a server connected to it. If not, create server, else skip. 
+
+  
+  */
+
+  // sending succes seems to work, tho, sending the err messages below doesn't work, troubleshoot!
+
+  // res.send("success")
+
+  // loading user
+  if (!req.body.id) return res.send("user id is null (at server mcConf.create())")
+  const user = await User.findOne({ _id: ObjectId(req.body.id) })
+  // cheking if user exist
+  if (!user) {
+    const errMessage = "no user found with ID: " + req.body.id
+    console.log(errMessage)
+    return res.send(errMessage)
+  }
+  // checking if user has servers
+  if (user.servers.length === 0) {
+    const errMessage = "user doesnt have any servers"
+    console.log(errMessage)
+    return res.send(errMessage)
+  }
+  user.servers.forEach(async (element) => {
+    //checking if server is already created
+    const config = await Config.findOne({ id: element.get("server_id") })
+    if (config) {
+      const errMessage = "mc-conf already exists"
+      // console.log(errMessage)
+      return
+    }
+    console.log("no config")
+    await creatingUserConf(element, user)
+  });
   res.send("success")
 })
 

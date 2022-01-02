@@ -1,10 +1,9 @@
-import react, { useState } from "react"
+import { useState } from "react"
 import axios from "axios"
 import { store } from "../index"
 
 export const MessagePage = () => {
     const [feedBack, setFeedBack] = useState("")
-    const [errMessage, seterrMessage] = useState("")
 
     const sendFeed = async (e) => {
         e.preventDefault()
@@ -86,7 +85,7 @@ export const MessagePage = () => {
                     <span>Report any problems here</span>
                 </div>
                 <form className="innerBottomContainer">
-                    <textarea id="934765yiusdf" placeholder="Share any problems here!" onChange={(e) => seterrMessage(e.target.value)} />
+                    <textarea id="934765yiusdf" placeholder="Share any problems here!" onChange={(e) => setFeedBack(e.target.value)} />
                     <button type="submit" onClick={sendErr}>Send</button>
                 </form>
             </div>

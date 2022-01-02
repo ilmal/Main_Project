@@ -39,7 +39,7 @@ const UpdatePass = () => {
             return
         }
 
-        axios.post(`${process.env.REACT_APP_BACKENDPROXY}/updatepassvalidation`, {
+        axios.post(`/updatepassvalidation`, {
             token,
             id,
             newPassword: e.target.password1.value

@@ -6,50 +6,48 @@ import Server from "../components/userHome/server";
 import Options from "../components/userHome/options";
 
 import { store } from "../index";
-import { serverPodsInfo } from "../redux/actions/"
 
 const UserHomePage = () => {
   const history = useHistory();
-  const [page, setPage] = useState(["server"]);
   const [userData, setUserData] = useState([store.getState()]);
 
   const [didMount, setDidMount] = useState(false);
 
   useEffect(() => {
 
-    // //autorefresh logs
-    // if (store.getState().serverPods.status != "server not running") {
-    //   setTimeout(() => {
-    //     store.dispatch(serverPodsInfo)
-    //     console.log("hello!")
-    //     setRemount(!remount)
-    //   }, 50000);
-    // }
+    //adding userHomeData to redux store
+    store.dispatch({
+      type: "USER_HOME_DATA",
+      payload: {
+        serverIndex: 0,
+        sideMenuSelectedTab: "server",
+        showServerLandingPage: true
+      }
+    })
 
-    setDidMount(true);
-    return () => setDidMount(false);
-  })
-
-  if (!didMount) {
-    return null;
-  }
-
-  store.subscribe(() => {
-    setUserData(store.getState());
+    //checking if user is logged in, if not, send to home page
     if (store.getState().auth !== null && !store.getState().auth) {
       console.log("Not logged in");
       history.push("/");
       window.location.reload();
     }
-  });
 
-  const changeState = (data) => {
-    setPage(data);
-  };
+    setDidMount(true);
+    return () => setDidMount(false);
+  }, [])
+
+  if (!didMount) {
+    return null;
+  }
+
+  // subscribing to state updates
+  store.subscribe(() => {
+    setUserData(store.getState());
+  });
 
   const getPage = () => {
     let component;
-    switch (page) {
+    switch (store.getState().userHomeData.sideMenuSelectedTab) {
       case "server":
         component = <Server userData={userData} />;
         break;
@@ -65,12 +63,12 @@ const UserHomePage = () => {
 
   //auth();
   return (
-    <dir className="userHomeLayout" id="random03242jcmvmj0v23cm4">
-      <dir className="userHomesideMenu">
-        <SideMenu setState={changeState} />
-      </dir>
+    <div className="userHomeLayout" id="random03242jcmvmj0v23cm4">
+      <div className="userHomesideMenu">
+        <SideMenu />
+      </div>
       {getPage()}
-    </dir>
+    </div>
   );
 };
 

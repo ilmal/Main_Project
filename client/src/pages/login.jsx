@@ -18,17 +18,12 @@ const LoginPage = () => {
             history.push("/user/home");
             window.location.reload();
         }
-    }, [])
+    }, [history])
 
     const sendData = async (data) => {
         console.log("name: ", data.target.name.value, "pass: ", data.target.password.value)
         data.preventDefault()
         login(data.target.name.value, data.target.password.value, store.dispatch)
-    }
-
-    const toSignup = () => {
-        history.push("/user/signup");
-        window.location.reload();
     }
 
     const forgotPassFunc = () => {
@@ -52,7 +47,7 @@ const LoginPage = () => {
                     <div className="loginForm">
                         <input type="text" name="name" className="loginInput" autoComplete="off" required />
                         <label className="loginLable">
-                            <span className="loginLableValue" data-tip='test'>Name</span>
+                            <span className="loginLableValue" data-tip='test'>Name/ Email</span>
                         </label>
                     </div>
                     <div className="loginForm">
@@ -64,11 +59,10 @@ const LoginPage = () => {
                     <button type="submit" className="loginButton">submit</button>
                 </form>
                 <div className="loginLinks">
-                    <span className="loginSignUp" onClick={toSignup}>First time? Sign up!</span>
                     <span className="loginForgotPass" onClick={forgotPassFunc}>Forgot password?</span>
                 </div>
             </div>
-        </div >
+        </div>
     );
 }
 

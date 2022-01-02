@@ -1,26 +1,15 @@
 .userHomeLayout {
-  height: 110vh;
+  min-height: 110vh;
   width: 100%;
   margin-top: 3%;
   display: grid;
   grid-template-columns: 20% 5% repeat(3, 20% 5%);
   grid-template-rows: auto repeat(7, 11% 3%);
+  row-gap: 3vh;
   align-items: center;
 }
 
 /*scss for menu*/
-
-.userHomesideMenu {
-  position: fixed;
-  height: 100%;
-  margin-top: 5%;
-  width: 20%;
-  grid-column: 1 /2;
-  grid-row: 2 / 14;
-  .active{
-    color: rgba($greenColor, $alpha: 0.7)
-  }
-}
 
 .userHomeServerName {
   margin: auto;
@@ -30,7 +19,7 @@
     font-size: 50px;
     color: rgba($color: #fff, $alpha: 0.7);
     transition: all ease 1s;
-    @include green-hover;
+    @include hover($greenColor);
     animation-name: animateInAnimation;
     animation-duration: .5s;
   }
@@ -192,7 +181,7 @@ scss for the Server tab
   justify-content: space-evenly;
   align-items: center;
   span {
-    @include green-hover;
+    @include hover;
     font-size: 20px;
     color: rgba($blueColor, $alpha: 0.7);
     cursor: copy;

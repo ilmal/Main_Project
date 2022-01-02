@@ -1,42 +1,70 @@
-import { CardElement, CardNumberElement, CardExpiryElement, CardCvcElement, useElements, useStripe } from "@stripe/react-stripe-js"
-import axios from "axios"
-import { useState } from "react"
-import amexIcon from "../../images/stripe/amexIcon.svg"
-import visaIcon from "../../images/stripe/mastercardIcon.svg"
-import mastercardIcon from "../../images/stripe/visaIcon.svg"
-import cvcIcon from "../../images/stripe/cvcIcon.svg"
+// modules
+import { useState, useEffect } from "react"
+import { useHistory } from "react-router-dom";
+import axios from "axios";
 
-const CARD_OPTIONS = {
-    iconStyle: "solid",
-    type: "card",
-    style: {
-        base: {
-            iconColor: "#c4f0ff",
-            color: "#fff",
-            fontWeight: 500,
-            fontSize: "1.3rem",
-            ":-webkit-autofill": { color: "#fce883" },
-            "::placeholder": { color: "#87bbfd" }
-        },
-        invalid: {
-            iconColor: "#ffc7ee",
-            color: "#ffc7ee"
-        }
-    }
-}
+// redux
+import { store } from "../../index"
 
+// custom hooks
+import usePaymentLoginSignupHook from "./paymentLoginSignup";
 
+// custom files
+import { passFormPayment, failPayment } from "./paymentHandler"
+import { OneTimePayment } from "./payments"
 
 const ServerPlan = (props) => {
-    const [cardInfo, setCardInfo] = useState({
-        email: "",
-        cardNumber: "",
-        cardDate: "",
-        cardCVC: ""
+    // const [passForm, setpassForm] = useState("default")
+    const [passForm, setpassForm] = useState("default")
+    const [initalPageLoad, setInitalPageLoad] = useState(true)
+    const [calcRefPrice, setCalcRefPrice] = useState(props.values.price)
+    const [discountPercentage, setDiscountPercentage] = useState(0)
+
+    // redux
+    const [userData, setUserData] = useState(store.getState())
+
+    // history
+    const history = useHistory();
+
+    //customHook
+    const paymentLoginSignupHook = usePaymentLoginSignupHook();
+
+    store.subscribe(() => {
+        setUserData(store.getState());
+    });
+
+    // enable disable scroll paymentHandler
+    useEffect(() => {
+        if (passForm != "default") {
+            document.body.style.overflow = "hidden"
+        } else if (passForm === "default") {
+            document.body.style.overflow = "scroll"
+        }
+    }, [passForm])
+
+    // checking if price should have discount
+    useEffect(async () => {
+        let discount = 0
+        if (initalPageLoad) {
+            // if there is a ref in cookies, send to backend and get back discount in percent, then calculate new price with discount and parse into "calcRefPrice" state
+            if (store.getState().cookies.ref) {
+                discount = await axios.post("/stripe/getRefPrice", {
+                    ref: store.getState().cookies.ref
+                })
+                    .then(response => {
+                        return response.data
+                    })
+            }
+            console.log("REF PRICE CALCULATED: ", calcRefPrice)
+            setDiscountPercentage(discount)
+            setCalcRefPrice(parseInt(props.values.price) * (1 - (discount / 100)))
+            setInitalPageLoad(false)
+        }
     })
-    const [success, setSuccess] = useState(false)
-    const elements = useElements()
-    const stripe = useStripe()
+
+    useEffect(() => {
+        setInitalPageLoad(true)
+    }, [props.values])
 
     const paymentSelection = (value) => {
         switch (value) {
@@ -49,82 +77,41 @@ const ServerPlan = (props) => {
         }
     }
 
-    const OneTimePayment = () => {
-        const handleSubmit = async (e) => {
-            e.preventDefault()
-            const { error, paymentMethod } = await stripe.createPaymentMethod({
-                type: "card",
-                card: elements.getElement(CardNumberElement),
-                billing_details: {
-                    email: e.target.email.value
-                }
-            })
+    const paymentpassForm = () => {
 
-            if (error) {
-                console.error(error)
-                return
-            }
-            try {
-                const { id } = paymentMethod
-                const response = await axios.post("/stripe", {
-                    product: {
-                        game: "minecraft",
-                        plan: props.values.plan
-                    },
-                    id
-                })
-                if (response.data.success) {
-                    console.log('%c%s', 'color: green', "successful payment")
-                    setSuccess(true)
-                }
+    }
 
-            } catch (error) {
-                console.error(error)
-            }
+    const paymentFailure = () => {
 
-
-            console.log(paymentMethod)
-        }
-        return (
-            <form className="paymentOneTimeMainContainer" onSubmit={handleSubmit}>
-                <div className="paymentOneTimeEmail">
-                    <input type="email" name="email" placeholder="Email" autoComplete="off" required />
-                </div>
-                <div className="paymentOneTimeCardDetails1">
-                    <div className="paymentCardElementCardNumber">
-                        <div className="CardNumberElementDiv">
-                            <CardNumberElement options={CARD_OPTIONS} />
-                        </div>
-                        <div className="cardIcons">
-                            <img src={amexIcon} />
-                            <img src={visaIcon} />
-                            <img src={mastercardIcon} />
-                        </div>
-                    </div>
-
-                </div>
-                <div className="paymentOneTimeCardDetails2">
-                    <div className="paymentCardElementCardExpiry">
-                        <CardExpiryElement options={CARD_OPTIONS} />
-                    </div>
-                    <div className="paymentCardElementCardCvc">
-                        <div className="CardNumberElementDiv">
-                            <CardCvcElement options={CARD_OPTIONS} />
-                        </div>
-                        <div className="cardIcons">
-                            <img src={cvcIcon} />
-                        </div>
-                    </div>
-                </div>
-                <div className="paymentOneTimeSubmitContainer">
-                    <button type="submit">Pay</button>
-                </div>
-            </form>
-        )
     }
 
     const subscriptionPayment = () => {
 
+    }
+
+    const isLoggedInFunc = () => {
+        if (userData.auth) {
+            return (
+                OneTimePayment(props)
+            )
+        }
+        return (
+            //OneTimePayment(props)
+            paymentLoginSignupHook
+        )
+    }
+
+    const paymentHandler = () => {
+        switch (passForm) {
+            case "passForm":
+                return passFormPayment(history);
+            case "fail":
+                return failPayment();
+            case "default":
+                return null;
+            default:
+                return null;
+        }
     }
 
     return (
@@ -136,7 +123,13 @@ const ServerPlan = (props) => {
                 </div>
                 <div className={props.values.plan + " paymentInfoPriceContainer"}>
                     <span className="paymentInfoPlan">{props.values.plan}</span>
-                    <span className="paymentInfoPrice">{props.values.price}€</span>
+                    <span className="paymentInfoPrice">{calcRefPrice}€</span>
+                    {
+                        discountPercentage > 0 ?
+                            <div>
+                                <span className="paymentInfoPriceCalculationReferal">Discount from <span>{store.getState().cookies.ref.toUpperCase()}</span></span>
+                                <span className="paymentInfoPriceCalculationPrice">{props.values.price}€ - {discountPercentage}% <span className="fas fa-long-arrow-alt-right" /> {calcRefPrice}€</span>
+                            </div> : null}
                 </div>
             </div>
             <div className="paymentDataContainer">
@@ -144,12 +137,12 @@ const ServerPlan = (props) => {
                     <span>Pay</span>
                     <div className="paymentInnerHeaderSeperator" />
                 </div>
-                <OneTimePayment />
+                {isLoggedInFunc()}
                 {/* INSERT A PROPER SOLUTION TO CHOSE BETWEEN ONE TIME PAYMENT AND SUBSCRIPTION */}
                 {/* <div className="paymentInnerPaymentSelectionMain">
-
                 </div> */}
             </div>
+            {paymentHandler()}
         </>
     )
 }

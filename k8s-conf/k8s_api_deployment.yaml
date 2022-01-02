@@ -6,6 +6,12 @@ metadata:
   labels:
     app: mccontroller
 spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
   selector:
     matchLabels:
       app: mccontroller

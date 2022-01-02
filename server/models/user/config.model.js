@@ -28,8 +28,15 @@ const userSchema = new mongoose.Schema({
     },
     verified: {
         type: Boolean
+    },
+    servers: {
+        type: Array,
+        of: Map
+    },
+    past_servers: {
+        type: Array,
+        of: Map
     }
-
 
 });
 

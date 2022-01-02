@@ -2,7 +2,9 @@ const router = require("express").Router()
 let request = require('request');
 
 router.post("/", async (req, res) => {
-    let config
+    let config = null
+
+    console.log("REQ: ", req.body)
 
     if (req.body.action === "start") {
         config = {
@@ -28,9 +30,11 @@ router.post("/", async (req, res) => {
         };
     }
 
+    if (!config) console.log("ERR, CONFIG NOT DEFINED at server.controllers.server.index.js")
+
     request(config, (err, response) => {
         if (err) {
-            console.log(err)
+            console.log("ERR RESPONSE FROM CUTOM GO API at server.controllers.server.index.js", err)
         } else {
             //console.log(response)
         }

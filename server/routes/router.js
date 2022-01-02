@@ -8,7 +8,7 @@ const nodemailer = require("./nodemailer")
 const confirmationValidation = require("./confimationValidationRoutes")
 const updatePassValidation = require("./updatePassValidationRoutes")
 const stripeRouter = require("./stripeRoutes")
-
+const productInfoRouter = require("./productInfoRouter")
 
 router.use("/user", userRouter)
 router.use("/mcConf", mcConfRouter)
@@ -18,5 +18,6 @@ router.use("/nodemailer", nodemailer)
 router.use("/confirmationvalidation", confirmationValidation)
 router.use("/updatepassValidation", updatePassValidation)
 router.use("/stripe", stripeRouter)
+router.use("/productInfo", productInfoRouter)
 
 module.exports = router

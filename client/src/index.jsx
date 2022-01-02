@@ -18,7 +18,7 @@ import { TopMessage } from "./components/topMessages/index"
 
 import rootReducer from "./redux/reducers"
 
-import { fetchUserData, checkUserAuth, createMcConfig, serverPodsInfo, serverSVCInfo, mcConfGetData } from "./redux/actions/index"
+import { fetchUserData, checkUserAuth, createMcConfig, serverPodsInfo, serverSVCInfo, serverInfo, getQuaryParams, getCookies, productInfo } from "./redux/actions/index"
 
 export const store = createStore(
     rootReducer,
@@ -28,22 +28,38 @@ export const store = createStore(
 const MainComponent = () => {
     const [loading, setLoading] = useState(true)
 
-    console.log(".env: ", process.env.REACT_APP_BACKENDPROXY)
-
     React.useEffect(() => {
         (async function () {
-            await store.dispatch(fetchUserData)
-            //console.log("1")
             await store.dispatch(checkUserAuth)
-            //console.log("2")
-            await store.dispatch(createMcConfig)
-            //console.log("3")
-            await store.dispatch(serverPodsInfo)
-            //console.log("4")
-            await store.dispatch(serverSVCInfo)
-            //console.log("5")
-            await store.dispatch(mcConfGetData)
+            await store.dispatch(getQuaryParams)
+            await store.dispatch(getCookies)
+            await store.dispatch(productInfo)
+            if (store.getState().cookies.userID !== undefined && store.getState().cookies.userID !== "") { // cheking if user is logged in
+                await store.dispatch(fetchUserData)
+                if (store.getState().user.past_servers.length > 0) { // cheking if user have/ had a server
+                    await store.dispatch(createMcConfig)
+                    await store.dispatch(serverPodsInfo)
+                    await store.dispatch(serverSVCInfo)
+                    await store.dispatch(serverInfo)
+                }
+            }
             console.log("data after fetch func: ", store.getState())
+
+            // check if loginReset is true, if case, resetting cookies
+            if (store.getState().resetLogin) {
+                const cookieKey = ["loginAuth", "userID"]
+                cookieKey.forEach(element => {
+                    document.cookie = `${element}=;path=/;expires=Thu, 01 Jan 1970T00:00:00Z;`
+                })
+                store.dispatch({
+                    type: "AUTH_SUCCESS",
+                    payload: {
+                        auth: store.getState().auth,
+                        resetLogin: false
+                    }
+                })
+            }
+
             setLoading(false)
         })();
     })

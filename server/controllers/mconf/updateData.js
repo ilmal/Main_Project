@@ -4,11 +4,11 @@ const mcConf = require("../../models/minecraftConfig/config.model")
 
 router.post("/", updateData = async (req, res) => {
 
-    // if user exists
     const conf = await mcConf.findOne({ id: req.body.id })
     if (!conf) {
-        console.log("user does not exist4")
-        return res.status(400)
+        const errMessage = "config doesn't exist iwth id: " + req.body.id + " at server updateData"
+        console.log(errMessage)
+        return res.send(errMessage)
     }
 
     let deployment = YAML.load(conf.deployment)

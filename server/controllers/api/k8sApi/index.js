@@ -34,6 +34,8 @@ const logs = async (name) => {
         // join the array back into a single string
         var newtext = filterdLines.join('\n');
         return newtext
+    }).catch(err => {
+        console.log("CUSTOM_ERR at k8sApi.logs(): ", err)
     })
 }
 
@@ -82,7 +84,6 @@ router.post("/pods", async (req, res) => {
         'method': 'GET',
         'url': `${process.env.K8S_DEFAULT_API}/api/v1/namespaces/mc-servers/pods`,
     }
-
     const podStatus = await request(config).then(response => {
         const data = JSON.parse(response)
 
@@ -90,7 +91,7 @@ router.post("/pods", async (req, res) => {
         for (let i = 0; i < data.items.length; i++) {
             const element = data.items[i];
             //getting a specific pod
-            if (element.metadata.name.includes(req.body.id)) {
+            if (element.metadata.labels.app.includes(req.body.id)) {
                 if (element.status.phase === "Pending") {
                     // if k8s cluster is full
                     // exiting if pods dosn't have message
@@ -119,30 +120,33 @@ router.post("/pods", async (req, res) => {
                     queuing: false
                 }
             }
-            res.send({
-                status: "server not running",
-                logs: "server not running"
-            }).end()
         }
-        res.send({
-            status: "server not running",
-            logs: "server not running"
-        }).end()
+        return {
+            type: "err",
+            message: "server not found at: api/pods"
+        }
+    }).catch(err => {
+        console.log("CUSTOM_ERR at k8sApi.post(/pods): ", err)
     })
 
-    if (podStatus) {
-        let logsData = "server's not running at the moment (starting up)"
-        // cheking if logsData should be updated
-        if (podStatus.queuing) {
-            logsData = podStatus.queuing
-        } else if (podStatus.podName !== null) {
-            logsData = await logs(podStatus.podName)
-        }
-        res.send({
-            status: podStatus.status,
-            logs: logsData,
-        }).end()
+    if (podStatus.type === "err") {
+        // console.log("POD STATUS = FALSE: ", podStatus.message)
+        return res.send({
+            status: "server not running",
+            logs: "server not running"
+        })
     }
+    let logsData = "server's not running at the moment (starting up)"
+    // cheking if logsData should be updated
+    if (podStatus.queuing) {
+        logsData = podStatus.queuing
+    } else if (podStatus.podName !== null) {
+        logsData = await logs(podStatus.podName)
+    }
+    res.send({
+        status: podStatus.status,
+        logs: logsData,
+    })
 })
 
 router.post("/svc", (req, res) => {
@@ -151,29 +155,22 @@ router.post("/svc", (req, res) => {
         'url': `${process.env.K8S_DEFAULT_API}/api/v1/namespaces/mc-servers/services`,
     }
 
-    request(config, (err, response) => {
-        try {
-            const data = JSON.parse(response.body)
-            for (let i = 0; i < data.items.length; i++) {
-                const element = data.items[i];
-                console.log(element.metadata.labels.app)
-                if (element.metadata.labels.app.includes(req.body.id)) {
-                    console.log(element.spec.ports[0].nodePort)
-                    res.send({
-                        port: element.spec.ports[0].nodePort
-                    })
-                    res.end()
-                    throw "server SVC found, exit function"
-                }
+    request(config).then(response => {
+        const data = JSON.parse(response)
+        // must be a for loop in order to return
+        for (let i = 0; i < data.items.length; i++) {
+            const element = data.items[i];
+            if (element.metadata.labels.app.includes(req.body.id)) {
+                return res.send({
+                    port: element.spec.ports[0].nodePort
+                })
             }
-            res.send({
-                status: "server not running"
-            })
-            res.end()
-            throw "Server SVC is not running!"
-        } catch (error) {
-            //console.log(error)
         }
+        return res.send({
+            status: "server not running"
+        })
+    }).catch(err => {
+        console.log("CUSTOM_ERR at k8sApi.post(/svc): ", err)
     })
 })
 
@@ -185,6 +182,8 @@ router.post("/time", async (req, res) => {
 
     await request(config).then(response => {
         const data = JSON.parse(response)
+
+        // console.log("REQ.BODY.ID: ", req.body.id)
 
         // getting the pods
         for (let i = 0; i < data.items.length; i++) {
@@ -217,28 +216,27 @@ router.post("/time", async (req, res) => {
                 // check if the current time is more recent than the newTimeStamp, if case: the time has expired
                 if (currentTime > newTimeStamp) {
                     console.log("THE TIME HAS EXPIRED!!!!!!")
-                    res.send({
+                    return res.send({
                         timeOfReset: null,
                         timeLeft: 0,
                         serverShutDown: true
                     })
                 } else {
-                    res.send({
+                    return res.send({
 
                         timeOfReset: timeStamp,
                         timeLeft: timeLeft,
                         serverShutDown: false
                     })
                 }
-                return
             }
             console.log("server not found (/k8s/time)")
-            res.send({
+            return res.send({
                 "err": "server not running"
             })
         }
         console.log("no servers runninng (/k8s/time)")
-        res.send({
+        return res.send({
             "err": "no servers running"
         })
     })

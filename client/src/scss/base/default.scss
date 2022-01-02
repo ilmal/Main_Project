@@ -20,6 +20,7 @@
 
 $backgroundColorBack: #141618;
 $backgroundColor: #212529;
+$backgroundColorLight: #293036;
 $blueColor: #329af0;
 $greenColor: #51cf66;
 $orangeColor: #ff8100;
@@ -45,10 +46,10 @@ span, p, a, h1, h2, h3, button, input, label{
   user-select: none;
 }
 
-@mixin green-hover {
-  transition: 1s ease all;
+@mixin hover($color: $greenColor) {
+  transition: .5s ease all;
   &:hover {
-    color: rgba($greenColor, $alpha: 0.8);
+    color: rgba($color, $alpha: 0.8);
   }
 }
 
@@ -57,7 +58,7 @@ span, p, a, h1, h2, h3, button, input, label{
   100%{opacity: 1}
 }
 
-@mixin inputDefaults($colorVar: $blueColor, $width: 100%){
+@mixin inputDefaults($colorVar: $blueColor, $width: 100%, $fontSize: 1.3rem, $height: 100%){
   position: relative;
   width: $width;
   input{
@@ -65,14 +66,14 @@ span, p, a, h1, h2, h3, button, input, label{
       padding-top: 1rem;
       width: 100%;
       outline: none;
-      font-size: 1.3rem;
+      font-size: $fontSize;
       background-color: transparent;
       color: rgba($color: #fff, $alpha: 0.65);
   }
   input:focus + label span,
   input:valid + label span{
       transform: translateY(-150%);
-      font-size: 13px;
+      font-size: 1rem;
       color: rgba($color: $colorVar, $alpha: 0.5);
   }
   input:focus + label::after,
@@ -84,7 +85,7 @@ span, p, a, h1, h2, h3, button, input, label{
       position: absolute;
       bottom: 0px;
       left: 0px;
-      height: 100%;
+      height: $height;
       width: 100%;
       pointer-events: none;
       border-bottom: 1px solid rgba($color: #fff, $alpha: 0.15);
@@ -107,5 +108,38 @@ span, p, a, h1, h2, h3, button, input, label{
       border-bottom: 3px solid rgba($color: $colorVar, $alpha: 0.5);
       transform: translateX(-100%);
       transition: transform 0.5s ease;
+  }
+}
+
+@mixin inputCardStyle($width: calc(100%-2rem)){
+  color: rgba($color: #fff, $alpha: .9);
+  background-color: transparent;
+  outline: none;
+  border: solid 2px $backgroundColor;
+  border-radius: 10px;
+  width: $width;
+  font-size: 1rem;
+  font-weight: 500;
+  height: 1.3rem;
+  padding: 1rem;
+  &::placeholder{
+      color:$paymentColor;
+  }
+}
+
+@mixin inputButtonStyle($width: 100%, $height: 100%){
+  width: $width;
+  height: $height;
+  outline: none;
+  border: none;
+  padding: 1rem 0rem 1rem 0rem;
+  border-radius: 10px;
+  background-color: rgba($color: $blueColor, $alpha: .45);
+  color:rgba($color: #fff, $alpha: .7);
+  font-size: 1.3rem;
+  transition: all .5s ease;
+  &:hover{
+      transform: scale(1.01);
+      background-color: rgba($color: $blueColor, $alpha: .55);
   }
 }
