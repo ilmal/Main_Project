@@ -25,7 +25,7 @@ const SideMenu = () => {
   return (
     <div className="userHomeSideMenuLayout">
       <div className="userHomeSideMenuUName">
-        <h1>{store.getState().user.name}</h1>
+        <h1>{store.getState().user.name.charAt(0).toUpperCase() + store.getState().user.name.slice(1)}</h1>
         <div className="userHomeSideMenuUNameLine" />
       </div>
       <div className="userHomeSideMenuOptions userHomeSideMenuOptionsServer">

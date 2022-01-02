@@ -57,7 +57,7 @@ const Header = () => {
                 <div>
                     {userData.auth ?
                         <>
-                            <a onClick={() => handleClick("userHome")} >{userData.user.name}</a>
+                            <a onClick={() => handleClick("userHome")} >{store.getState().user.name.charAt(0).toUpperCase() + store.getState().user.name.slice(1)}</a>
                         </>
                         :
                         <>
