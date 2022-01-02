@@ -334,9 +334,9 @@ export const productInfo = async (dispatch) => {
 
 
 
-db.createUser(
-    {
-        user: "nils",
-        pwd: "pass123",
-        roles: ["root"]
-    })
+// db.createUser(
+//     {
+//         user: "nils",
+//         pwd: "pass123",
+//         roles: ["root"]
+//     })

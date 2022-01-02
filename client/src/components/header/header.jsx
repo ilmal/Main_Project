@@ -1,11 +1,29 @@
 import React, { useState } from 'react';
 import { useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import { store } from "../../index"
 
 const Header = () => {
+    const history = useHistory()
 
     const [userData, setUserData] = useState(store.getState())
     const [hideDemo, setHideDemo] = useState(true)
+
+    const handleClick = (source) => {
+        if (source === "userHome") {
+            if (store.getState().user.past_servers.length === 0) { // if user doesn't have any servers, throw err
+                console.log("THROW ERR")
+                store.dispatch({
+                    type: "ERR_MESSAGE",
+                    payload: "Please buy a server to access server dashboard"
+                })
+                return
+            }
+            history.push("/user/home")
+            window.location.reload()
+            return
+        }
+    }
 
     store.subscribe(() => {
         setUserData(store.getState());
@@ -39,7 +57,7 @@ const Header = () => {
                 <div>
                     {userData.auth ?
                         <>
-                            <a href="/user/home">{userData.user.name}</a>
+                            <a onClick={() => handleClick("userHome")} >{userData.user.name}</a>
                         </>
                         :
                         <>

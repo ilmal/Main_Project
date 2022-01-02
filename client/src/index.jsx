@@ -34,12 +34,14 @@ const MainComponent = () => {
             await store.dispatch(getQuaryParams)
             await store.dispatch(getCookies)
             await store.dispatch(productInfo)
-            if (store.getState().cookies.userID !== undefined && store.getState().cookies.userID !== "") {
+            if (store.getState().cookies.userID !== undefined && store.getState().cookies.userID !== "") { // cheking if user is logged in
                 await store.dispatch(fetchUserData)
-                await store.dispatch(createMcConfig)
-                await store.dispatch(serverPodsInfo)
-                await store.dispatch(serverSVCInfo)
-                await store.dispatch(serverInfo)
+                if (store.getState().user.past_servers.length > 0) { // cheking if user have/ had a server
+                    await store.dispatch(createMcConfig)
+                    await store.dispatch(serverPodsInfo)
+                    await store.dispatch(serverSVCInfo)
+                    await store.dispatch(serverInfo)
+                }
             }
             console.log("data after fetch func: ", store.getState())
 
