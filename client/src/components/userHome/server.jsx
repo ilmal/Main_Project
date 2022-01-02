@@ -177,7 +177,7 @@ const Server = () => {
     const redirectTextBlock = (returnArray) => {
       return (
         <div key="redirectTextBlockKey" style={positionCalculator(returnArray)}>
-          <span className="userHomeServerBlockSpecialText">Need a server? Head on over to the <span onClick={() => { history.push("/"); window.location.reload() }}> MAIN PAGE </span></span>
+          <span className="userHomeServerBlockSpecialText">Need another server? Head on over to the <span onClick={() => { history.push("/"); window.location.reload() }}> MAIN PAGE </span></span>
         </div>
       )
     }

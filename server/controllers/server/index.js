@@ -4,6 +4,8 @@ let request = require('request');
 router.post("/", async (req, res) => {
     let config = null
 
+    console.log("REQ: ", req.body)
+
     if (req.body.action === "start") {
         config = {
             'method': 'POST',
