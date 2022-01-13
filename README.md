@@ -13,12 +13,12 @@ This is cooliboi private project!
 - gameServer nodes = gameServer=True:NoExecute
 
 config for pods:
-´´´
+```
 tolerations:
 - key: "gameServer"
   value: "True"
   effect: "NoExecute"
-´´´
+```
 
 ## ERR
 
