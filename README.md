@@ -12,7 +12,15 @@
 - worker nodes = none
 - gameServer nodes = gameServer=True:NoExecute
 
+command for nodes:
+```
+
+kubectl taint nodes <NODE> gameServer=True:NoExecute
+
+```
+
 config for pods:
+
 ```
 tolerations:
 - key: "gameServer"
