@@ -5,6 +5,12 @@
 
 # NOTATIONS
 
+## HARWARE TODOS
+
+- the olmanode failing server: Need to change EFI/BOOT/grubx64.efi to windows "clone" (https://ubuntuforums.org/showthread.php?t=2243715). 
+- Current state is to try and change the bootloader floppy drives EFI settings and hope the server EFI clones the floppy EFI. 
+
+
 ## CLUSTER CONFIG
 
 ### TAINTS AND TOLERATIONS
