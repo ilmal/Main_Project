@@ -13,6 +13,10 @@
 
 ## CLUSTER CONFIG
 
+### K8S OFFICIAL API REFRENCES
+
+https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.19/#-strong-write-operations-deployment-v1-apps-strong-
+
 ### TAINTS AND TOLERATIONS
 
 - worker nodes = none
@@ -20,9 +24,7 @@
 
 command for nodes:
 ```
-
 kubectl taint nodes <NODE> gameServer=True:NoExecute
-
 ```
 
 config for pods:
