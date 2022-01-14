@@ -13,6 +13,10 @@
 
 ## CLUSTER CONFIG
 
+### MONGODB
+
+- Due to mongo v 5.0+ not supporting older CPUs, the mongo used is downgraded to mongo 4.4.6, see issue for further reading (https://github.com/docker-library/mongo/issues/485)
+
 ### K8S OFFICIAL API REFRENCES
 
 https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.19/#-strong-write-operations-deployment-v1-apps-strong-
