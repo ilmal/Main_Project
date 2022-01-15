@@ -17,6 +17,19 @@
 
 - Due to mongo v 5.0+ not supporting older CPUs, the mongo used is downgraded to mongo 4.4.6, see issue for further reading (https://github.com/docker-library/mongo/issues/485)
 
+#### MONGO CREATE NEW USER
+
+```
+use admin
+
+db.createUser(
+{
+    user: "nils",
+    pwd: "pass123",
+    roles: [ "root" ]
+})
+```
+
 ### K8S OFFICIAL API REFRENCES
 
 https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.19/#-strong-write-operations-deployment-v1-apps-strong-
