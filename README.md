@@ -34,7 +34,7 @@ db.createUser(
 
 https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.19/#-strong-write-operations-deployment-v1-apps-strong-
 
-### TAINTS AND TOLERATIONS
+### TAINTS AND TOLERATIONS / NODE SELECTOR
 
 - worker nodes = none
 - gameServer nodes = gameServer=True:NoExecute
@@ -52,6 +52,12 @@ tolerations:
   value: "True"
   effect: "NoExecute"
 ```
+```
+nodeSelector:
+    nameServer: "True"
+
+```
+
 
 ## ERR
 
