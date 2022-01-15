@@ -7,7 +7,7 @@ def main(message):
         print("MESSAGE SENT TO SMS.PY IS EMPTY: ERROR")
         return
 
-    message_str = " ".join(message)
+    message_str = "\n".join(message)
     print("MESSAGE: ", message_str)
 
     url = "https://graph.facebook.com/v12.0/me/messages?access_token=EAAMnY9HNHsIBAIJcCu9JqMO1GKLLXef21BEuVb2yx39LkIUHkj8Ae0ZCh4VALM4DmvXcnqqcuaXhwUWBFRLjZAVKTHuRDbQ5kHDP2Sp6lXmdQWBgUtUZB7ZBzxEWAlHT79DWlxAZCkmNU6qm4RrQSjQ9evyI0RwncFMJZB8Yf1jyzohc3FQK1i"

@@ -46,9 +46,9 @@ def getMongoDump(mongo_pod_name, df_setup):
     print("uploading file to container")
     os.system("kubectl cp -n mongo ./container_script.sh " + mongo_pod_name + ":/")
     print("file uploaded")
-    os.system("kubectl exec -it " + mongo_pod_name + " -- bash container_script.sh")
+    os.system("kubectl -n mongo exec -it " + mongo_pod_name + " -- bash container_script.sh")
     print("script executed")
-    os.system("kubectl cp " + mongo_pod_name + ":/dump " + df_setup + "/mongo-files")
+    os.system("kubectl cp -n mongo " + mongo_pod_name + ":/dump " + df_setup + "/mongo-files")
     print("dump file copied to destination folder")
 
 def compressToZip(df_setup, zipfile_output_name):
@@ -99,6 +99,20 @@ def checkSystem(zipfile_output_name):
             data.append(node + ": success")
         else:
             data.append(node + ": system failure")
+
+    # making sure all data was copied to the zip dir      
+    data.append("\n")      
+    for root, dirs, files in os.walk(destination_folder):
+        if root.count(os.sep) >= 5:
+            dirs.clear()
+            continue
+        for name in files:
+            text = os.path.join(root, name).replace("/home/nils", "")
+            data.append(text + " \n")
+        for name in dirs:
+            text = os.path.join(root, name).replace("/home/nils", "")
+            data.append(text + " \n")
+
     print("DATA: ", data)
     return data
 
@@ -151,9 +165,8 @@ def main(tf_setup, df_setup):  # tf=target_folder; df=destination_folder;
     print("waiting for code execution...")
 
     # schedule.every().day.at("22:17").do(routine)
-    schedule.every().day.at("14:22").do(routine)
+    # schedule.every().day.at("14:52").do(routine)
     schedule.every().day.at("20:00").do(routine)
-
 
     while 1:
         schedule.run_pending()
