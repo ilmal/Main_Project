@@ -2,7 +2,6 @@
 
 **This is cooliboi private project!**
 
-
 # NOTATIONS
 
 ## HARWARE TODOS
