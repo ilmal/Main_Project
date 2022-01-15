@@ -55,7 +55,6 @@ tolerations:
 ```
 nodeSelector:
     nameServer: "True"
-
 ```
 
 
