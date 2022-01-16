@@ -98,6 +98,13 @@ CMD [ "python3", "app.py" ]
 
 ## K8S
 
+#### CREATE NEW NAME_SPACE
+
+```
+kubectl create namespace <namespace name>
+
+```
+
 #### K8S DEPLOYMENT BOILERPLATE
 
 ```
