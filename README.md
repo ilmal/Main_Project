@@ -114,7 +114,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: nginx-deployment
-  namespace: <NAME_SPACE>
+  namespace: <NAME_SPACE> # can't use "_"
   labels:
     app: nginx
 spec:
