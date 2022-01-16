@@ -60,3 +60,68 @@ nodeSelector:
 ## ERR
 
 - if network err, check if container connection to 8.8.8.8, if case, probably coreDNS (DNS server, ###NOTE coreDNS uses host /etc/resolvd.conf as upstream config), else, check flannel configuation, try restart. 
+
+
+# GENERAL WISDOM
+
+## DOCKER
+
+#### DOCKER BUIDL NEW IMAGE
+
+1. Create repo at docker hub
+2. build ant test image locally: 
+```
+docker build . -t ilmal/<REPO_NAME>:<TAG_NAME>
+
+docker run -d -p <OUTSIDE_PORT>:<INSIDE_PORT> <IMAGE_ID>
+```
+3. push local image to cloud:
+```
+docker push ilmal/<REPO_NAME>:<TAG_NAME>
+```
+
+#### DOCKER PYTHON TEMPLATE
+
+```
+FROM python:3.9
+EXPOSE <PORT>
+WORKDIR /app
+COPY requirements.txt requirements.txt
+RUN pip3 install -r requirements.txt
+COPY . .
+CMD [ "python3", "app.py" ]
+```
+
+
+## K8S
+
+#### K8S DEPLOYMENT BOILERPLATE
+
+```
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+  labels:
+    app: nginx
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:1.14.2
+        ports:
+        - containerPort: 80
+```
+
+
+
+
+
