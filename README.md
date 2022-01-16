@@ -113,7 +113,7 @@ kubectl create namespace <namespace name>
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: nginx-deployment
+  name: nginx-deployment # can't use "_"
   namespace: <NAME_SPACE> # can't use "_"
   labels:
     app: nginx
