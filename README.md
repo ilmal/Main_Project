@@ -100,6 +100,8 @@ CMD [ "python3", "app.py" ]
 
 #### CREATE NEW NAME_SPACE
 
+*can't use "_"*
+
 ```
 kubectl create namespace <namespace name>
 
