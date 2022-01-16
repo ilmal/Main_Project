@@ -62,6 +62,9 @@ nodeSelector:
 - if network err, check if container connection to 8.8.8.8, if case, probably coreDNS (DNS server, ###NOTE coreDNS uses host /etc/resolvd.conf as upstream config), else, check flannel configuation, try restart. 
 
 
+
+
+
 # GENERAL WISDOM
 
 ## DOCKER
