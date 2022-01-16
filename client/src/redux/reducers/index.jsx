@@ -15,7 +15,8 @@ const initailState = {
     message: false,
     querySelectors: false,
     cookies: false,
-    productInfo: null
+    productInfo: null,
+    availableServerTeirs: null
 }
 
 const Reducer = (state = initailState, action) => {
@@ -94,6 +95,11 @@ const Reducer = (state = initailState, action) => {
             return {
                 ...state,
                 productInfo: action.payload
+            }
+        case "AVAILABLE_SERVER_TEIRS":
+            return {
+                ...state,
+                availableServerTeirs: action.payload
             }
         default:
             return {
