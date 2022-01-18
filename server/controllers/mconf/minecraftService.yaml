@@ -5,6 +5,10 @@ metadata:
   labels:
     app: custom_deployment_name
 spec:
+  tolerations:
+  - key: "gameServer"
+    value: "True"
+    effect: "NoExecute"
   selector:
     app: custom_deployment_name
   type: NodePort

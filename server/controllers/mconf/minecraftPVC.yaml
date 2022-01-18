@@ -3,6 +3,10 @@ kind: PersistentVolumeClaim
 metadata:
   name: null
 spec:
+  tolerations:
+  - key: "gameServer"
+    value: "True"
+    effect: "NoExecute"
   accessModes:
     - ReadWriteOnce
   resources:

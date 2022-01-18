@@ -136,6 +136,40 @@ func McCreateDeployment(pvc string, deployment string, service string) {
 	fmt.Println("Service created!")
 }
 
+func McRestartDeployment(mongoID string, pvc string, deployment string, service string) {
+
+	// setting up config
+	config, err := clientcmd.BuildConfigFromFlags("", kubeconfig)
+	if err != nil {
+		panic(err)
+	}
+
+	// Setting up client
+	client, err := dynamic.NewForConfig(config)
+	if err != nil {
+		panic(err)
+	}
+
+	// var
+	var (
+		// Declaring delete options
+		deletePolicy  = metav1.DeletePropagationForeground
+		deleteOptions = metav1.DeleteOptions{
+			PropagationPolicy: &deletePolicy,
+		}
+	)
+
+	println("Restart process starting...")
+
+	// Delete Deployment
+	println("Deleting deployment ", mongoID)
+	client.Resource(deploymentDeploymentRes).Namespace(namespace).Delete(context.TODO(), mongoID, deleteOptions)
+	println("Deployment ", mongoID, " Deleted")
+
+	println("restarting")
+	McCreateDeployment(mongoID)
+}
+
 func Mcstatus(mongoID string) bool {
 
 	// setting up config
