@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react"
 import { useSelector } from "react-redux"
-import { store } from "../.."
+import store from "../../store"
 
 export const Messages = () => {
     const state = useSelector(state => state)

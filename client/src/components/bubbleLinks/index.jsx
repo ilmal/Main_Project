@@ -1,6 +1,6 @@
 import { useHistory } from "react-router-dom";
 import ReactTooltip from 'react-tooltip';
-import { store } from "../..";
+import store from "../../store";
 import InfoPanelUserHome from "../infoPanel/infoPanelUserHome";
 import { useState } from "react";
 import { useEffect } from "react";

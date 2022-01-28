@@ -92,10 +92,10 @@ router.post("/pods", async (req, res) => {
             const element = data.items[i];
             //getting a specific pod
             if (element.metadata.labels.app.includes(req.body.id)) {
-                if (element.status.phase === "Pending") {
+                if (element.status?.phase === "Pending") {
                     // if k8s cluster is full
                     // exiting if pods dosn't have message
-                    if (element.status.conditions[0].message != undefined) {
+                    if (element.status?.conditions[0]?.message != undefined) {
                         if (element.status.conditions[0].message.indexOf("Insufficient memory") > -1 ||
                             element.status.conditions[0].message.indexOf("Insufficient cpu") > -1) {
 

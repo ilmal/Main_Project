@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react"
-import axios from "axios"
-import { store } from "../../../index"
+import store from "../../../store"
 import { changePassUserHomeOptions } from "../../../redux/actions"
 
 const ChangeUserPass = () => {

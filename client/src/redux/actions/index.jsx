@@ -1,5 +1,6 @@
 import axios from "axios"
-import { store } from "../../"
+import loadBaseData from "../../components/loadBaseData";
+import store from "../../store"
 
 let cookieValueUserID = null
 if (document.cookie && document.cookie.search("userID") > -1) {
@@ -66,6 +67,7 @@ export const login = (name, pass, dispatch) => {
                     userID: response.data.userID
                 }
             })
+            await loadBaseData()
             window.location.reload();
         } else {
             console.log("response.data: ", response.data)
@@ -167,12 +169,23 @@ export const serverPodsInfo = async () => {
         id: store.getState().user.servers[currentServerIndex].server_id
     })
         .then(res => {
+            //console.log("SERVER PODS INFO: ", store.getState()?.serverPods?.status, " ", res.data?.status)
+            if (store.getState()?.serverPods?.status === res.data?.status) return
             store.dispatch({
                 type: "SERVER_PODS_DATA",
                 payload: res.data,
                 currentServerIndex
             })
         })
+}
+
+export const serverLogsOnly = async () => {
+    if (store.getState().cookies.userID === undefined || store.getState().cookies.userID === "") return console.log("USER NOT LOGGED IN at server pods info")
+    updateCurrentServerIndex()
+    const res = await axios.post(`${ip_address}/k8s/pods`, {
+        id: store.getState().user.servers[currentServerIndex].server_id
+    })
+    return res.data.logs
 }
 
 export const serverSVCInfo = async (dispatch) => {
@@ -334,10 +347,10 @@ export const productInfo = async (dispatch) => {
 
 
 export const availableServerTeirs = async (dispatch) => {
-    await axios.post(`${ip_address}/api/available_server_teirs`)
+    await axios.post(`${ip_address}/customAPI/availableServerTeirs`)
         .then(response => {
             dispatch({
-                type: "PRODUCT_INFO",
+                type: "AVAILABLE_SERVER_TEIRS",
                 payload: response.data
             })
         })

@@ -3,6 +3,8 @@ kind: PersistentVolumeClaim
 metadata:
   name: null
 spec:
+  nodeSelector:
+    gameServer: "True"
   tolerations:
   - key: "gameServer"
     value: "True"

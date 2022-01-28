@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { store } from "../../index";
+import store from "../../store";
 import InfoPanelUserHome from "./infoPanelUserHome"
 
 

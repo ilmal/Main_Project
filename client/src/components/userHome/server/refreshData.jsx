@@ -1,13 +1,8 @@
-import { fetchUserData, serverPodsInfo, serverSVCInfo, serverInfo } from "../../../redux/actions"
-import TimeUpdate from "./timeUpdate"
+import { serverPodsInfo } from "../../../redux/actions"
+import store from "../../../store"
 
-const refreshData = (e, store, userData) => {
-    store.dispatch(fetchUserData)
+const refreshData = (e) => {
     store.dispatch(serverPodsInfo)
-    store.dispatch(serverSVCInfo)
-    store.dispatch(serverInfo)
-
-    // TimeUpdate(false, store, userData)
 
     // spin animation
     const elements = document.getElementsByClassName(e.target.className)

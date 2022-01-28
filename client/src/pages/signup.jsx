@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
-import { store } from "../index"
+import store from "../store"
 import { signup, resendConfirmationMail } from "../redux/actions/index"
 
 const SignupPage = () => {

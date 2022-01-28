@@ -91,11 +91,15 @@ const creatingUserConf = async (elementMap, user) => {
   //     break;
   // }
 
+  // creating value for game memory req, need to be lower than pod req, in order to not OOMKill the process due to lack of memory
+  gameMem = (parseInt(memoryReq.split("Mi")[0]) - 10).toString() + "m"
+
+
   deployment.spec.template.spec.containers[0].resources.requests.memory = memoryReq // docker limit
   deployment.spec.template.spec.containers[0].resources.requests.cpu = cpuReq       // docker limit
   deployment.spec.template.spec.containers[0].resources.limits.memory = memoryLim   // docker limit
   deployment.spec.template.spec.containers[0].resources.limits.cpu = cpuLim         // docker limit
-  deployment.spec.template.spec.containers[0].env[11].value = memoryReq             // minecraft limit
+  deployment.spec.template.spec.containers[0].env[11].value = gameMem             // minecraft limit
 
   //dumping yaml
   const deploymentStr = YAML.dump(deployment);

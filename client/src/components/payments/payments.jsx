@@ -1,9 +1,9 @@
 // modules
 import axios from "axios"
 import { CardNumberElement, CardExpiryElement, CardCvcElement, useElements, useStripe } from "@stripe/react-stripe-js"
-import { store } from "../../index"
+import store from "../../store"
 import { useHistory } from "react-router-dom";
-import { StartServer } from "../../index"
+import { StartServer } from "../../redux/actions"
 
 // images
 import amexIcon from "../../images/stripe/amexIcon.svg"

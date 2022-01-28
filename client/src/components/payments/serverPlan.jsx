@@ -4,7 +4,7 @@ import { useHistory } from "react-router-dom";
 import axios from "axios";
 
 // redux
-import { store } from "../../index"
+import store from "../../store"
 
 // custom hooks
 import usePaymentLoginSignupHook from "./paymentLoginSignup";

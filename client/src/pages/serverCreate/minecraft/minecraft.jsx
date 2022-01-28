@@ -3,7 +3,7 @@ import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js"
 
 import MinecraftLevels from "./minecraftLevels"
-import { store } from "../../..";
+import store from "../../../store";
 import { availableServerTeirs } from "../../../redux/actions"
 
 const MinecraftCreate = () => {
@@ -45,8 +45,15 @@ const MinecraftCreate = () => {
         // update the parent ele class and insert this func to the element (future work)
 
         const isSoldOut = (selectedTeir) => {
+            let result = false
+            if (store.getState().availableServerTeirs === null) return null
+            Object.keys(store.getState().availableServerTeirs).forEach((teir) => {
+                if (teir.toUpperCase() === selectedTeir && !store.getState().availableServerTeirs[teir].value) {
+                    result = true
+                }
+            })
 
-            if (selectedTeir === "PREMIUM") {
+            if (result) {
                 //console.log("CLASSNAME: ", document.getElementsByClassName(selectedTeir.toLowerCase()))
                 return (
                     <div className="serverLandingPageCardSoldOutDiv">

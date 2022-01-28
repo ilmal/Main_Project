@@ -11,6 +11,8 @@ spec:
       labels:
         app: null
     spec:
+      nodeSelector:
+        gameServer: "True"
       tolerations:
       - key: "gameServer"
         value: "True"
@@ -31,7 +33,7 @@ spec:
             cpu: "1000m"
         env:
         - name: TYPE
-          value: "VANILLA"
+          value: "PAPER"
 
         - name: EULA
           value: "TRUE"

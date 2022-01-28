@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { animateScroll as scroll, scroller } from 'react-scroll'
-import { store } from "../index"
+import store from "../store"
 
 const HomePage = () => {
   const [loadAnimation, changeloadAnimation] = useState(false)

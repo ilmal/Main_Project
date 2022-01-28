@@ -2,7 +2,7 @@ import axios from "axios";
 import { useHistory } from "react-router-dom";
 import { useLocation } from 'react-router';
 import queryString from 'query-string';
-import { store } from "../..";
+import store from "../../store";
 
 
 const UpdatePass = () => {

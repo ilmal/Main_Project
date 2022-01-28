@@ -5,7 +5,8 @@ import SideMenu from "../components/userHome/sideMenu";
 import Server from "../components/userHome/server";
 import Options from "../components/userHome/options";
 
-import { store } from "../index";
+import store from "../store";
+import loadBaseData from "../components/loadBaseData";
 
 const UserHomePage = () => {
   const history = useHistory();
@@ -13,7 +14,7 @@ const UserHomePage = () => {
 
   const [didMount, setDidMount] = useState(false);
 
-  useEffect(() => {
+  useEffect(async () => {
 
     //adding userHomeData to redux store
     store.dispatch({
@@ -26,11 +27,14 @@ const UserHomePage = () => {
     })
 
     //checking if user is logged in, if not, send to home page
-    if (store.getState().auth !== null && !store.getState().auth) {
+    if (!store.getState().auth) {
       console.log("Not logged in");
       history.push("/");
       window.location.reload();
     }
+
+    // updating state
+    await loadBaseData()
 
     setDidMount(true);
     return () => setDidMount(false);

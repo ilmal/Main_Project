@@ -2,7 +2,7 @@ import { login } from "../redux/actions/index";
 import React, { useEffect, useState } from "react";
 import ReactTooltip from 'react-tooltip';
 import { useHistory } from "react-router-dom";
-import { store } from "..";
+import store from "../store";
 
 import ForgotPassComponent from "../components/login/forgetPass";
 
