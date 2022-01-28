@@ -97,7 +97,7 @@ export const OneTimePayment = (props) => {
                 type: "MESSAGE",
                 payload: "Payment Successfull!"
             })
-            history.push("/");
+            history.push("/user/home");
             window.location.reload()
             store.dispatch(StartServer)
             return
