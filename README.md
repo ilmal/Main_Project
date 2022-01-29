@@ -67,6 +67,14 @@ nodeSelector:
 
 # GENERAL WISDOM
 
+## GITHUB
+
+#### SAVE USER CREDENTIALS
+
+```
+git config --global credential.helper store
+```
+
 ## DOCKER
 
 #### DOCKER BUIDL NEW IMAGE
