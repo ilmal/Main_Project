@@ -13,34 +13,29 @@ spec:
       labels:
         app: 603ba47b83a938d4abae59dd
     spec:
-      dnsPolicy: "None"
-      dnsConfig:
-        nameservers:
-          - 10.0.0.10
-        searches:
-          -  default.svc.cluster.local
-          -  svc.cluster.local
-          -  cluster.local
-        options:
-          -  name: ndots
-             value: "5"
+      nodeSelector:
+        gameServer: "True"
+      tolerations:
+      - key: "gameServer"
+        value: "True"
+        effect: "NoExecute"
       volumes:
         - name: minecraft-pv-storage
           persistentVolumeClaim:
              claimName: testpvc
       containers:
-      - image: itzg/minecraft-server
+      - image: itzg/minecraft-server:latest
         name: minecraft-server
         resources:
           requests:
             memory: "2Gi"
             cpu: "1000m"
           limits:
-            memory: "2Gi"
-            cpu: "1000m"
+            memory: "3Gi"
+            cpu: "1500m"
         env:
         - name: MEMORY
-          value: "2g"
+          value: "2G"
 
         #- name: ENABLE_AUTOPAUSE
           # value: "TRUE"
@@ -49,7 +44,7 @@ spec:
           #value: "60"
 
         - name: TYPE
-          value: "VANILLA"
+          value: "PAPER"
 
         - name: EULA
           value: "TRUE"
