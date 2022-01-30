@@ -48,10 +48,13 @@ func McDeleteDeployment(mongoID string) {
 			PropagationPolicy: &deletePolicy,
 		}
 	)
+
+	deploymentName := "mc-server-" + mongoID
+
 	// Delete Deployment
-	println("Deleting deployment ", mongoID)
-	client.Resource(deploymentDeploymentRes).Namespace(namespace).Delete(context.TODO(), mongoID, deleteOptions)
-	println("Deployment ", mongoID, " Deleted")
+	println("Deleting deployment ", deploymentName)
+	client.Resource(deploymentDeploymentRes).Namespace(namespace).Delete(context.TODO(), deploymentName, deleteOptions)
+	println("Deployment ", deploymentName, " Deleted")
 
 	// // Make a Regex to say we only want letters
 	// reg, err := regexp.Compile("[^a-zA-Z]+")
@@ -134,6 +137,16 @@ func McCreateDeployment(pvc string, deployment string, service string) {
 	fmt.Println("Creating deployment Service")
 	client.Resource(serviceDeploymentRes).Namespace(namespace).Create(context.TODO(), mcServiceDeployment, metav1.CreateOptions{})
 	fmt.Println("Service created!")
+}
+
+func McRestartDeployment(mongoID string, pvc string, deployment string, service string) {
+	println("restarting")
+
+	McDeleteDeployment(mongoID)
+
+	McCreateDeployment(pvc, deployment, service)
+	
+	println("restarting process done")
 }
 
 func Mcstatus(mongoID string) bool {

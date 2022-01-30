@@ -1,7 +1,7 @@
 import React, { useState } from "react"
 import { useSelector } from "react-redux"
 import axios from "axios"
-import { store } from "../../../index"
+import store from "../../../store"
 
 const ChangeUserOptinos = () => {
     const state = useSelector(state => state)

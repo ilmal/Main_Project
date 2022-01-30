@@ -2,7 +2,7 @@
 import { useState } from "react"
 
 // redux
-import { store } from "../../index"
+import store from "../../store"
 import { signup, login } from "../../redux/actions/index"
 
 

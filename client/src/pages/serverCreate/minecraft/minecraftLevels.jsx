@@ -2,7 +2,7 @@ import { useHistory } from "react-router-dom";
 import { useSelector } from "react-redux"
 import React, { useState } from 'react'
 import ServerPlan from "../../../components/payments/serverPlan";
-import { store } from "../../..";
+import store from "../../../store";
 
 
 

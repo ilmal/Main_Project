@@ -3,7 +3,6 @@ kind: Deployment
 metadata:
   name: null
 spec:
-  replicas: 1
   selector:
     matchLabels:
       app: null
@@ -12,6 +11,12 @@ spec:
       labels:
         app: null
     spec:
+      nodeSelector:
+        gameServer: "True"
+      tolerations:
+      - key: "gameServer"
+        value: "True"
+        effect: "NoExecute"
       volumes:
         - name: minecraft-pv-storage
           persistentVolumeClaim:
@@ -28,7 +33,7 @@ spec:
             cpu: "1000m"
         env:
         - name: TYPE
-          value: "VANILLA"
+          value: "PAPER"
 
         - name: EULA
           value: "TRUE"

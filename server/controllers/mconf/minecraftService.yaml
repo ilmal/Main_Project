@@ -1,15 +1,39 @@
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: custom_service_name
+#   labels:
+#     app: custom_deployment_name
+# spec:
+#   nodeSelector:
+#     gameServer: "True"
+#   tolerations:
+#   - key: "gameServer"
+#     value: "True"
+#     effect: "NoExecute"
+#   selector:
+#     app: custom_deployment_name
+#   type: NodePort
+#   ports:
+#   - nodePort: 
+#     port: 25565
+#     targetPort: 25565
+#     protocol: TCP
+
 apiVersion: v1
 kind: Service
 metadata:
   name: custom_service_name
-  labels:
-    app: custom_deployment_name
+  annotations:
+    "mc-router.itzg.me/externalServerName": "test.mc.servers.u1.se"
 spec:
-  selector:
-    app: custom_deployment_name
-  type: NodePort
+  nodeSelector:
+    gameServer: "True"
+  tolerations:
+  - key: "gameServer"
+    value: "True"
+    effect: "NoExecute"
   ports:
-  - nodePort: 
-    port: 25565
-    targetPort: 25565
-    protocol: TCP
+  - port: 25565
+  selector:
+    app: aejjzoyypaehtjnozwx-61e8839423b5db46aa72f6c3

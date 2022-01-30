@@ -1,5 +1,6 @@
 import axios from "axios"
-import { store } from "../../"
+import loadBaseData from "../../components/loadBaseData";
+import store from "../../store"
 
 let cookieValueUserID = null
 if (document.cookie && document.cookie.search("userID") > -1) {
@@ -21,12 +22,12 @@ if (document.cookie && document.cookie.search("loginAuth") > -1) {
 
 let currentServerIndex = 0
 const updateCurrentServerIndex = () => {
-    if (document.cookie && document.cookie.search("selectedServer") > -1) {
-        currentServerIndex = document.cookie
-            .split('; ')
-            .find(row => row.startsWith('selectedServer='))
-            .split('=')[1];
-    }
+    // if (document.cookie && document.cookie.search("selectedServer") > -1) {
+    //     currentServerIndex = document.cookie
+    //         .split('; ')
+    //         .find(row => row.startsWith('selectedServer='))
+    //         .split('=')[1];
+    // }
 }
 // if (store.getState().serverInfo[store.getState().userHomeData.serverIndex].server_id) currentServerID = store.getState().serverInfo[store.getState().userHomeData.serverIndex].server_id
 
@@ -66,6 +67,7 @@ export const login = (name, pass, dispatch) => {
                     userID: response.data.userID
                 }
             })
+            await loadBaseData()
             window.location.reload();
         } else {
             console.log("response.data: ", response.data)
@@ -167,6 +169,8 @@ export const serverPodsInfo = async () => {
         id: store.getState().user.servers[currentServerIndex].server_id
     })
         .then(res => {
+            //console.log("SERVER PODS INFO: ", store.getState()?.serverPods?.status, " ", res.data?.status)
+            if (store.getState()?.serverPods?.status === res.data?.status) return
             store.dispatch({
                 type: "SERVER_PODS_DATA",
                 payload: res.data,
@@ -175,9 +179,22 @@ export const serverPodsInfo = async () => {
         })
 }
 
+export const serverLogsOnly = async () => {
+    if (store.getState().cookies.userID === undefined || store.getState().cookies.userID === "") return console.log("USER NOT LOGGED IN at server pods info")
+    updateCurrentServerIndex()
+    const res = await axios.post(`${ip_address}/k8s/pods`, {
+        id: store.getState().user.servers[currentServerIndex].server_id
+    })
+    return res.data.logs
+}
+
 export const serverSVCInfo = async (dispatch) => {
     if (store.getState().cookies.userID === undefined || store.getState().cookies.userID === "") return console.log("USER NOT LOGGED IN at serverSVCinfo")
     updateCurrentServerIndex()
+    // dispatch({
+    //     type: "SERVER_SVC_DATA",
+    //     payload: 3000
+    // })
     await axios.post(`${ip_address}/k8s/svc`, {
         id: store.getState().user.servers[currentServerIndex].server_id
     })
@@ -327,6 +344,17 @@ export const productInfo = async (dispatch) => {
         .then(response => {
             dispatch({
                 type: "PRODUCT_INFO",
+                payload: response.data
+            })
+        })
+}
+
+
+export const availableServerTeirs = async (dispatch) => {
+    await axios.post(`${ip_address}/customAPI/availableServerTeirs`)
+        .then(response => {
+            dispatch({
+                type: "AVAILABLE_SERVER_TEIRS",
                 payload: response.data
             })
         })

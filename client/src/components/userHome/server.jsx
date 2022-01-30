@@ -4,65 +4,47 @@ import { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import ReactTooltip from 'react-tooltip';
 
-import { store } from "../../index";
+import store from "../../store";
 import { serverPodsInfo, serverDataRefresh } from "../../redux/actions"
 
 import refreshData from "./server/refreshData";
 import StartStop from "./server/startStop";
-import PlayTimeComponent from "./server/playTime";
-import TimeUpdate from "./server/timeUpdate";
 
 //images
 import minecraftImage from "../../images/userHomeImages/minecraftServerLandingPage.jpg"
 
 
 const Server = () => {
-  const [userData, setUserData] = useState(store.getState());
-  const [initialLoad, setInitialLoad] = useState(true)
   const [showLandingPage, setShowLandingPage] = useState(true)
+  const [update, setUpdate] = useState(false)
+  const [statusDupe, setStatusDupe] = useState(false)
 
   const history = useHistory();
 
-  useEffect(() => {
-    // refresh logs if status isn't "server not running"
-    if (store.getState().serverPods.status != "server not running") {
-      const interval = setInterval(() => {
-
-        // updating logs
-        store.dispatch(serverPodsInfo)
-        // // updating plsytime left needs: timeReset, store, userData
-        // TimeUpdate(false, store, userData)
-      }, 5000);
-      return () => clearInterval(interval);
-    }
-  }, [userData])
+  store.subscribe(() => {
+    setUpdate(!update)
+  })
 
   useEffect(() => {
-    if (initialLoad) {
+    setTimeout(() => {
+      // updating logs
+      if (statusDupe) return
+      setStatusDupe(true)
       store.dispatch(serverPodsInfo)
-      // TimeUpdate(false, store, userData)
-      setInitialLoad(false)
-    }
-  }, [initialLoad])
+    }, 5000);
+    setStatusDupe(false)
+  }, [statusDupe])
 
   useEffect(() => {
 
     // changing layout to fit server and layout
     const layoutElement = document.getElementById("random03242jcmvmj0v23cm4")
-    if (store.getState().userHomeData.showServerLandingPage) {
+    if (store.getState().userHomeData.showServerLandingPage && store.getState().user.past_servers.length > 1) {
       layoutElement.style.gridTemplateRows = "auto"
-      // console.log("layout: auto")
     } else {
       layoutElement.style.gridTemplateRows = " auto repeat(7, 11% 3%)"
       layoutElement.style.maxHeight = "110vh"
-      // console.log("layout: auto repeat(7, 11% 3%)")
     }
-    // if (store.getState().userHomeData.sideMenuSelectedTab === "server") {
-    //   store.subscribe(() => {
-    //     console.log("UPDATING")
-    //     setUserData(store.getState());
-    //   });
-    // }
   })
 
 
@@ -84,7 +66,7 @@ const Server = () => {
   }
   const serverIP = () => {
     if (store.getState().serverPods.status !== "server not running") {
-      return <span>mc.servers.u1.se:{store.getState().serverSVC.port}</span>
+      return <span>mc.servers.u1.se:{store.getState().serverSVC.port ? store.getState().serverSVC.port : null}</span>
     } else {
       return <span>----</span>
     }
@@ -95,7 +77,7 @@ const Server = () => {
   }
 
   const refreshDataFunc = (e) => {
-    refreshData(e, store, store.getState())
+    refreshData(e)
   }
 
   const startStopFunc = (e) => {
@@ -190,7 +172,7 @@ const Server = () => {
   }
 
   // showing start page with server panel where user chooses server and or is redirected to buy server
-  if (store.getState().userHomeData.showServerLandingPage) {
+  if (store.getState().userHomeData.showServerLandingPage && store.getState().user.past_servers.length > 1) {
     return (
       <>
         <span className="userHomeLandingPageHeader">Select your server</span>
@@ -209,7 +191,7 @@ const Server = () => {
   return (
     <>
       <div className="userHomeServerName">
-        <span>{store.getState().serverInfo[store.getState().userHomeData.serverIndex].data[4].value}</span>
+        <span>{store.getState().serverInfo[store.getState().userHomeData.serverIndex].data[4].value.split("Server")[0].split("")[0].toUpperCase() + store.getState().serverInfo[store.getState().userHomeData.serverIndex].data[4].value.split("Server")[0].slice(1)} Server</span>
       </div>
       <div className="userHomeSegment userHomeStatusOfServer">
         {serverStatus()}

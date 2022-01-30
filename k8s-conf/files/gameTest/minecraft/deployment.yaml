@@ -13,32 +13,38 @@ spec:
       labels:
         app: 603ba47b83a938d4abae59dd
     spec:
+      nodeSelector:
+        gameServer: "True"
+      tolerations:
+      - key: "gameServer"
+        value: "True"
+        effect: "NoExecute"
       volumes:
         - name: minecraft-pv-storage
           persistentVolumeClaim:
-             claimName: 607aa9e5f18679607bb4acf8
+             claimName: testpvc
       containers:
-      - image: itzg/minecraft-server
+      - image: itzg/minecraft-server:latest
         name: minecraft-server
         resources:
           requests:
-            memory: "20Gi"
-            cpu: "11000m"
+            memory: "2Gi"
+            cpu: "1000m"
           limits:
-            memory: "20Gi"
-            cpu: "11000m"
+            memory: "3Gi"
+            cpu: "1500m"
         env:
         - name: MEMORY
-          value: "2g"
+          value: "2G"
 
-        - name: ENABLE_AUTOPAUSE
-          value: "TRUE"
+        #- name: ENABLE_AUTOPAUSE
+          # value: "TRUE"
         
-        - name: AUTOPAUSE_TIMEOUT_EST
-          value: "60"
+        #- name: AUTOPAUSE_TIMEOUT_EST
+          #value: "60"
 
         - name: TYPE
-          value: "VANILLA"
+          value: "PAPER"
 
         - name: EULA
           value: "TRUE"
@@ -47,13 +53,13 @@ spec:
           value: "5"
 
         - name: VERSION
-          value: latest
+          value: "LATEST"
 
         - name: SERVER_NAME
-          value: null
+          value: "testServer"
 
         - name: DIFFICULTY 
-          value: normal
+          value: "NORMAL"
 
         - name:  WHITELIST
           value: null

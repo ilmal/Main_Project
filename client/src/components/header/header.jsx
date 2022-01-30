@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
-import { store } from "../../index"
+import store from "../../store"
 
 const Header = () => {
     const history = useHistory()

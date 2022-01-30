@@ -1,4 +1,4 @@
-import { store } from "../.."
+import store from "../../store"
 import { updatePassMail } from "../../redux/actions"
 
 const ForgotPassComponent = () => {

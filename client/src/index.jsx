@@ -5,10 +5,8 @@ import {
     Route
 } from "react-router-dom"
 import "./scss/main.scss"
-import { applyMiddleware, createStore } from "redux"
 import { Provider } from "react-redux"
-import { composeWithDevTools } from "redux-devtools-extension"
-import thunk from "redux-thunk"
+import store from "./store"
 
 import Header from "./components/header/header"
 import Boubbles from "./components/bubbleLinks"
@@ -16,53 +14,18 @@ import HomeRouter from "./routing/router"
 import { Tooltips } from "./components/tooltips"
 import { TopMessage } from "./components/topMessages/index"
 
-import rootReducer from "./redux/reducers"
+import loadBaseData from "./components/loadBaseData"
 
-import { fetchUserData, checkUserAuth, createMcConfig, serverPodsInfo, serverSVCInfo, serverInfo, getQuaryParams, getCookies, productInfo } from "./redux/actions/index"
-
-export const store = createStore(
-    rootReducer,
-    composeWithDevTools(applyMiddleware(thunk)) //window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-)
 
 const MainComponent = () => {
     const [loading, setLoading] = useState(true)
 
-    React.useEffect(() => {
-        (async function () {
-            await store.dispatch(checkUserAuth)
-            await store.dispatch(getQuaryParams)
-            await store.dispatch(getCookies)
-            await store.dispatch(productInfo)
-            if (store.getState().cookies.userID !== undefined && store.getState().cookies.userID !== "") { // cheking if user is logged in
-                await store.dispatch(fetchUserData)
-                if (store.getState().user.past_servers.length > 0) { // cheking if user have/ had a server
-                    await store.dispatch(createMcConfig)
-                    await store.dispatch(serverPodsInfo)
-                    await store.dispatch(serverSVCInfo)
-                    await store.dispatch(serverInfo)
-                }
-            }
-            console.log("data after fetch func: ", store.getState())
-
-            // check if loginReset is true, if case, resetting cookies
-            if (store.getState().resetLogin) {
-                const cookieKey = ["loginAuth", "userID"]
-                cookieKey.forEach(element => {
-                    document.cookie = `${element}=;path=/;expires=Thu, 01 Jan 1970T00:00:00Z;`
-                })
-                store.dispatch({
-                    type: "AUTH_SUCCESS",
-                    payload: {
-                        auth: store.getState().auth,
-                        resetLogin: false
-                    }
-                })
-            }
-
-            setLoading(false)
-        })();
-    })
+    React.useEffect(async () => {
+        if (!loading) return
+        await loadBaseData()
+        console.log("im a sneaky boi!")
+        setLoading(false)
+    }, [loading])
 
     if (loading) {
         return (

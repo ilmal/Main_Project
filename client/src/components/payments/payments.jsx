@@ -1,7 +1,9 @@
 // modules
 import axios from "axios"
-import { CardElement, CardNumberElement, CardExpiryElement, CardCvcElement, useElements, useStripe } from "@stripe/react-stripe-js"
-import { store } from "../../index"
+import { CardNumberElement, CardExpiryElement, CardCvcElement, useElements, useStripe } from "@stripe/react-stripe-js"
+import store from "../../store"
+import { useHistory } from "react-router-dom";
+import { StartServer } from "../../redux/actions"
 
 // images
 import amexIcon from "../../images/stripe/amexIcon.svg"
@@ -31,6 +33,7 @@ const CARD_OPTIONS = {
 export const OneTimePayment = (props) => {
     const elements = useElements()
     const stripe = useStripe()
+    const history = useHistory()
     const ref = null
 
     const handleSubmit = async (e) => {
@@ -94,6 +97,9 @@ export const OneTimePayment = (props) => {
                 type: "MESSAGE",
                 payload: "Payment Successfull!"
             })
+            history.push("/user/home");
+            window.location.reload()
+            store.dispatch(StartServer)
             return
 
         } catch (error) {

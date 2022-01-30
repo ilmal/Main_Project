@@ -1,24 +1,25 @@
 import { useState, useEffect } from "react"
-import { store } from "../../..";
+import store from "../../../store";
 import ReactTooltip from 'react-tooltip';
 
-import refreshData from "./refreshData"
+import { serverLogsOnly } from "../../../redux/actions"
+
+import refreshData from "./refreshData";
 
 const LogsComponent = () => {
-    const [userData, setUserData] = useState(store.getState())
     const [logsExpand, setLogsExpand] = useState(false)
+    const [update, setUpdate] = useState(false)
+    const [logDupe, setLogDupe] = useState(false)
+    const [logs, setLogs] = useState(store.getState().serverPods.logs)
 
-    useEffect(() => {
-        const unsubscribe = store.subscribe(() => {
-            setUserData(store.getState());
-        });
-        if (store.getState().userHomeData.sideMenuTab !== "server") unsubscribe()
+    store.subscribe(() => {
+        setUpdate(!update)
     })
 
     useEffect(() => {
         // logic for logs interaction
         // making sure the interaction logic on fire when logs is active
-        if (userData.serverPods.status === "True") {
+        if (store.getState().serverPods.status === "True") {
             const ele = document.getElementById('logsText');
 
             ele.style.cursor = 'grab';
@@ -63,7 +64,29 @@ const LogsComponent = () => {
             // Attach the handler
             ele.addEventListener('mousedown', mouseDownHandler);
         }
-    }, [userData]);
+    }, [store.getState()]);
+
+    const scrollToBottomFunc = () => {
+        if (!document.getElementById("logsText")) return
+        const element = document.getElementById("logsText")
+        element.scrollTop = element.scrollHeight - element.clientHeight
+    }
+
+    useEffect(() => {
+        // updating logs only, and only pushing to state if logs accually update. This helps with avoiding entire page to freeze on logs update.
+        setTimeout(async () => {
+            if (logDupe) return
+            const serverLogs = await serverLogsOnly()
+            let scroll = false
+            if (serverLogs !== logs) scroll = true
+            //console.log("IM RUNNING!")
+            setLogs(serverLogs)
+            setLogDupe(true)
+            if (scroll) scrollToBottomFunc()
+        }, 5000)
+        setLogDupe(false)
+    }, [logDupe])
+
 
     const expandLogs = () => {
         setLogsExpand(!logsExpand)
@@ -71,7 +94,7 @@ const LogsComponent = () => {
     }
 
     const refreshDataFunc = (e) => {
-        refreshData(e, store, userData)
+        refreshData(e)
     }
 
     // ------------- functions for different pods status (default messages) -----------
@@ -84,7 +107,7 @@ const LogsComponent = () => {
                     <div className="logsExpandArrow fas fa-expand-arrows-alt" onClick={expandLogs} data-tip data-for="expandLogs" />
                     <div className="logsText" id="logsText">
                         <span>
-                            {userData.serverPods.logs}
+                            {logs}
                             <p></p>
                         </span>
                     </div>
@@ -143,7 +166,7 @@ const LogsComponent = () => {
     const Queue = () => {
         return (
             <div className="logsMessageBanner logsMessageBannerYellow">
-                <span>{userData.serverPods.logs}</span>
+                <span>{logs}</span>
             </div>
         )
     }
@@ -159,7 +182,7 @@ const LogsComponent = () => {
     // ---------------------------------------------------------------------
 
     // what is displayed in the logs box
-    switch (userData.serverPods.status) {
+    switch (store.getState().serverPods.status) {
         case "True":
             return running()
         case "False":

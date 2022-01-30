@@ -3,7 +3,8 @@ import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js"
 
 import MinecraftLevels from "./minecraftLevels"
-import { store } from "../../..";
+import store from "../../../store";
+import { availableServerTeirs } from "../../../redux/actions"
 
 const MinecraftCreate = () => {
 
@@ -16,6 +17,16 @@ const MinecraftCreate = () => {
     useEffect(() => {
         localStorage.setItem("isCardPressed", isCardPressed)
     }, [isCardPressed])
+
+    useEffect(async () => {
+        await store.dispatch(availableServerTeirs)
+    }, [])
+
+    const [update, setUpdate] = useState(false)
+
+    store.subscribe(() => {
+        setUpdate(!update)
+    })
 
 
     // ----------- stripe -------------
@@ -32,9 +43,18 @@ const MinecraftCreate = () => {
 
         // in future make this automatic, add value in db then extract value and based on that
         // update the parent ele class and insert this func to the element (future work)
+
         const isSoldOut = (selectedTeir) => {
-            if (selectedTeir === "PREMIUM") {
-                console.log("CLASSNAME: ", document.getElementsByClassName(selectedTeir.toLowerCase()))
+            let result = false
+            if (store.getState().availableServerTeirs === null) return null
+            Object.keys(store.getState().availableServerTeirs).forEach((teir) => {
+                if (teir.toUpperCase() === selectedTeir && !store.getState().availableServerTeirs[teir].value) {
+                    result = true
+                }
+            })
+
+            if (result) {
+                //console.log("CLASSNAME: ", document.getElementsByClassName(selectedTeir.toLowerCase()))
                 return (
                     <div className="serverLandingPageCardSoldOutDiv">
                         <div className="serverLandingPageCardSoldOutBlurDivTop" />

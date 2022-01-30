@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import { store } from "../../.."
+import store from "../../../store"
 import { useSelector } from "react-redux"
 import axios from "axios"
 
