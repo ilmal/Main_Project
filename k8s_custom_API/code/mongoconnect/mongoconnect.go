@@ -13,7 +13,7 @@ func McDeploymentResult(minecraftCommand string, pvc string, deployment string, 
 	case "delete":
 		mcdeployment.McDeleteDeployment(mongoID)
 	case "restart":
-		mcDeployment.McRestartDeployment(mongoID, pvc, deployment, service)
+		mcdeployment.McRestartDeployment(mongoID, pvc, deployment, service)
 	case "status":
 		mcdeployment.Mcstatus(mongoID)
 	case "ipReq":
