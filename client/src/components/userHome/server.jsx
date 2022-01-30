@@ -191,7 +191,7 @@ const Server = () => {
   return (
     <>
       <div className="userHomeServerName">
-        <span>{store.getState().serverInfo[store.getState().userHomeData.serverIndex].data[4].value}</span>
+        <span>{store.getState().serverInfo[store.getState().userHomeData.serverIndex].data[4].value.split("Server")[0].split("")[0].toUpperCase() + store.getState().serverInfo[store.getState().userHomeData.serverIndex].data[4].value.split("Server")[0].slice(1)} Server</span>
       </div>
       <div className="userHomeSegment userHomeStatusOfServer">
         {serverStatus()}

@@ -77,10 +77,12 @@ const LogsComponent = () => {
         setTimeout(async () => {
             if (logDupe) return
             const serverLogs = await serverLogsOnly()
+            let scroll = false
+            if (serverLogs !== logs) scroll = true
             //console.log("IM RUNNING!")
             setLogs(serverLogs)
             setLogDupe(true)
-            scrollToBottomFunc()
+            if (scroll) scrollToBottomFunc()
         }, 5000)
         setLogDupe(false)
     }, [logDupe])

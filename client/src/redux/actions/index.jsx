@@ -191,6 +191,10 @@ export const serverLogsOnly = async () => {
 export const serverSVCInfo = async (dispatch) => {
     if (store.getState().cookies.userID === undefined || store.getState().cookies.userID === "") return console.log("USER NOT LOGGED IN at serverSVCinfo")
     updateCurrentServerIndex()
+    // dispatch({
+    //     type: "SERVER_SVC_DATA",
+    //     payload: 3000
+    // })
     await axios.post(`${ip_address}/k8s/svc`, {
         id: store.getState().user.servers[currentServerIndex].server_id
     })

@@ -90,6 +90,7 @@ router.post("/pods", async (req, res) => {
         // getting the pods
         for (let i = 0; i < data.items.length; i++) {
             const element = data.items[i];
+            if (element.metadata.name.indexOf("mc-server") <= -1) continue // only allowing pods that are for servers, not the misc ones
             //getting a specific pod
             if (element.metadata.labels.app.includes(req.body.id)) {
                 if (element.status?.phase === "Pending") {
@@ -116,7 +117,7 @@ router.post("/pods", async (req, res) => {
                 }
                 return {
                     status: element.status.conditions[1].status,
-                    podName: element.metadata.name,
+                    podName: element.metadata.name, // removing "mc-server-" from pod name
                     queuing: false
                 }
             }
@@ -149,28 +150,34 @@ router.post("/pods", async (req, res) => {
     })
 })
 
-router.post("/svc", (req, res) => {
+router.post("/svc", async (req, res) => {
     const config = {
         'method': 'GET',
         'url': `${process.env.K8S_DEFAULT_API}/api/v1/namespaces/mc-servers/services`,
     }
 
-    request(config).then(response => {
-        const data = JSON.parse(response)
-        // must be a for loop in order to return
-        for (let i = 0; i < data.items.length; i++) {
-            const element = data.items[i];
-            if (element.metadata.labels.app.includes(req.body.id)) {
-                return res.send({
-                    port: element.spec.ports[0].nodePort
-                })
-            }
+    console.log("SVC: ", req.body.id)
+
+    const response = await request(config)
+
+    data = JSON.parse(response)
+
+    console.log("2")
+    console.log(data)
+
+    for (let i = 0; i < data.items.length; i++) {
+        const element = data.items[i];
+        console.log("SVCs: ", element)
+        if (element.metadata.name.indexOf("mc-servers") <= -1) continue // only allowing svc that are for servers, not the misc ones
+        if (element.metadata.name.indexOf(req.body.id) > -1) {
+            console.log("SVC RETURN: ", element.metadata.annotations.split('"mc-router.itzg.me/externalServerName": ')[1].replace('"', "").replace(" ", ""))
+            return res.send({
+                address: element.metadata.annotations.split('"mc-router.itzg.me/externalServerName": ')[1].replace('"', "").replace(" ", "")
+            })
         }
-        return res.send({
-            status: "server not running"
-        })
-    }).catch(err => {
-        console.log("CUSTOM_ERR at k8sApi.post(/svc): ", err)
+    }
+    return res.send({
+        status: "server not running"
     })
 })
 

@@ -38,18 +38,43 @@ const creatingUserConf = async (elementMap, user) => {
     }
   }
 
+  const dnsName = async () => {
+    const config = await Config.find({})
+
+    const loopThroughNames = (name) => {
+      uniqueName = true
+      config.forEach(element => {
+        if (element["service"].indexOf(`mc-router.itzg.me/externalServerName": "${name}.mc.servers.u1.se`) > -1) uniqueName = false
+      })
+      return uniqueName
+    }
+
+    let loopActive = true
+    let index = 2
+    let name = user.name
+    while (loopActive) {
+      if (loopThroughNames(name)) {
+        loopActive = false
+        return name
+      }
+      name = `${name}${index}`
+      index += 1
+    }
+
+  }
+
   //inserting values
   pvc.metadata.name = element.server_id
-  deployment.metadata.name = element.server_id
+  deployment.metadata.name = "mc-server-" + element.server_id
   deployment.spec.selector.matchLabels.app = element.server_id
   deployment.spec.template.metadata.labels.app = element.server_id
   deployment.spec.template.spec.volumes[0].persistentVolumeClaim.claimName = element.server_id
   deployment.spec.template.spec.containers[0].env[4].value = `${user.name}Server`
   // const serviceName = element.server_id.replace(/[0-9]/g, 'a')
-  service.metadata.name = element.server_id.split("-")[0]
-  service.metadata.labels.app = element.server_id
+  service.metadata.name = "mc-server-" + element.server_id.split("-")[0]
   service.spec.selector.app = element.server_id
-  service.spec.ports[0].nodePort = await findPortNumber()
+  service.metadata.annotations = `"mc-router.itzg.me/externalServerName": "${await dnsName()}.mc.servers.u1.se"`
+  //service.spec.ports[0].nodePort = await findPortNumber()
 
   //inserting values dependant on the type/ teir of server
 

@@ -31,7 +31,7 @@ export default async () => {
 
     console.log("3")
 
-    if (store.getState().user.past_servers.length <= 0) return  // cheking if user have/ had a server
+    if (store.getState()?.user?.past_servers?.length <= 0) return  // cheking if user have/ had a server
 
     await userReq()
     console.log("5")
