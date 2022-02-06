@@ -162,17 +162,12 @@ router.post("/svc", async (req, res) => {
 
     data = JSON.parse(response)
 
-    console.log("2")
-    console.log(data)
-
     for (let i = 0; i < data.items.length; i++) {
         const element = data.items[i];
-        console.log("SVCs: ", element)
-        if (element.metadata.name.indexOf("mc-servers") <= -1) continue // only allowing svc that are for servers, not the misc ones
-        if (element.metadata.name.indexOf(req.body.id) > -1) {
-            console.log("SVC RETURN: ", element.metadata.annotations.split('"mc-router.itzg.me/externalServerName": ')[1].replace('"', "").replace(" ", ""))
+        if (element.metadata.name.indexOf("mc-server-") <= -1) continue // only allowing svc that are for servers, not the misc ones
+        if (element.metadata.name.indexOf(req.body.id.split("-")[0]) > -1) {
             return res.send({
-                address: element.metadata.annotations.split('"mc-router.itzg.me/externalServerName": ')[1].replace('"', "").replace(" ", "")
+                address: element.metadata.annotations["mc-router.itzg.me/externalServerName"]
             })
         }
     }

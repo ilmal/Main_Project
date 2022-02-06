@@ -73,7 +73,7 @@ const creatingUserConf = async (elementMap, user) => {
   // const serviceName = element.server_id.replace(/[0-9]/g, 'a')
   service.metadata.name = "mc-server-" + element.server_id.split("-")[0]
   service.spec.selector.app = element.server_id
-  service.metadata.annotations = `"mc-router.itzg.me/externalServerName": "${await dnsName()}.mc.servers.u1.se"`
+  service.metadata.annotations["mc-router.itzg.me/externalServerName"] = await dnsName() + ".mc.servers.u1.se"
   //service.spec.ports[0].nodePort = await findPortNumber()
 
   //inserting values dependant on the type/ teir of server

@@ -22,12 +22,12 @@ if (document.cookie && document.cookie.search("loginAuth") > -1) {
 
 let currentServerIndex = 0
 const updateCurrentServerIndex = () => {
-    // if (document.cookie && document.cookie.search("selectedServer") > -1) {
-    //     currentServerIndex = document.cookie
-    //         .split('; ')
-    //         .find(row => row.startsWith('selectedServer='))
-    //         .split('=')[1];
-    // }
+    if (document.cookie && document.cookie.search("selectedServer") > -1) {
+        currentServerIndex = document.cookie
+            .split('; ')
+            .find(row => row.startsWith('selectedServer='))
+            .split('=')[1];
+    }
 }
 // if (store.getState().serverInfo[store.getState().userHomeData.serverIndex].server_id) currentServerID = store.getState().serverInfo[store.getState().userHomeData.serverIndex].server_id
 

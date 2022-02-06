@@ -66,7 +66,7 @@ const Server = () => {
   }
   const serverIP = () => {
     if (store.getState().serverPods.status !== "server not running") {
-      return <span>mc.servers.u1.se:{store.getState().serverSVC.port ? store.getState().serverSVC.port : null}</span>
+      return <span>{store.getState().serverSVC.address ? store.getState().serverSVC.address : null}</span>
     } else {
       return <span>----</span>
     }
