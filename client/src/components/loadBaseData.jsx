@@ -3,38 +3,26 @@ import store from "../store"
 
 // see attached link: https://stackoverflow.com/questions/50924814/node-js-wait-for-multiple-async-calls-to-finish-before-continuing-in-code for sayn execution 
 
-const basicReq = () => {
-    store.dispatch(checkUserAuth)
-    store.dispatch(getQuaryParams)
-    store.dispatch(productInfo)
-    store.dispatch(getCookies)
-    console.log("1")
-}
-
-
-const userReq = () => {
-    store.dispatch(createMcConfig)
-    store.dispatch(serverPodsInfo)
-    store.dispatch(serverSVCInfo)
-    store.dispatch(serverInfo)
-    console.log("4")
-}
-
-
 export default async () => {
-    await basicReq()
-    console.log("2")
+    await Promise.all([
+        store.dispatch(checkUserAuth),
+        store.dispatch(getQuaryParams),
+        store.dispatch(productInfo),
+        store.dispatch(getCookies)
+    ])
 
     if (store.getState().cookies.userID !== undefined && store.getState().cookies.userID === "") return  // cheking if user is logged in
 
     await store.dispatch(fetchUserData)
 
-    console.log("3")
-
     if (store.getState()?.user?.past_servers?.length <= 0) return  // cheking if user have/ had a server
 
-    await userReq()
-    console.log("5")
+    await Promise.all([
+        store.dispatch(createMcConfig),
+        store.dispatch(serverPodsInfo),
+        store.dispatch(serverSVCInfo),
+        store.dispatch(serverInfo)
+    ])
 
     console.log("data after fetch func: ", store.getState())
 

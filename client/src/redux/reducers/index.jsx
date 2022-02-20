@@ -3,7 +3,9 @@ const initailState = {
     auth: null,
     resetLogin: false,
     serverPods: "default",
-    serverSVC: "default",
+    serverSVC: {
+        address: "LOADING..."
+    },
     serverTIME: {
         timeOfReset: null,
         timeLeft: 0,

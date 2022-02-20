@@ -139,27 +139,6 @@ const MinecraftLevels = (props) => {
             )
         })
         return return_array
-
-        /*
-        
-                            <div className="changeLevelBasic" onClick={() => handleClick("basic")}>
-                        <div className="changeLevelinnerContainer">
-                            <span>BASIC</span>
-                        </div>
-                    </div>
-                    <div className="changeLevelNormal" onClick={() => handleClick("normal")}>
-                        <div className="changeLevelinnerContainer">
-                            <span>NORMAL</span>
-                        </div>
-                    </div>
-                    <div className="changeLevelPremium" onClick={() => handleClick("premium")}>
-                        <div className="changeLevelinnerContainer">
-                            <span>PREMIUM</span>
-                        </div>
-                    </div>
-        
-        
-        */
     }
 
     return (

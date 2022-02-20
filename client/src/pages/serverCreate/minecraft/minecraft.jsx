@@ -71,7 +71,7 @@ const MinecraftCreate = () => {
             return null
         }
 
-
+        console.log("PRODUCT INFO: ", store.getState())
         const element_array = []
         Object.keys(store.getState().productInfo).forEach(element => {
             element_array.push(

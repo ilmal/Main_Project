@@ -106,13 +106,16 @@ const Server = () => {
     let returnArray = []
 
     // logic for choosing image dependant on the game
-    const serverImageSelectorFunc = () => {
+    const serverImageSelectorFunc = (className = "") => {
       switch ("minecraft") {
         case "minecraft":
           return (
-            <img src={minecraftImage} alt="minecraft image" />
+            <img src={minecraftImage} className={className} alt="minecraft image" />
           )
         default:
+          return (
+            <img src={minecraftImage} className={className} alt="minecraft image" />
+          )
           break;
       }
     }
@@ -139,6 +142,36 @@ const Server = () => {
       let timeLeft = (endDate - new Date()) / (1000 * 60 * 60 * 24)
       timeLeft = timeLeft.toString().split(".")
       timeLeft = timeLeft[0]
+      if (timeLeft < 0) {
+        return (
+          <>
+            <div className="expiredBanner" style={positionCalculator(returnArray)}>
+              <div className="expiredBannerInner">
+                <div className="title">
+                  <span>Server Expired</span>
+                </div>
+                <div className="divider" />
+                <div className="info">
+                  <span>Refresh server now!</span>
+                </div>
+              </div>
+            </div>
+            <div key={key.toString()} className="userHomeServerBlockMainContainer userHomeServerBlockMainContainerExpired" style={positionCalculator(returnArray)} onClick={() => handleCLick(key)}>
+              <div className="userHomeServerBlockImageBack">
+                {serverImageSelectorFunc()}
+              </div>
+              <div className="userHomeServerBlockInfoContainer" id={key}>
+                <div className="userHomeServerBlockInfoGameNameContainer">
+                  <span className="userHomeServerBlockInfoGameName">{element.game.charAt(0).toUpperCase() + element.game.slice(1)}</span>
+                </div>
+                <div className="userHomeServerBlockInfoGameNameSeperationLine" />
+                <span className={"userHomeServerBlockInfoGamePlan" + " " + "userHomeServerBlockInfoGamePlan" + element.plan}>{element.plan}</span>
+                <span className="userHomeServerBlockInfoTimeLeft expired">EXPIRED</span>
+              </div>
+            </div>
+          </>
+        )
+      }
       return (
         <div key={key.toString()} className="userHomeServerBlockMainContainer" style={positionCalculator(returnArray)} onClick={() => handleCLick(key)}>
           <div className="userHomeServerBlockImageBack">
@@ -164,16 +197,31 @@ const Server = () => {
       )
     }
 
-    if (store.getState().user) store.getState().user.servers.forEach((element, index) => {
+    if (store.getState().user) store.getState().user.past_servers.forEach((element, index) => {
       returnArray.push(serverBlock(returnArray, index, element))
     })
     returnArray.push(redirectTextBlock(returnArray))
     return returnArray
   }
 
+  const ifDisplayLandingPage = () => {
+    if (store.getState().user.past_servers) {
+      if (store.getState().user.past_servers.length > 1) {
+        return true
+      }
+      const orderDate = new Date(store.getState().user.past_servers[0].date)
+      const endDate = orderDate.setDate(orderDate.getDate() + 30)
+      let timeLeft = (endDate - new Date()) / (1000 * 60 * 60 * 24)
+      timeLeft = timeLeft.toString().split(".")
+      timeLeft = timeLeft[0]
+      if (timeLeft < 0) return true
+    }
+    return false
+  }
+
   // showing start page with server panel where user chooses server and or is redirected to buy server
-  if (store.getState().userHomeData.showServerLandingPage && store.getState().user.past_servers.length > 1) {
-    return (
+  if (store.getState().userHomeData.showServerLandingPage) {
+    if (ifDisplayLandingPage()) return (
       <>
         <span className="userHomeLandingPageHeader">Select your server</span>
         {

@@ -67,8 +67,8 @@ export const login = (name, pass, dispatch) => {
                     userID: response.data.userID
                 }
             })
-            await loadBaseData()
             window.location.reload();
+            await loadBaseData()
         } else {
             console.log("response.data: ", response.data)
             dispatch({
@@ -195,7 +195,7 @@ export const serverSVCInfo = async (dispatch) => {
     //     type: "SERVER_SVC_DATA",
     //     payload: 3000
     // })
-    await axios.post(`${ip_address}/k8s/svc`, {
+    axios.post(`${ip_address}/k8s/svc`, {
         id: store.getState().user.servers[currentServerIndex].server_id
     })
         .then(res => {
@@ -339,9 +339,9 @@ export const getCookies = (dispatch) => {
 export const productInfo = async (dispatch) => {
     await axios.post(`${ip_address}/productInfo`, {
         game: "minecraft",
-        plan: "normal"
     })
         .then(response => {
+            console.log("RES FROM PRODUCT INFO: ", response.data)
             dispatch({
                 type: "PRODUCT_INFO",
                 payload: response.data
