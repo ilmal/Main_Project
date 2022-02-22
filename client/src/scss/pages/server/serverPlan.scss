@@ -341,3 +341,12 @@
         }
     }
 }
+
+.oldServer{
+    height: 85vh;
+    grid-template-rows: 100%;
+    .paymentBody{
+        grid-row: 1/2;
+        grid-template-rows: 10% 80% 10%;
+    }
+}

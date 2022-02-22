@@ -1,15 +1,16 @@
 import { useHistory } from "react-router-dom";
 import { useSelector } from "react-redux"
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import ServerPlan from "../../../components/payments/serverPlan";
 import store from "../../../store";
+import { useLocation } from 'react-router';
+import queryString from 'query-string';
+
 
 
 
 // getting different data deplending on what server type selected
 const levelValuesFunc = (propsLevel) => {
-    console.log("propsLevel: ", propsLevel)
-
     const defaultValues = {
         "plan": propsLevel.toUpperCase(),
         "color": "$greenColor",
@@ -27,28 +28,19 @@ const levelValuesFunc = (propsLevel) => {
             return {
                 ...defaultValues,
                 "color": "$greenColor",
-                "storage": "Unlimited",
                 "players": "4",
-                "plugins": "Unavailable",
-                "mods": "Unavailable"
             }
         case "normal":
             return {
                 ...defaultValues,
                 "color": "$blueColor",
-                "storage": "Unlimited",
                 "players": "8",
-                "plugins": "Unavailable",
-                "mods": "Unavailable"
             }
         case "premium":
             return {
                 ...defaultValues,
                 "color": "$pinkolor",
-                "storage": "Unlimited",
                 "players": "12",
-                "plugins": "Unavailable",
-                "mods": "Unavailable"
             }
 
         default:
@@ -58,10 +50,15 @@ const levelValuesFunc = (propsLevel) => {
     }
 }
 
+const useGetQuaryParams = () => {
+    const location = useLocation();
+    return queryString.parse(location.search)
+}
+
 const MinecraftLevels = (props) => {
     const history = useHistory();
-
     const state = useSelector(state => state)
+    const queryParams = useGetQuaryParams()
     const [values, setValues] = useState(levelValuesFunc(props.level))
     const toServer = () => {
         console.log(state.auth)
@@ -139,6 +136,20 @@ const MinecraftLevels = (props) => {
             )
         })
         return return_array
+    }
+
+    if (queryParams?._id) {
+        console.log("YES")
+        return (
+            <div className="minecraftBasicBody oldServer">
+                <div className="paymentBody">
+                    <div className="header">
+                        <span>Payment</span>
+                    </div>
+                    {paymentOptions(values.plan)}
+                </div>
+            </div>
+        )
     }
 
     return (
