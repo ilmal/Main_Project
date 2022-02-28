@@ -89,6 +89,10 @@ const MinecraftLevels = (props) => {
             plan = "default"
         }
 
+        if (data.type === "past_servers") {
+            plan = data.type
+        }
+
         if (data === "TEST") {
             plan = "free"
         }
@@ -104,7 +108,10 @@ const MinecraftLevels = (props) => {
                         <button onClick={toServer}>Get FREE server</button>
                     </div>
                 )
-
+            case "past_servers":
+                return (
+                    <ServerPlan values={data} />
+                )
             default:
                 return (
                     <ServerPlan values={values} />
@@ -146,7 +153,10 @@ const MinecraftLevels = (props) => {
                     <div className="header">
                         <span>Payment</span>
                     </div>
-                    {paymentOptions(values.plan)}
+                    {paymentOptions({
+                        type: "past_servers",
+                        payload: queryParams._id
+                    })}
                 </div>
             </div>
         )

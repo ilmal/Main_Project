@@ -143,9 +143,13 @@ const Server = () => {
       timeLeft = timeLeft.toString().split(".")
       timeLeft = timeLeft[0]
       if (timeLeft < 0) {
+        const handleClick = (key) => {
+          history.push(`/server/minecraft?_id=${store.getState().user.past_servers[key].server_id}`)
+          window.location.reload()
+        }
         return (
           <>
-            <div className="expiredBanner" style={positionCalculator(returnArray)}>
+            <div className="expiredBanner" style={positionCalculator(returnArray)} onClick={() => handleClick(key)}>
               <div className="expiredBannerInner">
                 <div className="title">
                   <span>Server Expired</span>

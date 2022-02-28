@@ -14,6 +14,7 @@ import { passFormPayment, failPayment } from "./paymentHandler"
 import { OneTimePayment } from "./payments"
 
 const ServerPlan = (props) => {
+
     // const [passForm, setpassForm] = useState("default")
     const [passForm, setpassForm] = useState("default")
     const [initalPageLoad, setInitalPageLoad] = useState(true)
@@ -112,6 +113,61 @@ const ServerPlan = (props) => {
             default:
                 return null;
         }
+    }
+
+    if (props.values.type === "past_servers") {     // checking if the loaded payment is for an already existing server
+
+        const isLoggedInFunc = () => {
+            if (userData.auth) {
+                return (
+                    OneTimePayment(props)
+                )
+            }
+            history.push("/")
+            window.location.reload()
+        }
+
+        const findPastServerFunc = () => {
+            for (let i = 0; i < store.getState().user.past_servers.length; i++) {
+                const server = store.getState().user.past_servers[i]
+                if (server.server_id != props.values.payload) continue
+                return {
+
+                }
+            }
+            console.log('%c%s', 'color: red', "ERR, SERVER NOT FOUND AT: serverPlan.jsx/findPastServerFunc")
+        }
+
+        const serverData = findPastServerFunc("price")
+
+        return (
+            <>
+                <div className="paymentInfoContainer">
+                    <div className="paymentInnerHeader">
+                        <span>Info</span>
+                        <div className="paymentInnerHeaderSeperator" />
+                    </div>
+                    <div className={props.values.plan + " paymentInfoPriceContainer"}>
+                        <span className="paymentInfoPlan">{props.values.plan}</span>
+                        <span className="paymentInfoPrice">{calcRefPrice}€</span>
+                        {
+                            discountPercentage > 0 ?
+                                <div>
+                                    <span className="paymentInfoPriceCalculationReferal">Discount from <span>{store.getState().cookies.ref.toUpperCase()}</span></span>
+                                    <span className="paymentInfoPriceCalculationPrice">{props.values.price}€ - {discountPercentage}% <span className="fas fa-long-arrow-alt-right" /> {calcRefPrice}€</span>
+                                </div> : null}
+                    </div>
+                </div>
+                <div className="paymentDataContainer">
+                    <div className="paymentInnerHeader">
+                        <span>Pay</span>
+                        <div className="paymentInnerHeaderSeperator" />
+                    </div>
+                    {isLoggedInFunc()}
+                </div>
+                {paymentHandler()}
+            </>
+        )
     }
 
     return (
