@@ -146,7 +146,6 @@ const MinecraftLevels = (props) => {
     }
 
     if (queryParams?._id) {
-        console.log("YES")
         return (
             <div className="minecraftBasicBody oldServer">
                 <div className="paymentBody">

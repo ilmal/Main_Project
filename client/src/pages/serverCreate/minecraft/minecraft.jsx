@@ -5,8 +5,11 @@ import { Elements } from "@stripe/react-stripe-js"
 import MinecraftLevels from "./minecraftLevels"
 import store from "../../../store";
 import { availableServerTeirs } from "../../../redux/actions"
+import { useHistory } from "react-router-dom";
 
 const MinecraftCreate = () => {
+
+    const history = useHistory()
 
     //const [isCardPressed, setisCardPressed] = useState("not pressed")
     const [isCardPressed, setisCardPressed] = useState(() => {
@@ -28,6 +31,15 @@ const MinecraftCreate = () => {
         setUpdate(!update)
     })
 
+    useEffect(() => { // effect for handling users with an "_id" queryparam, this is for renewing past servers
+
+        // check if user is logged in
+        if (store.getState().user === "default" && store.getState().querySelectors?._id) { history.push("/"); window.location.reload() }
+
+        for (let i = 0; i < store.getState().user.past_servers.length; i++) {
+            if (store.getState().querySelectors?._id === store.getState().user.past_servers[i].server_id) return setisCardPressed(store.getState().user.past_servers[i].plan.toLowerCase())
+        }
+    }, [update])
 
     // ----------- stripe -------------
 

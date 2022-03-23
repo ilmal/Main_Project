@@ -44,22 +44,26 @@ const ServerPlan = (props) => {
     }, [passForm])
 
     // checking if price should have discount
-    useEffect(async () => {
+    const calcPrice = async (past_server_price) => {
         let discount = 0
-        if (initalPageLoad) {
-            // if there is a ref in cookies, send to backend and get back discount in percent, then calculate new price with discount and parse into "calcRefPrice" state
-            if (store.getState().cookies.ref) {
-                discount = await axios.post("/stripe/getRefPrice", {
-                    ref: store.getState().cookies.ref
+        // if there is a ref in cookies, send to backend and get back discount in percent, then calculate new price with discount and parse into "calcRefPrice" state
+        if (store.getState().cookies.ref) {
+            discount = await axios.post("/stripe/getRefPrice", {
+                ref: store.getState().cookies.ref
+            })
+                .then(response => {
+                    return response.data
                 })
-                    .then(response => {
-                        return response.data
-                    })
-            }
-            console.log("REF PRICE CALCULATED: ", calcRefPrice)
-            setDiscountPercentage(discount)
-            setCalcRefPrice(parseInt(props.values.price) * (1 - (discount / 100)))
+        }
+        console.log("REF PRICE CALCULATED: ", calcRefPrice)
+        setDiscountPercentage(discount)
+        setCalcRefPrice(parseInt(past_server_price ? past_server_price : props.values.price) * (1 - (discount / 100)))
+    }
+
+    useEffect(() => {
+        if (initalPageLoad) {
             setInitalPageLoad(false)
+            calcPrice()
         }
     })
 
@@ -132,13 +136,17 @@ const ServerPlan = (props) => {
                 const server = store.getState().user.past_servers[i]
                 if (server.server_id != props.values.payload) continue
                 return {
-
+                    price: store.getState().productInfo[server.plan.toLowerCase()].price,
+                    plan: server.plan
                 }
             }
             console.log('%c%s', 'color: red', "ERR, SERVER NOT FOUND AT: serverPlan.jsx/findPastServerFunc")
         }
 
-        const serverData = findPastServerFunc("price")
+        const serverData = findPastServerFunc()
+
+        const past_server_price = serverData.price * (1 - (discountPercentage / 100))
+
 
         return (
             <>
@@ -147,14 +155,14 @@ const ServerPlan = (props) => {
                         <span>Info</span>
                         <div className="paymentInnerHeaderSeperator" />
                     </div>
-                    <div className={props.values.plan + " paymentInfoPriceContainer"}>
-                        <span className="paymentInfoPlan">{props.values.plan}</span>
-                        <span className="paymentInfoPrice">{calcRefPrice}€</span>
+                    <div className={serverData.plan + " paymentInfoPriceContainer"}>
+                        <span className="paymentInfoPlan">{serverData.plan}</span>
+                        <span className="paymentInfoPrice">{past_server_price}€</span>
                         {
                             discountPercentage > 0 ?
                                 <div>
                                     <span className="paymentInfoPriceCalculationReferal">Discount from <span>{store.getState().cookies.ref.toUpperCase()}</span></span>
-                                    <span className="paymentInfoPriceCalculationPrice">{props.values.price}€ - {discountPercentage}% <span className="fas fa-long-arrow-alt-right" /> {calcRefPrice}€</span>
+                                    <span className="paymentInfoPriceCalculationPrice">{serverData.price}€ - {discountPercentage}% <span className="fas fa-long-arrow-alt-right" /> {past_server_price}€</span>
                                 </div> : null}
                     </div>
                 </div>
