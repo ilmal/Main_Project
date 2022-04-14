@@ -43,12 +43,12 @@ export const OneTimePayment = (props) => {
 
         console.log("EMAIL: ", e.target.email.value, store.getState().user.email)
 
-        if (e.target.email.value === !store.getState().user.email) {
-            store.dispatch({
-                type: "ERR_MESSAGE",
-                payload: "The email address entered doesn't match the loged in user, make sure you use the same email"
-            })
-        }
+        // if (e.target.email.value === !store.getState().user.email) { // if the input email match the user email
+        //     store.dispatch({
+        //         type: "ERR_MESSAGE",
+        //         payload: "The email address entered doesn't match the loged in user, make sure you use the same email"
+        //     })
+        // }
 
         const { error, paymentMethod } = await stripe.createPaymentMethod({
             type: "card",
@@ -67,9 +67,15 @@ export const OneTimePayment = (props) => {
             return
         }
 
+        const checkForPastServer = () => { // function for one of the values sent to backend
+            if (store.getState().querySelectors?._id) return store.getState().querySelectors?._id
+            return false
+        }
+
         try {
             const { id } = paymentMethod
             const response = await axios.post("/stripe", {
+                is_past_server: checkForPastServer(),
                 product: {
                     game: "minecraft",
                     plan: props.values.plan

@@ -226,7 +226,11 @@ const MinecraftLevels = (props) => {
                 <div className="header">
                     <span>Payment</span>
                 </div>
-                {paymentOptions(values.plan)}
+                {/* Checking if the server is a old server that is upgraded/ renewed or a new server */}
+                {queryParams?._id ? paymentOptions({
+                    type: "past_servers",
+                    payload: queryParams._id
+                }) : paymentOptions(values.plan)}
             </div>
         </div>
     )

@@ -107,3 +107,18 @@ Everything is free!
 
 Thanks for helping me and have fun with your own minecraft server!
 
+
+
+
+
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><<<<<
+
+Hej! 
+
+Jag är en fullstack web-developer och märkte att eran server saknar en hemsida. 
+
+Jag undrar ifall ni är intresserade att få en sådan sida byggd? 
+
+Om inte endast för marketing, kan jag även hjälpa till med exempelvis shopify merch integrering eller ett eget system för bland annat ansökningar för roller eller liknande. 
+
+Ifall ni är intresserade kan jag gärna bygga ut en prototyp! 

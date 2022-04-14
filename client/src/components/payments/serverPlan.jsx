@@ -147,6 +147,23 @@ const ServerPlan = (props) => {
 
         const past_server_price = serverData.price * (1 - (discountPercentage / 100))
 
+        const plansDisplayFunc = () => {
+
+            let returnArr = []
+
+            for (const key in store.getState().productInfo) { // not array, err
+
+                const ele = (
+                    <div className={key.toUpperCase() + " planOptionDiv"} key={key}>
+                        <span>{key.toUpperCase()}</span>
+                    </div>
+                )
+                returnArr.push(ele)
+                console.log("returnArr: ", returnArr)
+            }
+
+            return returnArr
+        }
 
         return (
             <>
@@ -155,7 +172,10 @@ const ServerPlan = (props) => {
                         <span>Info</span>
                         <div className="paymentInnerHeaderSeperator" />
                     </div>
-                    <div className={serverData.plan + " paymentInfoPriceContainer"}>
+                    <div className={serverData.plan + " paymentInfoPriceContainer" + " paymentInfoUpgradePlan"}>
+
+                        {/* add visual server name for easy recognition, for example "server name: <server name>" */}
+
                         <span className="paymentInfoPlan">{serverData.plan}</span>
                         <span className="paymentInfoPrice">{past_server_price}€</span>
                         {
@@ -164,6 +184,13 @@ const ServerPlan = (props) => {
                                     <span className="paymentInfoPriceCalculationReferal">Discount from <span>{store.getState().cookies.ref.toUpperCase()}</span></span>
                                     <span className="paymentInfoPriceCalculationPrice">{serverData.price}€ - {discountPercentage}% <span className="fas fa-long-arrow-alt-right" /> {past_server_price}€</span>
                                 </div> : null}
+                    </div>
+                    <div className="upgradePlan">
+                        <span>Upgrade Plan</span>
+                        <div className="paymentInnerHeaderSeperator" />
+                        <div className="mainDiv">
+                            {plansDisplayFunc()}
+                        </div>
                     </div>
                 </div>
                 <div className="paymentDataContainer">

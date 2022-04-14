@@ -1,48 +1,57 @@
-.paymentBody{
+.paymentBody {
     grid-column: 2/3;
     grid-row: 3/4;
     display: grid;
     grid-template-columns: 25% 30% 30% 15%;
     grid-template-rows: 10% 70% 20%;
-    .header{
+
+    .header {
         align-self: end;
         grid-column: 1/2;
         grid-row: 1/2;
-        span{
+
+        span {
             align-self: end;
             color: white;
             font-size: 40px;
         }
     }
-    @mixin innerHeaderDefaults(){
+
+    @mixin innerHeaderDefaults() {
         display: grid;
         grid-template-columns: 100%;
         grid-template-rows: 100%;
         justify-items: start;
         align-items: end;
-        span{
+
+        span {
             font-size: 2rem;
             color: rgba($color: #fff, $alpha: .7);
         }
-        .paymentInnerHeaderSeperator{
+
+        .paymentInnerHeaderSeperator {
             transform: translateY(1rem);
             width: 50%;
             height: 100%;
         }
     }
-    .paymentInfoContainer{
+
+    .paymentInfoContainer {
         grid-column: 2/3;
         grid-row: 1/3;
         display: grid;
         grid-template-columns: 100%;
         grid-template-rows: 12.5% 12.5% repeat(3, 25%);
-        .paymentInnerHeader{
+
+        .paymentInnerHeader {
             @include innerHeaderDefaults;
-            .paymentInnerHeaderSeperator{
+
+            .paymentInnerHeaderSeperator {
                 border-bottom: 1px solid rgba($color: $orangeColor, $alpha: 1);
             }
         }
-        .paymentInfoPriceContainer{
+
+        .paymentInfoPriceContainer {
             grid-column: 1/2;
             grid-row: 3/4;
             display: grid;
@@ -50,125 +59,236 @@
             grid-template-rows: 20% 20% 60%;
             align-items: center;
             height: 100%;
-            .paymentInfoPlan{
+
+            .paymentInfoPlan {
                 grid-row: 1/2;
                 color: rgba($color: #fff, $alpha: .7);
                 font-size: 1rem;
             }
-            .paymentInfoPrice{
+
+            .paymentInfoPrice {
                 grid-row: 2/3;
                 color: rgba($color: #fff, $alpha: .7);
                 font-size: 2.5rem;
             }
-            div{
+
+            div {
                 grid-row: 3/4;
                 display: flex;
                 flex-direction: column;
-                span{
+
+                span {
                     color: rgba($color: #fff, $alpha: .7)
                 }
-                .paymentInfoPriceCalculationReferal{
+
+                .paymentInfoPriceCalculationReferal {
                     font-size: 1.5rem;
                     margin-bottom: .5rem;
-                    span{
+
+                    span {
                         color: rgba($color: $orangeColor, $alpha: 1);
-                    }    
+                    }
                 }
-                .paymentInfoPriceCalculationPrice{
+
+                .paymentInfoPriceCalculationPrice {
                     font-size: 1.1rem;
                 }
-            } 
-
+            }
         }
-        .BASIC .paymentInfoPlan{
+
+        .BASIC .paymentInfoPlan {
             color: rgba($color: $greenColor, $alpha: .7);
         }
-        .NORMAL .paymentInfoPlan{
+
+        .NORMAL .paymentInfoPlan {
             color: rgba($color: $blueColor, $alpha: .7);
         }
-        .PREMIUM .paymentInfoPlan{
+
+        .PREMIUM .paymentInfoPlan {
             color: rgba($color: $pinkColor, $alpha: .7);
         }
+
+        .paymentInfoUpgradePlan {
+            transform: translateY(-3rem);
+        }
+
+        .upgradePlan {
+            @include innerHeaderDefaults;
+            grid-row: 3/6;
+            grid-column: 1/2;
+            align-items: start;
+            transform: translateY(4rem);
+
+            span {
+                grid-column: 1/2;
+                grid-row: 1/2;
+            }
+
+            .paymentInnerHeaderSeperator {
+                grid-column: 1/2;
+                grid-row: 1/2;
+                align-self: flex-start;
+                justify-self: start;
+                border-bottom: 1px solid rgba($color: $orangeColor, $alpha: 1);
+                height: 2.5rem;
+                width: 51%;
+            }
+
+            .mainDiv {
+                grid-column: 1/2;
+                grid-row: 1/2;
+                width: 70%;
+                height: 100%;
+                display: grid;
+                grid-template-columns: 50% 50%;
+                grid-template-rows: 15% 15% 15% 55%;
+                align-items: center;
+                justify-items: center;
+
+                .planOptionDiv {
+                    width: 90%;
+                    min-width: fit-content;
+                    height: 70%;
+                    border-radius: 10px;
+                }
+
+                span {
+                    font-size: 1.4rem;
+                    height: 100%;
+                    width: 100%;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                }
+
+                .BASIC {
+                    grid-row: 2/3;
+                    grid-column: 1/3;
+                    background-color: rgba($color: $greenColor, $alpha: .15);
+
+                    span {
+                        color: rgba($color: $greenColor, $alpha: .7);
+                    }
+                }
+
+                .NORMAL {
+                    grid-row: 3/4;
+                    grid-column: 1/2;
+                    background-color: rgba($color: $blueColor, $alpha: .15);
+
+                    span {
+                        color: rgba($color: $blueColor, $alpha: .7);
+                    }
+                }
+
+                .PREMIUM {
+                    grid-row: 3/4;
+                    grid-column: 2/3;
+                    background-color: rgba($color: $pinkColor, $alpha: .15);
+
+                    span {
+                        color: rgba($color: $pinkColor, $alpha: .7);
+                    }
+                }
+            }
+        }
     }
-    .paymentDataContainer{
+
+    .paymentDataContainer {
         grid-column: 3/4;
         grid-row: 1/3;
         display: grid;
         grid-template-columns: 100%;
         grid-template-rows: 12.5% 7.5% repeat(4, 20%);
-        .paymentInnerHeader{
+
+        .paymentInnerHeader {
             @include innerHeaderDefaults;
-            .paymentInnerHeaderSeperator{
+
+            .paymentInnerHeaderSeperator {
                 border-bottom: 1px solid rgba($color: $blueColor, $alpha: 1);
             }
         }
-        .paymentOneTimeMainContainer{
+
+        .paymentOneTimeMainContainer {
             grid-column: 1/2;
             grid-row: 3/6;
             display: grid;
             grid-template-rows: 20% 20% 20% 20% 20%;
             grid-template-columns: 100%;
             position: relative;
-            .paymentOneTimeEmail{
+
+            .paymentOneTimeEmail {
                 grid-column: 1/2;
                 grid-row: 1/2;
                 display: flex;
                 justify-content: center;
                 align-items: center;
-                input{
+
+                input {
                     @include inputCardStyle(100%);
                 }
             }
-            @mixin paymentOneTimeCardDetailsDefaults{
+
+            @mixin paymentOneTimeCardDetailsDefaults {
                 display: flex;
                 justify-content: center;
                 align-items: center;
                 gap: 1rem;
             }
-            @mixin paymentCardElementDefaults{
+
+            @mixin paymentCardElementDefaults {
                 border: solid 2px $backgroundColor;
                 padding: 1rem;
                 border-radius: 10px;
                 width: calc(100% - 2rem);
                 height: 1.3rem;
                 display: grid;
-                .CardNumberElementDiv{
+
+                .CardNumberElementDiv {
                     grid-column: 1/2;
                     grid-row: 1/2;
                 }
-                .cardIcons{
+
+                .cardIcons {
                     grid-column: 1/2;
                     grid-row: 1/2;
                     justify-self: end;
                     align-content: center;
-                    img{
+
+                    img {
                         background-color: rgba($color: #fff, $alpha: .7);
                         border-radius: 10%;
                     }
                 }
             }
-            .paymentOneTimeCardDetails1{
+
+            .paymentOneTimeCardDetails1 {
                 @include paymentOneTimeCardDetailsDefaults();
-                .paymentCardElementCardNumber{
+
+                .paymentCardElementCardNumber {
                     @include paymentCardElementDefaults();
                     grid-row: 1/2;
                     grid-column: 1/3;
                 }
             }
-            .paymentOneTimeCardDetails2{
+
+            .paymentOneTimeCardDetails2 {
                 @include paymentOneTimeCardDetailsDefaults();
-                .paymentCardElementCardExpiry{
+
+                .paymentCardElementCardExpiry {
                     @include paymentCardElementDefaults();
                     grid-row: 2/3;
                     grid-column: 1/2;
                 }
-                .paymentCardElementCardCvc{
+
+                .paymentCardElementCardCvc {
                     @include paymentCardElementDefaults();
                     grid-row: 2/3;
                     grid-column: 2/3;
                 }
             }
-            .paymentOneTimeSubmitContainer{
+
+            .paymentOneTimeSubmitContainer {
                 grid-row: 4/5;
                 grid-column: 1/2;
                 align-self: end;
@@ -176,17 +296,20 @@
                 display: flex;
                 justify-content: flex-end;
                 align-items: center;
-                button{
+
+                button {
                     @include inputButtonStyle;
                 }
             }
         }
-        @mixin paymentLoginSignupContainer(){
+
+        @mixin paymentLoginSignupContainer() {
             grid-row: 3/6;
             grid-column: 1/2;
             display: grid;
             grid-template-columns: 100%;
-            .paymentLoginSignupHeader{
+
+            .paymentLoginSignupHeader {
                 grid-column: 1/2;
                 grid-row: 1/2;
                 color: rgba($color: #fff, $alpha: .8);
@@ -194,7 +317,8 @@
                 display: flex;
                 justify-self: center;
             }
-            .paymentLoginSignupsHeaderSeperator{
+
+            .paymentLoginSignupsHeaderSeperator {
                 grid-column: 1/2;
                 grid-row: 1/2;
                 width: 6%;
@@ -203,50 +327,63 @@
                 justify-self: center;
                 border-bottom: rgba($color: #fff, $alpha: .3) solid 1px;
             }
-            input{
+
+            input {
                 grid-column: 1/2;
                 @include inputCardStyle;
             }
-            .paymentLoginSignupButtonLinkContainer{
+
+            .paymentLoginSignupButtonLinkContainer {
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
-                button{
+
+                button {
                     @include inputButtonStyle(50%, 80%);
                 }
-                span{
+
+                span {
                     color: rgba($color: #fff, $alpha: .7);
                     @include hover($blueColor)
-                }                
+                }
             }
         }
-        .paymentLoginMainContainer{
+
+        .paymentLoginMainContainer {
             @include paymentLoginSignupContainer();
             grid-template-rows: 15% 20% 20% 20% 25%;
-            .paymentLoginEmail{
+
+            .paymentLoginEmail {
                 grid-row: 2/3;
             }
-            .paymentLoginPassword{
+
+            .paymentLoginPassword {
                 grid-row: 3/4;
             }
-            .paymentLoginSignupButtonLinkContainer{
+
+            .paymentLoginSignupButtonLinkContainer {
                 grid-row: 4/5;
             }
         }
-        .paymentSignupMainContainer{
+
+        .paymentSignupMainContainer {
             @include paymentLoginSignupContainer();
             grid-template-rows: 15% 20% 20% 20% 20% 5%;
-            .paymentSignupEmail{
+
+            .paymentSignupEmail {
                 grid-row: 2/3;
             }
-            .paymentSignupPassword1{
+
+            .paymentSignupPassword1 {
                 grid-row: 3/4;
             }
-            .paymentSignupPassword2{
+
+            .paymentSignupPassword2 {
                 grid-row: 4/5;
             }
         }
-        .paymentVerificationSignupMainBody{
+
+        .paymentVerificationSignupMainBody {
             position: fixed;
             top: 40%;
             left: 50%;
@@ -258,23 +395,28 @@
             display: grid;
             grid-template-columns: 100%;
             grid-template-rows: 30% 10% 40% 20%;
-            div{
+
+            div {
                 grid-column: 1/2;
             }
-            .paymentVerificationHeader{
+
+            .paymentVerificationHeader {
                 grid-row: 1/2;
                 justify-self: center;
                 align-self: end;
-                span{
+
+                span {
                     color: rgba($color: #fff, $alpha: .7);
                     font-size: 1.5rem;
-                    span{
+
+                    span {
                         color: rgba($color: $blueColor, $alpha: 0.7);
                         margin: 0 .4rem 0 .4rem;
                     }
                 }
             }
-            .paymentVerificationNoMailLine{
+
+            .paymentVerificationNoMailLine {
                 grid-row: 2/3;
                 width: 20%;
                 height: 100%;
@@ -284,26 +426,31 @@
                 border-bottom: rgba($color: #fff, $alpha: .7) 1px solid;
                 width: 40%;
             }
-            .paymentVerificationLink{
+
+            .paymentVerificationLink {
                 grid-row: 3/4;
                 justify-self: center;
                 align-self: end;
-                span{
+
+                span {
                     transition: all .5s ease;
                     font-size: 1rem;
                     color: rgba($color: #fff, $alpha: .7);
-                    &:hover{
+
+                    &:hover {
                         color: rgba($color: $blueColor, $alpha: .7);
                     }
                 }
             }
-            .paymentVerificationNoMail{
+
+            .paymentVerificationNoMail {
                 grid-row: 3/4;
                 justify-self: center;
                 align-self: center;
                 width: 50%;
                 height: 20%;
-                button{
+
+                button {
                     border: none;
                     outline: none;
                     background-color: rgba($color: $blueColor, $alpha: 0.25);
@@ -312,21 +459,24 @@
                     padding: 20px 0px 20px 0px;
                     width: 45%;
                     transition: ease all .5s;
-                    &:hover{
+
+                    &:hover {
                         background-color: rgba($color: $blueColor, $alpha: 0.55);
                     }
                 }
             }
         }
     }
-    .freeBody{
+
+    .freeBody {
         grid-column: 2/4;
         grid-row: 2/3;
         display: flex;
         justify-content: flex-start;
         align-items: flex-start;
         margin-top: 40px;
-        button{
+
+        button {
             outline: none;
             border: none;
             background-color: rgba($greenColor, $alpha: .15);
@@ -335,17 +485,19 @@
             padding: 3% 15% 3% 15%;
             border-radius: 10px;
             transition: all 1s ease;
-            &:hover{
+
+            &:hover {
                 background-color: rgba($greenColor, $alpha: .25);
             }
         }
     }
 }
 
-.oldServer{
+.oldServer {
     height: 85vh;
     grid-template-rows: 100%;
-    .paymentBody{
+
+    .paymentBody {
         grid-row: 1/2;
         grid-template-rows: 10% 80% 10%;
     }

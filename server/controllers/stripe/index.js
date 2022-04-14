@@ -26,7 +26,7 @@ router.post("/", async (req, res) => {
     }
 
     // putting req data into variables
-    let { id, product, ref, userID } = req.body
+    let { id, product, ref, userID, is_past_server } = req.body
     let price = products[product.plan.toLowerCase()].get("price")
 
     // ref handler (ref is for referal links)
@@ -68,7 +68,7 @@ router.post("/", async (req, res) => {
         // adding payment details to the user database
         // loading user
         const user = await User.findById(userID)
-        const userServerObj = {
+        let userServerObj = {
             server_id: createServerIDFunc(),
             plan: product.plan,
             game: product.game,
@@ -76,6 +76,35 @@ router.post("/", async (req, res) => {
             payment_id: id,
             date: new Date()
         }
+
+        if (is_past_server) {
+            // need to merge this "userServerObj" with mongoosedata base, and with that update the payment date
+
+            for (let i = 0; i < user.servers.length; i++) { // finding the correct server
+                if (server_id != is_past_server) continue
+
+                // changing the server values
+                const serverObj = {
+                    ...user.servers[i],
+                    plan: product.plan,
+                    game: product.game,
+                    payment_ref: ref,
+                    payment_id: id,
+                    date: new Date()
+                }
+
+                user.servers[i] = serverObj
+                user.past_servers[i] = serverObj
+
+                // saving the data to db
+                user.save()
+                return res.send({
+                    message: "Payment successful",
+                    success: true
+                })
+            }
+        }
+
         user.servers.push(userServerObj)
         user.past_servers.push(userServerObj)
         user.save()

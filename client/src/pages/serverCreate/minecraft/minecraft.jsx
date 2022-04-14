@@ -35,7 +35,7 @@ const MinecraftCreate = () => {
 
         // check if user is logged in
         if (store.getState().user === "default" && store.getState().querySelectors?._id) { history.push("/"); window.location.reload() }
-
+        if (!store.getState().querySelectors?._id) return
         for (let i = 0; i < store.getState().user.past_servers.length; i++) {
             if (store.getState().querySelectors?._id === store.getState().user.past_servers[i].server_id) return setisCardPressed(store.getState().user.past_servers[i].plan.toLowerCase())
         }
