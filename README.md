@@ -75,6 +75,13 @@ nodeSelector:
 git config --global credential.helper store
 ```
 
+#### REVERT LAST COMMIT LOCALLY
+
+```
+git reset --soft HEAD~1
+```
+
+
 ## DOCKER
 
 #### DOCKER BUIDL NEW IMAGE
