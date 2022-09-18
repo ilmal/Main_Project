@@ -80,7 +80,11 @@ git config --global credential.helper store
 ```
 git reset --soft HEAD~1
 ```
+#### COMMIT DELETED FILES
 
+```
+git commit -m "" -a
+```
 
 ## DOCKER
 
