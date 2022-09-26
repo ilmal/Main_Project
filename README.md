@@ -1,6 +1,4 @@
-# PRIVATE
-
-**This is cooliboi private project!**
+# Web thingy
 
 # NOTATIONS
 
