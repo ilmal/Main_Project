@@ -67,10 +67,12 @@ nodeSelector:
 
 ## Grub
 
+```
 set root=(hd0,6)
 set prefix=(hd0,6)/boot/grub
 insmod normal
 normal
+```
 
 ## GITHUB
 
